@@ -1,3 +1,37 @@
-<nz-layout>
-  <nz-content>Content</nz-content>
-</nz-layout>
+<nz-carousel [nzEffect]="effect">
+  <div nz-carousel-content *ngFor="let index of [1]" style="background:red;">
+    <h3>{{ index }}</h3>
+  </div>
+</nz-carousel>
+<app-card></app-card>
+<div style="background: #ECECEC;padding:30px;">
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="Card title">
+        <p>Card content</p>
+      </nz-card>
+      <nz-card nzTitle="Card title">
+        <p>Card content</p>
+      </nz-card>
+      <nz-card nzTitle="Card title">
+        <p>Card content</p>
+      </nz-card>
+      <nz-card nzTitle="Card title">
+        <p>Card content</p>
+      </nz-card>
+      <nz-card nzTitle="Card title">
+        <p>Card content</p>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="Card title">
+        <p>Card content</p>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="Card title">
+        <p>Card content</p>
+      </nz-card>
+    </div>
+  </div>
+</div>

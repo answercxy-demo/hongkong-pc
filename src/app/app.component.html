@@ -1,13 +1,12 @@
 <nz-layout>
   <nz-header>
     <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    {{ back }}
   </nz-header>
   <nz-content>
-    <router-outlet>
-
-    </router-outlet>
+    <router-outlet> </router-outlet>
+    <nz-footer>
+      {{ copyrightInfo }}
+    </nz-footer>
   </nz-content>
-  <nz-footer>
-
-  </nz-footer>
 </nz-layout>

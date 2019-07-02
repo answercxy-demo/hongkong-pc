@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'hongkong-pc';
+
+  back = '返回香港移动';
 }

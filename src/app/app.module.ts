@@ -7,14 +7,19 @@ import { NgZorroAntdModule, NZ_I18N, zh_TW } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { registerLocaleData } from '@angular/common';
+import {
+  registerLocaleData,
+  HashLocationStrategy,
+  LocationStrategy
+} from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import { AddInputComponent } from './view/add-input/add-input.component';
+import { HomeComponent } from './view/home/home.component';
+import { CardComponent } from './components/card/card.component';
 
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [AppComponent, AddInputComponent],
+  declarations: [AppComponent, HomeComponent, CardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,7 +29,10 @@ registerLocaleData(zh);
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_TW }],
+  providers: [
+    { provide: NZ_I18N, useValue: zh_TW },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

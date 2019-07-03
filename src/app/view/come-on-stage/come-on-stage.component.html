@@ -1,30 +1,37 @@
-<div class="title">
-  <h2>{{title.name}}</h2>
-  <h2 style="color:#E41877">{{title.desc}}</h2>
-</div>
-<nz-divider></nz-divider>
-<div class="form-box">
-  <div class="info" nz-row>
-    <div class="desc" nz-col nzMd="7" nzSm="24" nzXs="24">
-
-    </div>
-    <div class="form" nz-col nzMd="17" nzSm="24" nzXs="24">
-
-    </div>
+<div class="content-box">
+  <!-- 标题 -->
+  <div class="title">
+    <h2>{{ title.name }}</h2>
+    <h2 style="color:#E41877">{{ title.desc }}</h2>
   </div>
+
   <nz-divider></nz-divider>
-  <div class="btns" nz-row nzType='flex' nzJustify="space-between">
-    <a routerLink="/home" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
-    <button nz-col nz-button nzType="primary" routerLink="/confirm">下一步</button>
+
+  <!-- 主题内容 -->
+  <div class="form-box ">
+    <div class="info" nz-row>
+      <!-- 优惠 -->
+      <div class="desc" nz-col nzMd="7" nzSm="24" nzXs="24"></div>
+
+      <!-- 表单填写步骤 -->
+      <div class="steps" nz-col nzMd="17" nzSm="24" nzXs="24">
+        <!-- step1 -->
+        <!-- step2 -->
+        <!-- step3 -->
+        <!-- step4 -->
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+
+    <!-- 返回及下一步 -->
+    <div class="btns" nz-row nzType="flex" nzJustify="space-between">
+      <a routerLink="/home" nz-col
+        ><i nz-icon nzType="left" nzTheme="outline"></i>返回</a
+      >
+      <button nz-col nz-button nzType="primary" routerLink="/confirm">
+        下一步
+      </button>
+    </div>
   </div>
 </div>
-<div class="detail-box">
-  <div nz-row>
-    <div class="desc" nz-col nzMd="6" nzSm="24" nzXs="24">
-
-    </div>
-    <div class="form" nz-col nzMd="18" nzSm="24" nzXs="24">
-
-    </div>
-  </div>
-</div>
+<app-activity-detail [activityDetail]="activityDetail"></app-activity-detail>

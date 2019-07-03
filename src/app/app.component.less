@@ -1,9 +1,11 @@
 @import '../styles.less';
 
-nz-layout {
+nz-layout.ant-layout {
   min-height: 100%;
   nz-header {
     background: @hk-plum-red-1;
+    height: 48px;
+    line-height: 48px;
 
     a {
       color: #fff;
@@ -16,12 +18,25 @@ nz-layout {
   }
 
   nz-content {
-    width: 980px;
-    max-width: 100%;
+    width: 100%;
     margin: auto;
   }
 
   nz-footer {
+    color: #fff;
     background: @hk-green-1;
+    height: 48px;
+    line-height: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  nz-layout nz-header {
+    height: 64px;
+    line-height: 64px;
+  }
+  nz-layout nz-footer {
+    height: 67px;
+    line-height: 1.5;
   }
 }

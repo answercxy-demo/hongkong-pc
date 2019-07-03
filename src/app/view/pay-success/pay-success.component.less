@@ -1,0 +1,62 @@
+.info-box {
+  margin: 50px auto 20px auto;
+  img {
+    width: 100%;
+  }
+
+  .tip {
+    color: #006ed0;
+    text-align: center;
+  }
+
+  ul {
+    margin: 80px 0 0;
+    padding: 0;
+    li {
+      list-style: none;
+      label,
+      span {
+        font-size: 1.2em;
+      }
+      label {
+        font-weight: 550;
+      }
+    }
+  }
+}
+
+.guide {
+  i {
+    color: #e41877;
+  }
+}
+
+button {
+  display: block;
+  width: 80%;
+  margin: 30px auto 50px auto;
+}
+
+@media (min-width: 768px) {
+  .info-box {
+    width: 90%;
+    border: solid #dddddd 1px;
+    padding: 20px 100px;
+
+    .tip {
+      font-size: 1.4em;
+    }
+
+    ul li label,
+    ul li span {
+      font-size: 1.8em;
+    }
+  }
+  .guide {
+    font-size: 1.2em;
+    margin-left: 10%;
+  }
+  button {
+    width: auto;
+  }
+}

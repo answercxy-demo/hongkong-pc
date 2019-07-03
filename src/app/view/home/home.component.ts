@@ -5,4 +5,16 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {}
+export class HomeComponent {
+  activityList: any[] = [];
+
+  ngOnInit(): void {
+    this.dataInit();
+  }
+
+  dataInit() {
+    for (let i = 0; i < 100; i++) {
+      this.activityList.push({ id: i });
+    }
+  }
+}

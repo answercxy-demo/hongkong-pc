@@ -2,10 +2,15 @@
   <div class="tag">
     4.5G
   </div>
-  <div class="content">
-
-  </div>
+  <div class="content"></div>
   <div class="footer">
-    <button nz-button nzType="primary" nzSize="large" routerLink="{{footerBtn.link}}">{{footerBtn.name}}</button>
+    <button
+      nz-button
+      nzType="primary"
+      nzSize="large"
+      [routerLink]="['/comeOnStage', { id: activityInfo.id }]"
+    >
+      {{ footerBtn.name }}
+    </button>
   </div>
 </nz-card>

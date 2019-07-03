@@ -21,11 +21,12 @@ import { ConfirmComponent } from './view/confirm/confirm.component';
 import { PaySuccessComponent } from './view/pay-success/pay-success.component';
 import { PhoneQueryComponent } from './view/phone-query/phone-query.component';
 import { MessageComponent } from './components/message/message.component';
+import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
 
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, CardComponent, ComeOnStageComponent, CarouselComponent, ConfirmComponent, PaySuccessComponent, PhoneQueryComponent, MessageComponent],
+  declarations: [AppComponent, HomeComponent, CardComponent, ComeOnStageComponent, CarouselComponent, ConfirmComponent, PaySuccessComponent, PhoneQueryComponent, MessageComponent, ActivityDetailComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

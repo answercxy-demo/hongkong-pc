@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-come-on-stage',
@@ -11,7 +12,9 @@ export class ComeOnStageComponent implements OnInit {
     desc: '計劃名稱'
   };
 
-  constructor() {}
+  activityDetail = {};
+
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {}
 }

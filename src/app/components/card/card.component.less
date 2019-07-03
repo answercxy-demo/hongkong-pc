@@ -1,0 +1,44 @@
+@pc-a: 1;
+@mobile-a: 2;
+
+nz-card {
+  width: 100%;
+
+  nz-card > .ant-card-body {
+    padding: 0;
+  }
+
+  .content {
+    padding: 16px 0px;
+    min-height: 200px;
+    background: #ddd;
+  }
+
+  .footer {
+    height: 60px;
+    background: #f3f3f3;
+    border-top: 1px solid #ddd;
+    position: relative;
+    width: calc(100% + 48px);
+    left: -24px;
+    top: 24px;
+    text-align: center;
+
+    button {
+      margin-top: 30px;
+      transform: translateY(-50%);
+      width: 40%;
+    }
+  }
+
+  .tag {
+    background: #00afe4;
+    min-width: 95px;
+    height: 33px;
+    line-height: 33px;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}

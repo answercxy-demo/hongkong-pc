@@ -1,12 +1,21 @@
 <nz-layout>
   <nz-header>
-    <i nz-icon nzType="rollback" nzTheme="outline"></i>
-    {{ back }}
+    <a [href]="back.url">
+      <i nz-icon nzType="rollback" nzTheme="outline"></i>
+      {{ back.text }}
+    </a>
   </nz-header>
+  <app-carousel></app-carousel>
   <nz-content>
     <router-outlet> </router-outlet>
-    <nz-footer>
-      {{ copyrightInfo }}
-    </nz-footer>
   </nz-content>
+  <nz-footer>
+    {{ copyrightInfo }}
+  </nz-footer>
 </nz-layout>
+
+<!-- 返回頭部 -->
+<nz-back-top></nz-back-top>
+
+<!-- 錯誤囘顯 -->
+<app-message></app-message>

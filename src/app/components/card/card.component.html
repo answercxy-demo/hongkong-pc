@@ -1,8 +1,11 @@
-<nz-card style="width:300px;" nzTitle="Card title" [nzExtra]="extraTemplate">
-  <p>Card content</p>
-  <p>Card content</p>
-  <p>Card content</p>
+<nz-card nzHoverable>
+  <div class="tag">
+    4.5G
+  </div>
+  <div class="content">
+
+  </div>
+  <div class="footer">
+    <button nz-button nzType="primary" nzSize="large" routerLink="{{footerBtn.link}}">{{footerBtn.name}}</button>
+  </div>
 </nz-card>
-<ng-template #extraTemplate>
-  <a>More</a>
-</ng-template>

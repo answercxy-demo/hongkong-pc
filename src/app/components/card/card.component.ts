@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card.component.less']
 })
 export class CardComponent implements OnInit {
+  content = {};
 
-  constructor() { }
+  footerBtn = {
+    name: '選擇此計劃',
+    link: '/comeOnStage'
+  };
 
-  ngOnInit() {
-  }
+  constructor() {}
 
+  ngOnInit() {}
 }

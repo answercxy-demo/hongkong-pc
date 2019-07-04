@@ -1,3 +1,9 @@
+nz-affix {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+}
+
 app-card {
   padding: 10px;
 }

@@ -8,40 +8,48 @@
   </nz-breadcrumb-item>
 </nz-breadcrumb>
 
-<div class="content-box">
-  <!-- 标题 -->
-  <div class="title">
-    <h2>{{ title.name }}</h2>
-    <h2 style="color:#E41877">{{ title.desc }}</h2>
-  </div>
+<!-- 包括优惠活动表单及详情  -->
+<div *ngIf="!confirm.show">
 
-  <nz-divider></nz-divider>
-
-  <!-- 主题内容 -->
-  <div class="form-box ">
-    <div class="info" nz-row>
-      <!-- 优惠 -->
-      <div class="desc" nz-col nzMd="7" nzSm="24" nzXs="24"></div>
-
-      <!-- 表单填写步骤 -->
-      <div class="steps" nz-col nzMd="17" nzSm="24" nzXs="24">
-        <!-- step1 -->
-        <!-- step2 -->
-        <!-- step3 -->
-        <!-- step4 -->
-      </div>
+  <!-- 优惠活动 -->
+  <div class="content-box">
+    <!-- 标题 -->
+    <div class="title">
+      <h2>{{ title.name }}</h2>
+      <h2 style="color:#E41877">{{ title.desc }}</h2>
     </div>
+
     <nz-divider></nz-divider>
 
-    <!-- 返回及下一步 -->
-    <div class="btns" nz-row nzType="flex" nzJustify="space-between">
-      <a routerLink="/home" nz-col
-        ><i nz-icon nzType="left" nzTheme="outline"></i>返回</a
-      >
-      <button nz-col nz-button nzType="primary" routerLink="/confirm">
-        下一步
-      </button>
+    <!-- 主题内容 -->
+    <div class="form-box ">
+      <div class="info" nz-row>
+        <!-- 优惠 -->
+        <div class="desc" nz-col nzMd="7" nzSm="24" nzXs="24"></div>
+
+        <!-- 表单填写步骤 -->
+        <div class="steps" nz-col nzMd="17" nzSm="24" nzXs="24">
+          <!-- step1 -->
+          <!-- step2 -->
+          <!-- step3 -->
+          <!-- step4 -->
+        </div>
+      </div>
+      <nz-divider></nz-divider>
+
+      <!-- 返回及下一步 -->
+      <div class="btns" nz-row nzType="flex" nzJustify="space-between">
+        <a routerLink="/home" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
+        <button nz-col nz-button nzType="primary" (click)="next()">
+          下一步
+        </button>
+      </div>
     </div>
   </div>
+
+  <!-- 活动详情 -->
+  <app-activity-detail [activityDetail]="activityDetail"></app-activity-detail>
 </div>
-<app-activity-detail [activityDetail]="activityDetail"></app-activity-detail>
+
+<!-- 表单信息确认 -->
+<app-confirm *ngIf="confirm.show"></app-confirm>

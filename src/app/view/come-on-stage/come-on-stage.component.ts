@@ -14,6 +14,18 @@ export class ComeOnStageComponent implements OnInit {
 
   activityDetail = {};
 
+  confirm = {
+    show: false
+  };
+
+  /**
+   * 确认表单填写无误
+   * @memberof ComeOnStageComponent
+   */
+  next() {
+    this.confirm.show = true;
+  }
+
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {}

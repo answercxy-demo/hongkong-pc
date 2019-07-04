@@ -17,16 +17,31 @@ import { HomeComponent } from './view/home/home.component';
 import { CardComponent } from './components/card/card.component';
 import { ComeOnStageComponent } from './view/come-on-stage/come-on-stage.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
-import { ConfirmComponent } from './view/confirm/confirm.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
 import { PaySuccessComponent } from './view/pay-success/pay-success.component';
 import { PhoneQueryComponent } from './view/phone-query/phone-query.component';
 import { MessageComponent } from './components/message/message.component';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
+import { OrderQueryComponent } from './view/order-query/order-query.component';
+import { SignatureCanvasComponent } from './components/signature-canvas/signature-canvas.component';
 
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, CardComponent, ComeOnStageComponent, CarouselComponent, ConfirmComponent, PaySuccessComponent, PhoneQueryComponent, MessageComponent, ActivityDetailComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CardComponent,
+    ComeOnStageComponent,
+    CarouselComponent,
+    ConfirmComponent,
+    PaySuccessComponent,
+    PhoneQueryComponent,
+    MessageComponent,
+    ActivityDetailComponent,
+    OrderQueryComponent,
+    SignatureCanvasComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

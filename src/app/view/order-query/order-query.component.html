@@ -1,0 +1,26 @@
+<div class="content-box">
+  <nz-page-header nzTitle="訂單查詢"> </nz-page-header>
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <!-- 手機號碼  -->
+    <nz-form-item>
+      <nz-form-label [nzSm]="3" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+      <nz-form-control [nzSm]="9" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+        <input nz-input formControlName="email" id="email" />
+      </nz-form-control>
+    </nz-form-item>
+    <!-- 驗證碼 -->
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input your Password!">
+        <nz-input-group nzPrefixIcon="lock">
+          <input formControlName="password" nz-input type="password" placeholder="Password" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- 提交按鈕 -->
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Log in</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

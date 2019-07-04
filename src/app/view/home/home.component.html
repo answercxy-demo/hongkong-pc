@@ -1,13 +1,15 @@
+<!-- 訂單查詢入口 -->
+<nz-affix [nzOffsetTop]="120">
+  <button nz-button routerLink="/orderQuery">
+    <i nz-icon nzType="file-search" nzTheme="outline"></i>
+    <span>訂單查詢</span>
+  </button>
+</nz-affix>
+
 <div class="content-box">
   <div nz-row nzType="flex" nzJustify="space-between">
-    <app-card
-      *ngFor="let item of activityList; let i = index"
-      nz-col
-      nzMd="12"
-      nzSm="24"
-      nzXs="24"
-      [activityInfo]="item"
-    ></app-card>
+    <app-card *ngFor="let item of activityList; let i = index" nz-col nzMd="12" nzSm="24" nzXs="24"
+      [activityInfo]="item"></app-card>
     <!-- <div nz-col nzSpan="11">col-4</div> -->
   </div>
 </div>

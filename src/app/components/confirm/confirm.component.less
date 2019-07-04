@@ -1,0 +1,64 @@
+.content-box > div {
+  margin: 20px 0;
+}
+
+.info-box {
+  align-items: stretch;
+  min-height: 270px;
+  border: solid 1px #ddd;
+}
+
+.info-box > div {
+  padding: 36px;
+  text-align: center;
+
+  .cover {
+    width: 100%;
+    float: left;
+  }
+
+  .cover + div {
+    float: left;
+    text-align: left;
+    margin-left: 20px;
+  }
+}
+
+.descriptions-box {
+  position: relative;
+
+  .ant-descriptions-item-label.ng-star-inserted {
+    white-space: normal;
+
+    img {
+      margin-right: 5px;
+    }
+  }
+}
+
+nz-descriptions .ant-descriptions-title.ng-star-inserted {
+  color: #8fc31f;
+}
+
+.descriptions-box > a {
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
+
+.descriptions-box > label {
+  margin-top: 5px;
+}
+
+@media (min-width: 768px) {
+  .border-box {
+    border-right: solid 1px #ddd;
+    border-bottom: none !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .cover {
+    width: 150px !important;
+  }
+}

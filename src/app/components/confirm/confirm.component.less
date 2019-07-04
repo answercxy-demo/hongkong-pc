@@ -50,7 +50,25 @@ nz-descriptions .ant-descriptions-title.ng-star-inserted {
   margin-top: 5px;
 }
 
+nz-page-header.ant-page-header {
+  padding-left: 0;
+}
+
+.contract-box .info-box {
+  height: 270px;
+  position: relative;
+
+  button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
 @media (min-width: 768px) {
+  .content-box > .info-box > div {
+    min-height: 270px;
+  }
   .border-box {
     border-right: solid 1px #ddd;
     border-bottom: none !important;

@@ -6,8 +6,14 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./confirm.component.less']
 })
 export class ConfirmComponent implements OnInit {
+  @Input() confirm;
+
   agreement = {
     checked: true
+  };
+
+  payType = {
+    value: 'D'
   };
 
   /**
@@ -20,7 +26,9 @@ export class ConfirmComponent implements OnInit {
    * 返回重新填寫表單
    * @memberof ConfirmComponent
    */
-  back() {}
+  back() {
+    this.confirm.show = false;
+  }
 
   /**
    * 前往付款

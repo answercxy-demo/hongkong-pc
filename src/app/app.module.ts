@@ -24,6 +24,7 @@ import { MessageComponent } from './components/message/message.component';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
 import { OrderQueryComponent } from './view/order-query/order-query.component';
 import { SignatureCanvasComponent } from './components/signature-canvas/signature-canvas.component';
+import { PlanListComponent } from './view/plan-list/plan-list.component';
 
 registerLocaleData(zh);
 
@@ -40,7 +41,8 @@ registerLocaleData(zh);
     MessageComponent,
     ActivityDetailComponent,
     OrderQueryComponent,
-    SignatureCanvasComponent
+    SignatureCanvasComponent,
+    PlanListComponent
   ],
   imports: [
     BrowserModule,

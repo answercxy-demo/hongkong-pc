@@ -1,27 +1,41 @@
+<app-carousel></app-carousel>
 <div class="content-box">
   <nz-page-header nzTitle="訂單查詢"> </nz-page-header>
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
     <!-- 手機號碼  -->
     <nz-form-item>
-      <nz-form-label [nzSm]="3" [nzXs]="24" nzRequired>上台手机号</nz-form-label>
-      <nz-form-control [nzSm]="9" [nzXs]="24" nzErrorTip="The input is not valid phone!">
+      <nz-form-label [nzSm]="3" [nzXs]="24" nzRequired
+        >上台手机号</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="9"
+        [nzXs]="24"
+        nzErrorTip="The input is not valid phone!"
+      >
         <input nz-input formControlName="phone" />
       </nz-form-control>
     </nz-form-item>
+
     <!-- 驗證碼 -->
-    <!-- 手機號碼  -->
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input your code!">
         <nz-form-label [nzSm]="3" [nzXs]="24" nzRequired>验证码</nz-form-label>
-        <nz-input-group nzPrefixIcon="lock">
-          <input formControlName="password" nz-input type="password" placeholder="Password" />
-        </nz-input-group>
+        <nz-form-control
+          [nzSm]="9"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid phone!"
+        >
+          <input nz-input formControlName="email" />
+        </nz-form-control>
       </nz-form-control>
     </nz-form-item>
     <!-- 提交按鈕 -->
     <nz-form-item>
       <nz-form-control>
-        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Log in</button>
+        <nz-form-label></nz-form-label>
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">
+          Log in
+        </button>
       </nz-form-control>
     </nz-form-item>
   </form>

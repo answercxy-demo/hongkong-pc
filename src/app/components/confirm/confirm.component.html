@@ -1,9 +1,15 @@
 <div class="content-box">
-
   <!-- 套餐相關信息 -->
   <div class="info-box" nz-row nzType="flex" nzJustify="space-between">
-    <div class="border-box" nz-col nzMd="12" nzSm="24" nzXs="24" style="border-bottom: solid 1px #ddd">
-      <img class="cover" src="../../../assets/image/success.png">
+    <div
+      class="border-box"
+      nz-col
+      nzMd="12"
+      nzSm="24"
+      nzXs="24"
+      style="border-bottom: solid 1px #ddd"
+    >
+      <img class="cover" src="../../../assets/image/success.png" />
       <div>
         <p>1</p>
         <p>2</p>
@@ -11,13 +17,17 @@
       </div>
     </div>
     <div nz-col nzMd="7" nzSm="24" nzXs="24">col-12</div>
-    <div nz-col nzMd="5" nzSm="24" nzXs="24" style="background: #F3F3F3">col-12</div>
+    <div nz-col nzMd="5" nzSm="24" nzXs="24" style="background: #F3F3F3">
+      col-12
+    </div>
   </div>
 
   <!-- 物品信息 -->
   <div class="descriptions-box">
     <nz-descriptions nzTitle="物品信息" nzBordered>
-      <nz-descriptions-item nzTitle="閣下選擇的新流動電話號碼">97163057</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="閣下選擇的新流動電話號碼"
+        >97163057</nz-descriptions-item
+      >
       <nz-descriptions-item nzTitle="實體">SIM卡</nz-descriptions-item>
       <nz-descriptions-item nzTitle="需付款項">$108</nz-descriptions-item>
     </nz-descriptions>
@@ -31,7 +41,9 @@
       <nz-descriptions-item nzTitle="姓氏">zhang</nz-descriptions-item>
       <nz-descriptions-item nzTitle="名字">san</nz-descriptions-item>
       <nz-descriptions-item nzTitle="出生日期">1992-07-03</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="香港身份證號碼">M123456(0)</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="香港身份證號碼"
+        >M123456(0)</nz-descriptions-item
+      >
       <nz-descriptions-item nzTitle="聯絡電話">69201234</nz-descriptions-item>
       <nz-descriptions-item nzTitle="電郵">cc@xx.com</nz-descriptions-item>
       <nz-descriptions-item nzTitle="地址">漢正街</nz-descriptions-item>
@@ -41,37 +53,70 @@
   <!-- 合約生效日期 -->
   <div class="descriptions-box">
     <a><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
-    <nz-descriptions nzTitle="合約生效日期" nzBordered [nzColumn]="{ md: 2, sm: 2, xs: 1 }">
-      <nz-descriptions-item nzTitle="預計生效日期">2019-09-03</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="需于此日期前提交文件">2019-09-13</nz-descriptions-item>
+    <nz-descriptions
+      nzTitle="合約生效日期"
+      nzBordered
+      [nzColumn]="{ md: 2, sm: 2, xs: 1 }"
+    >
+      <nz-descriptions-item nzTitle="預計生效日期"
+        >2019-09-03</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="需于此日期前提交文件"
+        >2019-09-13</nz-descriptions-item
+      >
     </nz-descriptions>
   </div>
 
   <!-- 月費 -->
   <div class="descriptions-box">
     <nz-descriptions nzTitle="月費" nzBordered [nzColumn]="1">
-      <nz-descriptions-item [nzTitle]="monthlyFee">2019-09-03</nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="totalMount">2019-09-13</nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="realTotalMount">2019-09-13</nz-descriptions-item>
+      <nz-descriptions-item [nzTitle]="monthlyFee"
+        >2019-09-03</nz-descriptions-item
+      >
+      <nz-descriptions-item [nzTitle]="totalMount"
+        >2019-09-13</nz-descriptions-item
+      >
+      <nz-descriptions-item [nzTitle]="realTotalMount"
+        >2019-09-13</nz-descriptions-item
+      >
     </nz-descriptions>
   </div>
 
   <!-- 付款方法 -->
   <div class="descriptions-box">
     <nz-descriptions nzTitle="付款方法" nzBordered [nzColumn]="1">
-      <nz-descriptions-item [nzTitle]="alipay">2019-09-03</nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="weixinpay">2019-09-03</nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="creditCardnpay">2019-09-13</nz-descriptions-item>
+      <nz-descriptions-item [nzTitle]="alipay">
+        <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
+          <label nz-radio nzValue="a"></label>
+        </nz-radio-group>
+      </nz-descriptions-item>
+      <nz-descriptions-item [nzTitle]="weixinpay">
+        <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
+          <label nz-radio nzValue="c"></label>
+        </nz-radio-group>
+      </nz-descriptions-item>
+      <nz-descriptions-item [nzTitle]="creditCardnpay">
+        <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
+          <label nz-radio nzValue="D"></label>
+        </nz-radio-group>
+      </nz-descriptions-item>
     </nz-descriptions>
-    <label nz-checkbox [(ngModel)]="agreement.checked">我已閱讀並同意條款及細則、（如適用）「越薦越友」推薦計劃條款及細則及私隱政策聲明。</label>
+    <label nz-checkbox [(ngModel)]="agreement.checked"
+      >我已閱讀並同意條款及細則、（如適用）「越薦越友」推薦計劃條款及細則及私隱政策聲明。</label
+    >
   </div>
 
   <!-- 簽署協議 -->
-  <div>
-    <nz-page-header nzTitle="簽署確認申請資料及服務合約" nzSubtitle="請簽名確認上述資料正確"></nz-page-header>
+  <div class="contract-box">
+    <nz-page-header
+      nzTitle="簽署確認申請資料及服務合約"
+      nzSubtitle="請簽名確認上述資料正確"
+    ></nz-page-header>
     <div class="info-box">
       <app-signature-canvas></app-signature-canvas>
+      <button nz-button nzType="primary">應用</button>
     </div>
+    <br />
     <a>按此檢視服務合約</a>
   </div>
 
@@ -79,14 +124,14 @@
 
   <!-- 返回及下一步 -->
   <div nz-row nzType="flex" nzJustify="space-between">
-    <a (click)="back()" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
+    <a (click)="back()" nz-col
+      ><i nz-icon nzType="left" nzTheme="outline"></i>返回</a
+    >
     <button nz-col nz-button nzType="primary" (click)="next()">
-      下一步
+      前往付款
     </button>
   </div>
-
 </div>
-
 
 <!-- 所需月費label模板 -->
 <ng-template #monthlyFee>
@@ -100,7 +145,9 @@
 <ng-template #totalMount>
   <td class="ant-descriptions-item-label ng-star-inserted">
     <h2>總額</h2>
-    <p>特別優惠月費HK$88乃根據原價月費HK$118貼心智能手機計劃，於每月扣除HK$30回贈計算得出。此月費回贈期數完結後，如客戶繼續使用此服務，本公司將按照當時同等服務計劃之月費及行政費收費。</p>
+    <p>
+      特別優惠月費HK$88乃根據原價月費HK$118貼心智能手機計劃，於每月扣除HK$30回贈計算得出。此月費回贈期數完結後，如客戶繼續使用此服務，本公司將按照當時同等服務計劃之月費及行政費收費。
+    </p>
   </td>
 </ng-template>
 
@@ -115,7 +162,7 @@
 <!-- 支付寶付款 -->
 <ng-template #alipay>
   <td class="ant-descriptions-item-label ng-star-inserted">
-    <img src="../../../assets/image/alipay.png">
+    <img src="../../../assets/image/alipay.png" />
     <span>支付寶付款</span>
   </td>
 </ng-template>
@@ -123,7 +170,7 @@
 <!-- 微信付款 -->
 <ng-template #weixinpay>
   <td class="ant-descriptions-item-label ng-star-inserted">
-    <img src="../../../assets/image/weixinpay.png">
+    <img src="../../../assets/image/weixinpay.png" />
     <span>微信付款</span>
   </td>
 </ng-template>
@@ -131,7 +178,7 @@
 <!-- 信用卡付款 -->
 <ng-template #creditCardnpay>
   <td class="ant-descriptions-item-label ng-star-inserted">
-    <img src="../../../assets/image/credit_card.png">
+    <img src="../../../assets/image/credit_card.png" />
     <span>信用卡付款</span>
   </td>
 </ng-template>

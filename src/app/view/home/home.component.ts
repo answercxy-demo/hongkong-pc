@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from '../../service/state/state.service';
+import { ApiService } from '../../service/api/api.service';
 
 @Component({
   selector: 'app-home',
@@ -9,15 +10,16 @@ import { StateService } from '../../service/state/state.service';
 export class HomeComponent implements OnInit {
   activityList: any[] = [];
 
-  constructor(private state: StateService) {}
-
-  ngOnInit(): void {
-    this.dataInit();
-  }
-
   dataInit() {
     for (let i = 0; i < 100; i++) {
       this.activityList.push({ id: i });
     }
+    this.apiService.post('xx', { a: 1 }).subscribe(data => {});
+  }
+
+  constructor(private state: StateService, private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.dataInit();
   }
 }

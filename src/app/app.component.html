@@ -1,5 +1,5 @@
 <nz-layout>
-  <nz-header>
+  <nz-header id="header">
     <a [href]="back.url">
       <i nz-icon nzType="rollback" nzTheme="outline"></i>
       {{ back.text }}
@@ -13,6 +13,10 @@
   </nz-footer>
 </nz-layout>
 
+<!-- 锚点 -->
+<nz-anchor [nzAffix]="false">
+  <nz-link [nzHref]="anchor.value" id="anchorLink"></nz-link>
+</nz-anchor>
 <!-- 返回頭部 -->
 <nz-back-top></nz-back-top>
 

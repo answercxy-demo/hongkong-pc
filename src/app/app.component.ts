@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StateService } from './service/state/state.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = '上臺辦理';
 
+  anchor = this.state.anchor;
+
   back = {
     text: '返回首頁',
     url: 'https://www.hk.chinamobile.com/sc/'
   };
 
   copyrightInfo = '© 2019 中国移动香港有限公司版权所有。';
+
+  constructor(private state: StateService) {}
 }

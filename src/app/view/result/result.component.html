@@ -21,5 +21,10 @@
     <i nz-icon nzType="info-circle" nzTheme="outline"></i>
     你已完成登記手續，可以按此進行提交身份證附件同其他資料。
   </div>
-  <button nz-button nzType="primary" nzSize="large">後部資料</button>
+  <button nz-button nzType="primary" nzSize="large" (click)="showModal()">後部資料</button>
 </div>
+
+<nz-modal [(nzVisible)]="uploadModal.isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+  <app-upload-cert></app-upload-cert>
+</nz-modal>

@@ -18,13 +18,14 @@ import { CardComponent } from './components/card/card.component';
 import { ComeOnStageComponent } from './view/come-on-stage/come-on-stage.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
-import { PaySuccessComponent } from './view/pay-success/pay-success.component';
 import { PhoneQueryComponent } from './view/phone-query/phone-query.component';
 import { MessageComponent } from './components/message/message.component';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
 import { OrderQueryComponent } from './view/order-query/order-query.component';
 import { SignatureCanvasComponent } from './components/signature-canvas/signature-canvas.component';
 import { PlanListComponent } from './view/plan-list/plan-list.component';
+import { ResultComponent } from './view/result/result.component';
+import { UploadCertComponent } from './components/upload-cert/upload-cert.component';
 
 registerLocaleData(zh);
 
@@ -36,13 +37,14 @@ registerLocaleData(zh);
     ComeOnStageComponent,
     CarouselComponent,
     ConfirmComponent,
-    PaySuccessComponent,
     PhoneQueryComponent,
     MessageComponent,
     ActivityDetailComponent,
     OrderQueryComponent,
     SignatureCanvasComponent,
-    PlanListComponent
+    PlanListComponent,
+    ResultComponent,
+    UploadCertComponent
   ],
   imports: [
     BrowserModule,

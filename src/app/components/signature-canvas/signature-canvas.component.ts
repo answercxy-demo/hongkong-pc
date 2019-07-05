@@ -21,6 +21,9 @@ export class SignatureCanvasComponent implements OnInit {
     canvas.onmousedown = e => {
       const scrollTop = document.querySelector('html').scrollTop;
       const scrollLeft = document.querySelector('html').scrollLeft;
+      // TODO: 这里若改变canvas外部dom结构会有计算错误风险【需注意后期优化】
+      const offsetTop = canvas.parentElement.parentElement.offsetTop + 1;
+      const offsetLeft = canvas.parentElement.parentElement.offsetLeft + 1;
 
       // 若調整視口，需要及時更新畫布
       if (
@@ -32,14 +35,14 @@ export class SignatureCanvasComponent implements OnInit {
       }
 
       context.moveTo(
-        scrollLeft + e.clientX - canvas.offsetLeft,
-        scrollTop + e.clientY - canvas.offsetTop
+        scrollLeft + e.clientX - offsetLeft,
+        scrollTop + e.clientY - offsetTop
       );
 
       document.onmousemove = ev => {
         context.lineTo(
-          scrollLeft + ev.clientX - canvas.offsetLeft,
-          scrollTop + ev.clientY - canvas.offsetTop
+          scrollLeft + ev.clientX - offsetLeft,
+          scrollTop + ev.clientY - offsetTop
         );
         context.stroke();
       };
@@ -55,9 +58,8 @@ export class SignatureCanvasComponent implements OnInit {
     const canvas: HTMLCanvasElement = document.querySelector(
       'canvas#signatureCanvas'
     );
-    const context = canvas.getContext('2d');
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
   }
 
   constructor() {}

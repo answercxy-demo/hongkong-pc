@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormValidatorService } from '../../service/formValidator/form-validator.service';
+import { NzMessageService } from 'ng-zorro-antd';
+
+import { ApiService } from '../../service/api/api.service';
+
 import {
   FormGroup,
   Validators,
@@ -19,16 +24,36 @@ export class OrderQueryComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
+
+    this.message.error('驗證碼錯誤');
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private customValidator: FormValidatorService,
+    private message: NzMessageService,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      email: [null, [Validators.required]],
-      userName: [null, [Validators.required]],
-      password: [null, [Validators.required]],
-      remember: [true]
-    });
+    this.validateForm = this.fb.group(
+      {
+        phone: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern(this.customValidator.hongkongPhone())
+          ]
+        ],
+        code: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern(this.customValidator.verCode())
+          ]
+        ]
+      }
+      // { updateOn: 'blur' }
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UtilService } from '../../service/util/util.service';
 
 @Component({
   selector: 'app-come-on-stage',
@@ -26,7 +27,7 @@ export class ComeOnStageComponent implements OnInit {
     this.confirm.show = true;
   }
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private util: UtilService) {}
 
   ngOnInit() {}
 }

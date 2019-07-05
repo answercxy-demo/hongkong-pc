@@ -1,0 +1,6 @@
+{
+  "/": {
+    "target": "http://devcloud.vpclub.cn",
+    "changeOrigin": true
+  }
+}

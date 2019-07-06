@@ -11,6 +11,8 @@ export class AppComponent {
 
   anchor = this.state.anchor;
 
+  spinning = this.state.spinning;
+
   back = {
     text: '返回首頁',
     url: 'https://www.hk.chinamobile.com/sc/'

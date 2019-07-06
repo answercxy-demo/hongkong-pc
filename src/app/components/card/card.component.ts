@@ -7,6 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CardComponent implements OnInit {
   @Input() activityInfo: any;
+  @Input() type: string;
+
+  PACKAGE_TYPE = 'package';
+  BUSINESS_TYPE = 'business';
+
+  // business
+  businessContractType = 0;
+
   content = {};
 
   footerBtn = {

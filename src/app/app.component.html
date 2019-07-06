@@ -6,7 +6,9 @@
     </a>
   </nz-header>
   <nz-content>
-    <router-outlet> </router-outlet>
+    <nz-spin nzTip="Loading..." nzSize="large" [nzSpinning]="spinning.value">
+      <router-outlet> </router-outlet>
+    </nz-spin>
   </nz-content>
   <nz-footer>
     {{ copyrightInfo }}
@@ -19,6 +21,3 @@
 </nz-anchor>
 <!-- 返回頭部 -->
 <nz-back-top></nz-back-top>
-
-<!-- 錯誤囘顯 -->
-<app-message></app-message>

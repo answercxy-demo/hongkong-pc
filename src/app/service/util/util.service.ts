@@ -50,5 +50,14 @@ export class UtilService {
     });
   }
 
+  /**
+   * 設置等待中
+   * @param {boolean} bool
+   * @memberof UtilService
+   */
+  spinning(bool: boolean) {
+    this.state.spinning.value = bool;
+  }
+
   constructor(private state: StateService) {}
 }

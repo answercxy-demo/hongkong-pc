@@ -9,9 +9,47 @@ nz-card {
   }
 
   .content {
-    padding: 16px 0px;
     min-height: 200px;
-    background: #ddd;
+
+    nz-radio-group {
+      width: 100%;
+
+      label:nth-child(1) {
+        margin-right: 2%;
+      }
+
+      label {
+        width: 49%;
+        height: 40px;
+        line-height: 40px;
+      }
+    }
+
+    > * {
+      margin: 16px 0px;
+
+      .dotted-box {
+        border: dotted 2px #aaa;
+        margin-top: 24px;
+        padding: 10px;
+
+        .title,
+        .title * {
+          color: #e40077;
+        }
+      }
+    }
+
+    div.list {
+      i {
+        color: #8fc31f;
+        font-size: 0.6em;
+      }
+    }
+
+    .cover {
+      width: 100%;
+    }
   }
 
   .footer {
@@ -33,6 +71,7 @@ nz-card {
 
   .tag {
     background: #00afe4;
+    color: #fff;
     min-width: 95px;
     height: 33px;
     line-height: 33px;

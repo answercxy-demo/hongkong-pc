@@ -12,5 +12,12 @@ export class StateService {
     describe: '锚点指向存储'
   };
 
+  spinning: StateBase = {
+    id: 'spinning',
+    value: false,
+    name: 'spinning',
+    describe: '是否加載中標識'
+  };
+
   constructor() {}
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { UtilService } from '../util/util.service';
 
 import { NzMessageService } from 'ng-zorro-antd';
 
@@ -10,6 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class ApiService {
   private origin = window.location.origin;
+  // private origin = 'http://devcloud.vpclub.cn';
 
   /**
    * 請求封裝
@@ -17,9 +19,11 @@ export class ApiService {
    * @param options
    */
   post(api: string = '', options = {}): Observable<any> {
+    this.util.spinning(true);
     return this.http.post<any>(`${this.origin}/${api}`, options).pipe(
       tap(_ => {
         //do something for current status
+        this.util.spinning(false);
       }),
       catchError(this.handleError<any>('getHospitalRecruit', {}))
     );
@@ -45,5 +49,9 @@ export class ApiService {
   }
 
   isAlterEgoTaken: (alterEgo: string) => Observable<boolean>;
-  constructor(private http: HttpClient, private message: NzMessageService) {}
+  constructor(
+    private http: HttpClient,
+    private message: NzMessageService,
+    private util: UtilService
+  ) {}
 }

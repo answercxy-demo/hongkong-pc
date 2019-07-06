@@ -56,7 +56,18 @@ export class UtilService {
    * @memberof UtilService
    */
   spinning(bool: boolean) {
-    this.state.spinning.value = bool;
+    setTimeout(() => {
+      this.state.spinning.value = bool;
+    });
+  }
+
+  /**
+   * 回到頂部
+   * @memberof UtilService
+   */
+  goTop() {
+    document.querySelector('html').scrollTop = 0;
+    document.querySelector('body').scrollTop = 0;
   }
 
   constructor(private state: StateService) {}

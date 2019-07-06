@@ -23,9 +23,9 @@ import { MessageComponent } from './components/message/message.component';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
 import { OrderQueryComponent } from './view/order-query/order-query.component';
 import { SignatureCanvasComponent } from './components/signature-canvas/signature-canvas.component';
-import { PlanListComponent } from './view/plan-list/plan-list.component';
 import { ResultComponent } from './view/result/result.component';
 import { UploadCertComponent } from './components/upload-cert/upload-cert.component';
+import { PackageListComponent } from './view/package-list/package-list.component';
 
 registerLocaleData(zh);
 
@@ -42,9 +42,9 @@ registerLocaleData(zh);
     ActivityDetailComponent,
     OrderQueryComponent,
     SignatureCanvasComponent,
-    PlanListComponent,
     ResultComponent,
-    UploadCertComponent
+    UploadCertComponent,
+    PackageListComponent
   ],
   imports: [
     BrowserModule,

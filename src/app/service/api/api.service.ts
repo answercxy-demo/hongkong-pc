@@ -40,6 +40,9 @@ export class ApiService {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 
+      // 關閉等待中組件
+      this.util.spinning(false);
+
       // TODO: better job of transforming error for user consumption
       this.message.error(`${operation} failed: ${error.message}`);
 

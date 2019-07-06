@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UtilService } from '../../service/util/util.service';
 
 @Component({
   selector: 'app-confirm',
@@ -28,6 +29,7 @@ export class ConfirmComponent implements OnInit {
    */
   back() {
     this.confirm.show = false;
+    this.util.goTop();
   }
 
   /**
@@ -36,7 +38,7 @@ export class ConfirmComponent implements OnInit {
    */
   next() {}
 
-  constructor() {}
+  constructor(private util: UtilService) {}
 
   ngOnInit() {}
 }

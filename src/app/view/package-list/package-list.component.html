@@ -8,19 +8,8 @@
   <!-- </nz-affix> -->
 </div>
 
-<app-carousel></app-carousel>
-
-<!-- 麵包屑 -->
-<nz-breadcrumb nzSeparator=">">
-  <nz-breadcrumb-item>
-    <a [routerLink]="['/packageList']">服務計劃列表</a>
-  </nz-breadcrumb-item>
-  <nz-breadcrumb-item>
-    優惠包
-  </nz-breadcrumb-item>
-</nz-breadcrumb>
-
 <div class="content-box">
+  <nz-page-header nzTitle="服務計劃"></nz-page-header>
   <div nz-row nzType="flex" nzJustify="space-between">
     <app-card
       *ngFor="let item of activityList; let i = index"

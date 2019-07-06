@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { StateService } from './service/state/state.service';
+import { UtilService } from './service/util/util.service';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +9,6 @@ import { StateService } from './service/state/state.service';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = '上臺辦理';
-
   anchor = this.state.anchor;
 
   spinning = this.state.spinning;
@@ -20,5 +20,22 @@ export class AppComponent {
 
   copyrightInfo = '© 2019 中国移动香港有限公司版权所有。';
 
-  constructor(private state: StateService) {}
+  /**
+   * @description: 监听路由变化
+   * @memberof AppComponent
+   */
+  bindRouterChange() {
+    this.router.events.subscribe(event => {
+      this.util.goTop();
+    });
+  }
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private state: StateService,
+    private util: UtilService
+  ) {
+    this.bindRouterChange();
+  }
 }

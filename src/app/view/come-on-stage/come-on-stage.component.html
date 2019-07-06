@@ -2,7 +2,7 @@
 <!-- 麵包屑 -->
 <nz-breadcrumb nzSeparator=">">
   <nz-breadcrumb-item>
-    <a [routerLink]="['/home']">活動列表</a>
+    <a [routerLink]="['/packageList']">服務計劃列表</a>
   </nz-breadcrumb-item>
   <nz-breadcrumb-item>
     {{ title.desc }}
@@ -39,7 +39,9 @@
 
       <!-- 返回及下一步 -->
       <div class="btns" nz-row nzType="flex" nzJustify="space-between">
-        <a routerLink="/home" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
+        <a routerLink="/home" nz-col
+          ><i nz-icon nzType="left" nzTheme="outline"></i>返回</a
+        >
         <button nz-col nz-button nzType="primary" (click)="next()">
           下一步
         </button>

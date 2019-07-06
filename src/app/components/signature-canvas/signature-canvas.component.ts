@@ -19,7 +19,9 @@ export class SignatureCanvasComponent implements OnInit {
     canvas.height = canvas.offsetHeight;
 
     canvas.onmousedown = e => {
-      const scrollTop = document.querySelector('html').scrollTop;
+      const scrollTop =
+        document.querySelector('html').scrollTop -
+        document.querySelector('nz-header').clientHeight;
       const scrollLeft = document.querySelector('html').scrollLeft;
       // TODO: 这里若改变canvas外部dom结构会有计算错误风险【需注意后期优化】
       const offsetTop = canvas.parentElement.parentElement.offsetTop + 1;
@@ -38,7 +40,7 @@ export class SignatureCanvasComponent implements OnInit {
         scrollLeft + e.clientX - offsetLeft,
         scrollTop + e.clientY - offsetTop
       );
-
+      console.log();
       document.onmousemove = ev => {
         context.lineTo(
           scrollLeft + ev.clientX - offsetLeft,
@@ -54,8 +56,10 @@ export class SignatureCanvasComponent implements OnInit {
     };
 
     canvas.ontouchstart = e => {
-      console.log(1);
-      const scrollTop = document.querySelector('html').scrollTop;
+      e.preventDefault();
+      const scrollTop =
+        document.querySelector('html').scrollTop -
+        document.querySelector('nz-header').clientHeight;
       const scrollLeft = document.querySelector('html').scrollLeft;
       // TODO: 这里若改变canvas外部dom结构会有计算错误风险【需注意后期优化】
       const offsetTop = canvas.parentElement.parentElement.offsetTop + 1;
@@ -76,7 +80,7 @@ export class SignatureCanvasComponent implements OnInit {
       );
 
       document.ontouchmove = ev => {
-        document.querySelector('html').scrollTop = scrollTop;
+        ev.preventDefault();
         context.lineTo(
           scrollLeft + ev.changedTouches[0].clientX - offsetLeft,
           scrollTop + ev.changedTouches[0].clientY - offsetTop

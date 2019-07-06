@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -22,7 +23,24 @@ export class CardComponent implements OnInit {
     link: '/comeOnStage'
   };
 
-  constructor() {}
+  next(options) {
+    switch (this.type) {
+      case this.PACKAGE_TYPE:
+        this.router.navigate(['home'], {
+          queryParams: { packageId: options.id }
+        });
+        break;
+      case this.BUSINESS_TYPE:
+        this.router.navigate(['comeOnStage'], {
+          // queryParams: { packageId: options.id }
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 }

@@ -1,30 +1,58 @@
 <app-carousel></app-carousel>
+
+<!-- 麵包屑 -->
+<nz-breadcrumb nzSeparator=">">
+  <nz-breadcrumb-item>
+    <a [routerLink]="['/packageList']">服務計劃列表</a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    訂單查詢
+  </nz-breadcrumb-item>
+</nz-breadcrumb>
+
 <div class="content-box">
   <nz-page-header nzTitle="訂單查詢"> </nz-page-header>
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
     <!-- 手機號碼  -->
     <nz-form-item>
-      <nz-form-label [nzSm]="3" [nzXs]="24" nzNoColon=true nzRequired>上台手机号</nz-form-label>
-      <nz-form-control nzHasFeedback [nzSm]="9" [nzXs]="24" nzErrorTip="手機號碼格式不正確!">
-        <input nz-input formControlName="phone" minlength="8" maxlength="8" number />
+      <nz-form-label [nzSm]="3" [nzXs]="24" nzNoColon="true" nzRequired
+        >上台手机号</nz-form-label
+      >
+      <nz-form-control
+        nzHasFeedback
+        [nzSm]="9"
+        [nzXs]="24"
+        nzErrorTip="手機號碼格式不正確!"
+      >
+        <input
+          nz-input
+          formControlName="phone"
+          minlength="8"
+          maxlength="8"
+          number
+        />
       </nz-form-control>
     </nz-form-item>
 
     <!-- 驗證碼 -->
     <nz-form-item>
-      <nz-form-label [nzSm]="3" [nzXs]="24" nzNoColon=true nzRequired>验证码</nz-form-label>
+      <nz-form-label [nzSm]="3" [nzXs]="24" nzNoColon="true" nzRequired
+        >验证码</nz-form-label
+      >
       <nz-form-control [nzSm]="5" [nzXs]="14" nzErrorTip="驗證碼格式不正確">
         <input nz-input formControlName="code" minlength="4" maxlength="4" />
       </nz-form-control>
       <nz-form-text>
-        <img src="http://devcloud.vpclub.cn/moses/security/admin/generateQRCode?1562312495000"
-          style="height: 40px;margin-left: 5px;">
+        <img
+          src="http://devcloud.vpclub.cn/moses/security/admin/generateQRCode?1562312495000"
+          style="height: 40px;margin-left: 5px;"
+        />
       </nz-form-text>
     </nz-form-item>
 
     <!-- 提交按鈕 -->
     <nz-form-item>
-      <nz-form-label [nzSm]="3" [nzXs]="24" nzNoColon=true></nz-form-label>
+      <nz-form-label [nzSm]="3" [nzXs]="24" nzNoColon="true"></nz-form-label>
       <nz-form-control [nzSm]="9" [nzXs]="24">
         <button nz-button nzType="primary" [disabled]="!validateForm.valid">
           查询

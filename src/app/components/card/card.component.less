@@ -46,10 +46,6 @@ nz-card {
         font-size: 0.6em;
       }
     }
-
-    .cover {
-      width: 100%;
-    }
   }
 
   .footer {
@@ -79,5 +75,25 @@ nz-card {
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  .cover-box {
+    height: 240px;
+    background-size: cover !important;
+  }
+
+  .more {
+    float: right;
+    margin-top: 10px;
+  }
+
+  .cover {
+    width: 100%;
+  }
+}
+
+@media (max-width: 577px) {
+  .cover-box {
+    margin-bottom: 20px;
   }
 }

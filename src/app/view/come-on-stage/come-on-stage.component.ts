@@ -24,6 +24,7 @@ export class ComeOnStageComponent implements OnInit {
    * @memberof ComeOnStageComponent
    */
   next() {
+    this.util.goTop();
     this.confirm.show = true;
   }
 

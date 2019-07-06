@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../service/api/api.service';
 import { NzNotificationService } from 'ng-zorro-antd';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-package-list',
+  templateUrl: './package-list.component.html',
+  styleUrls: ['./package-list.component.less']
 })
-export class HomeComponent implements OnInit {
+export class PackageListComponent implements OnInit {
   // 業務子集，bussinessInfo
-  cardType = 'business';
+  cardType = 'package';
 
   activityList: any[] = [];
 
@@ -20,17 +19,16 @@ export class HomeComponent implements OnInit {
    */
   dataInit() {
     this.apiService
-      .post('umall/business/consumer/packageInfo/query', {
-        packageId:
-          this.route.snapshot.queryParamMap.get('packageId') ||
-          '1129312805249921024',
+      .post('umall/business/consumer/packageInfo/page', {
+        pageSize: 20,
+        pageNumber: 1,
         orgId: '977090533766828033',
         userId: '1010053936724500480',
         appId: 10000188
       })
       .subscribe(data => {
         if (data.returnCode === '1000') {
-          this.activityList = data.dataInfo.businessList || [];
+          this.activityList = data.records || [];
 
           if (!this.activityList.length) {
             this.notice.create(
@@ -39,11 +37,6 @@ export class HomeComponent implements OnInit {
               '抱歉，您正在訪問的頁面沒有任何數據哦！'
             );
           }
-
-          // 默認選中第一條contract
-          this.activityList.forEach(item => {
-            item.selectedContract = item.contractList[0];
-          });
         } else {
           if (!!data.message) {
             this.notice.create('error', data.returnCode, data.message);
@@ -54,8 +47,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private notice: NzNotificationService,
-    private route: ActivatedRoute
+    private notice: NzNotificationService
   ) {}
 
   ngOnInit(): void {

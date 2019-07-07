@@ -7,7 +7,11 @@
     <div class="content">
       <div nz-row nzGutter="24">
         <div nz-col nzMd="9" nzSm="9" nzXs="24">
-          <img class="cover" src="{{ activityInfo.businessImg }}" />
+          <img
+            class="cover"
+            src="{{ activityInfo.businessImg }}"
+            onerror="this.src='../../../assets/image/no_poster.png'"
+          />
         </div>
         <div nz-col nzMd="15" nzSm="15" nzXs="24">
           <div>服務計劃</div>

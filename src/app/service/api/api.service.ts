@@ -17,6 +17,7 @@ export class ApiService {
    * 請求封裝
    * @param api
    * @param options
+   * @param mask [是否顯示加載中開關]
    */
   post(api: string = '', options = {}, mask = true): Observable<any> {
     !!mask && this.util.spinning(true);

@@ -1,16 +1,41 @@
+@import '../../theme/themeCtrl.less';
+
 .detail-box {
   margin-top: 40px;
   padding: 50px 0px;
-  background: #f3f3f3 url(../../assets/image/tab-arrow-bg.png) no-repeat
+  background: #f3f3f3 url(../../../assets/image/tab-arrow-bg.png) no-repeat
     center top;
+
   .content-box {
     .btns {
-      background: yellow;
       height: 200px;
+
+      nz-radio-group {
+        width: 100%;
+        label {
+          width: 100%;
+          height: 50px;
+          line-height: 50px;
+          margin-bottom: 10px;
+          font-size: @hk-font-size-1;
+        }
+      }
     }
     .detail {
       background: red;
       height: 1000px;
     }
+  }
+}
+
+@media (min-width: 768px) {
+  .btns {
+    position: sticky;
+    top: 80px;
+  }
+
+  .detail-box .content-box .btns > nz-radio-group > label {
+    width: 90%;
+    transform: translateX(5%);
   }
 }

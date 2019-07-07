@@ -9,7 +9,7 @@ import { PhoneQueryComponent } from './view/phone-query/phone-query.component';
 import { OrderQueryComponent } from './view/order-query/order-query.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/packageList', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'packageList', component: PackageListComponent },
   { path: 'comeOnStage', component: ComeOnStageComponent },

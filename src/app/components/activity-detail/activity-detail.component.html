@@ -1,6 +1,12 @@
 <div class="detail-box">
   <div class="content-box" nz-row>
-    <div class="btns" nz-col nzMd="6" nzSm="24" nzXs="24"></div>
+    <div class="btns" nz-col nzMd="6" nzSm="24" nzXs="24">
+      <nz-radio-group [(ngModel)]="radioValue">
+        <label nz-radio-button nzValue="A">月費詳情</label>
+        <br />
+        <label nz-radio-button nzValue="B">網購須知</label>
+      </nz-radio-group>
+    </div>
     <div class="detail" nz-col nzMd="18" nzSm="24" nzXs="24"></div>
   </div>
 </div>

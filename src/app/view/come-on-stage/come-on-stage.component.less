@@ -1,3 +1,5 @@
+@import '../../theme/themeCtrl.less';
+
 .title {
   margin-top: 20px;
   padding: 0px;
@@ -16,15 +18,79 @@
     margin-bottom: 30px;
 
     .desc {
-      height: 200px;
-      background: yellow;
+      padding: 20px;
+
+      nz-page-header {
+        padding-left: 0;
+      }
+      .cover {
+        width: 96%;
+        margin: 2%;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+
+        li {
+          width: 100%;
+          line-height: 1.5em;
+          margin-bottom: 10px;
+          font-size: @hk-font-size-1;
+
+          > label {
+            width: 50%;
+            display: inline-block;
+            padding-right: 10px;
+          }
+
+          > span {
+            float: right;
+          }
+        }
+      }
     }
 
     .steps {
       height: 1000px;
-      background: red;
+
+      .step {
+        .title {
+          color: @hk-green-1;
+          font-size: @hk-font-size-3;
+          margin-bottom: 30px;
+
+          b {
+            font-size: @hk-font-size-5;
+            font-weight: 500;
+            margin-right: 20px;
+          }
+        }
+
+        .step-content {
+          margin-left: 50px;
+          nz-radio-group {
+            display: block;
+          }
+        }
+      }
     }
   }
   .btns {
+  }
+}
+
+@media (min-width: 768px) {
+  .form-box .info .desc {
+    position: sticky;
+    top: 80px;
+  }
+
+  .form-box .info .steps {
+    display: block;
+    box-sizing: border-box;
+    width: 70.83333333%;
+    float: right;
   }
 }

@@ -25,15 +25,95 @@
     <div class="form-box">
       <div class="info" nz-row>
         <!-- 优惠 -->
-        <div class="desc" nz-col nzMd="7" nzSm="24" nzXs="24"></div>
+        <div class="desc" nz-col nzMd="7" nzSm="24" nzXs="24">
+          <img
+            class="cover"
+            src="https://devcloud.vpclub.cn/group1/M00/01/C5/rBAFJFxziZ-AP2SvAAD-gvAv3N4503.jpg"
+          /><br />
+          <nz-page-header nzTitle="服務計劃詳情"></nz-page-header>
+          <ul>
+            <li *ngFor="let item of activityDetail.items">
+              <label
+                ><b>{{ item.name }}</b></label
+              >
+              <span>{{ item.value }}</span>
+            </li>
+          </ul>
+        </div>
 
         <!-- 表单填写步骤 -->
-        <div class="steps" nz-col nzMd="17" nzSm="24" nzXs="24">
+        <form
+          class="steps"
+          nz-col
+          nzMd="17"
+          nzSm="24"
+          nzXs="24"
+          nz-form
+          [formGroup]="validateForm"
+          (ngSubmit)="submitForm()"
+        >
+          <!-- <div class="steps" nz-col nzMd="17" nzSm="24" nzXs="24"> -->
           <!-- step1 -->
+          <div class="step">
+            <div class="title">
+              <b>{{ step_1.order }}</b>
+              {{ step_1.name }}
+            </div>
+            <div class="step-content">
+              <input formControlName="firstName" />
+            </div>
+          </div>
+
+          <nz-divider></nz-divider>
+
           <!-- step2 -->
+          <div class="step">
+            <div class="title">
+              <b>{{ step_2.order }}</b>
+              {{ step_2.name }}
+            </div>
+            <div class="step-content">
+              <nz-radio-group
+                [(ngModel)]="step_2.modeValue"
+                [nzButtonStyle]="'solid'"
+                formControlName="xx"
+              >
+                <label nz-radio-button nzValue="A">新號碼上臺</label>
+                <label nz-radio-button nzValue="B">携號上臺</label>
+              </nz-radio-group>
+              <nz-divider></nz-divider>
+              <nz-radio-group
+                [(ngModel)]="step_2.cardValue"
+                nzName="radiogroup"
+                formControlName="dd"
+              >
+                <label nz-radio nzValue="A">實體SIM卡</label>
+                <label nz-radio nzValue="B">esim*</label>
+              </nz-radio-group>
+            </div>
+          </div>
+
+          <nz-divider></nz-divider>
+
           <!-- step3 -->
+          <div class="step">
+            <div class="title">
+              <b>{{ step_3.order }}</b>
+              {{ step_3.name }}
+            </div>
+          </div>
+
+          <nz-divider></nz-divider>
+
           <!-- step4 -->
-        </div>
+          <div class="step">
+            <div class="title">
+              <b>{{ step_4.order }}</b>
+              {{ step_4.name }}
+            </div>
+          </div>
+          <!-- </div> -->
+        </form>
       </div>
       <nz-divider></nz-divider>
 
@@ -50,7 +130,7 @@
   </div>
 
   <!-- 活动详情 -->
-  <app-activity-detail [activityDetail]="activityDetail"></app-activity-detail>
+  <app-activity-detail [activityDetail]="detail"></app-activity-detail>
 </div>
 
 <!-- 表单信息确认 -->

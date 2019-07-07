@@ -20,7 +20,8 @@ export class SignatureCanvasComponent implements OnInit {
 
     canvas.onmousedown = e => {
       const scrollTop =
-        document.querySelector('html').scrollTop -
+        document.querySelector('html').scrollTop +
+        document.querySelector('body').scrollTop -
         document.querySelector('nz-header').clientHeight;
       const scrollLeft = document.querySelector('html').scrollLeft;
       // TODO: 这里若改变canvas外部dom结构会有计算错误风险【需注意后期优化】
@@ -58,13 +59,14 @@ export class SignatureCanvasComponent implements OnInit {
     canvas.ontouchstart = e => {
       e.preventDefault();
       const scrollTop =
-        document.querySelector('html').scrollTop -
+        document.querySelector('html').scrollTop +
+        document.querySelector('body').scrollTop -
         document.querySelector('nz-header').clientHeight;
       const scrollLeft = document.querySelector('html').scrollLeft;
+
       // TODO: 这里若改变canvas外部dom结构会有计算错误风险【需注意后期优化】
       const offsetTop = canvas.parentElement.parentElement.offsetTop + 1;
       const offsetLeft = canvas.parentElement.parentElement.offsetLeft + 1;
-
       // 若調整視口，需要及時更新畫布
       if (
         canvas.width !== canvas.offsetWidth ||

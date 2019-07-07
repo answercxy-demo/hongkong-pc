@@ -18,8 +18,8 @@ export class ApiService {
    * @param api
    * @param options
    */
-  post(api: string = '', options = {}): Observable<any> {
-    this.util.spinning(true);
+  post(api: string = '', options = {}, mask = true): Observable<any> {
+    !!mask && this.util.spinning(true);
     return this.http.post<any>(`${this.origin}/${api}`, options).pipe(
       tap(_ => {
         //do something for current status

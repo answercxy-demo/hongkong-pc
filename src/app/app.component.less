@@ -1,14 +1,16 @@
-@import '../styles.less';
+@import './theme/themeCtrl.less';
 
 nz-layout.ant-layout {
   min-height: 100%;
   nz-header {
+    transition: background 0.8s;
     background: @hk-plum-red-1;
     height: 48px;
     line-height: 48px;
+    background: @hk-green-1;
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 
     a {
       color: #fff;
@@ -16,7 +18,7 @@ nz-layout.ant-layout {
 
     a > * {
       display: inline-block;
-      margin-right: @font-size-base;
+      margin-right: @hk-font-size-base;
     }
   }
 
@@ -43,6 +45,7 @@ nz-link {
 
 @media (min-width: 768px) {
   nz-header {
+    background: @hk-plum-red-1 !important;
     height: 64px !important;
     line-height: 64px !important;
   }

@@ -32,7 +32,7 @@ export class CardComponent implements OnInit {
         break;
       case this.BUSINESS_TYPE:
         this.router.navigate(['comeOnStage'], {
-          // queryParams: { packageId: options.id }
+          queryParams: { id: options.id }
         });
         break;
       default:

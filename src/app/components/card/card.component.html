@@ -67,7 +67,7 @@
         nz-button
         nzType="primary"
         nzSize="large"
-        [routerLink]="['/comeOnStage', { id: activityInfo.id }]"
+        (click)="next(activityInfo)"
       >
         {{ footerBtn.name }}
       </button>

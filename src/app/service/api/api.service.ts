@@ -39,13 +39,14 @@ export class ApiService {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
 
       // 關閉等待中組件
       this.util.spinning(false);
 
       // TODO: better job of transforming error for user consumption
-      this.message.error(`${operation} failed: ${error.message}`);
+      this.message.error(
+        `${operation} failed: ${error.error.status} ${error.error.message}`
+      );
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

@@ -51,12 +51,30 @@ export class ComeOnStageComponent implements OnInit {
 
   step3 = {
     order: 3,
-    name: '個人資料'
+    name: '個人資料',
+    disabledBirthDate: (current: Date): boolean => {
+      const nowDate = new Date();
+      const birthYear = nowDate.getFullYear() - 18;
+      const birthMonth = nowDate.getMonth();
+      const birthDate =
+        nowDate.getDate() === 29 && nowDate.getMonth() === 1
+          ? nowDate.getDate() - 1
+          : nowDate.getDate();
+      return current > new Date(birthYear, birthMonth, birthDate);
+    },
+    currentDate: new Date(2000, 0, 1)
   };
 
   step4 = {
     order: 4,
-    name: '生效日期'
+    name: '生效日期',
+    //   New sales: 周四至周五是 T+4     周日至周三是 T+2          周六是T+3
+    // M N P:       周四至周五是T+5      周日至周三是T+3              周六是T+4
+    disabledDate: current => {
+      if (this.step2.modeValue === 'A') {
+      } else {
+      }
+    }
   };
 
   validateForm: FormGroup;

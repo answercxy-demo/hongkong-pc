@@ -140,8 +140,9 @@
                 </nz-form-control>
 
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>出生日期</nz-form-label>
-                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
-                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                <nz-form-control nzXs="8" nzErrorTip="日期格式不正確!">
+                  <nz-date-picker [nzDisabledDate]="step3.disabledBirthDate" [ngModel]="step3.currentDate" formControlName="phone"></nz-date-picker>
+                  <!-- <input nz-input formControlName="phone" minlength="8" maxlength="8" /> -->
                 </nz-form-control>
               </nz-form-item>
 
@@ -222,7 +223,7 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效日期</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
-                  <input placeholder="揀選你想服務計劃生效嘅日子" nz-input formControlName="phone" minlength="8" maxlength="8" />
+                  <nz-date-picker [nzDisabledDate]="step4.disabledDate" [ngModel]="step4.currentDate" formControlName="phone"></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
             </div>

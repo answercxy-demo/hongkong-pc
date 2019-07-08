@@ -20,14 +20,19 @@ export class HomeComponent implements OnInit {
    */
   dataInit() {
     this.apiService
-      .post('umall/business/consumer/packageInfo/query', {
-        packageId:
-          this.route.snapshot.queryParamMap.get('packageId') ||
-          '1129312805249921024',
-        orgId: '977090533766828033',
-        userId: '1010053936724500480',
-        appId: 10000188
-      })
+      .post(
+        'umall/business/consumer/packageInfo/query',
+        {
+          packageId:
+            this.route.snapshot.queryParamMap.get('packageId') ||
+            '1129312805249921024',
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188
+        },
+        true,
+        '業務子集列表'
+      )
       .subscribe(data => {
         if (data.returnCode === '1000') {
           this.activityList = data.dataInfo.businessList || [];
@@ -44,10 +49,6 @@ export class HomeComponent implements OnInit {
           this.activityList.forEach(item => {
             item.selectedContract = item.contractList[0];
           });
-        } else {
-          if (!!data.message) {
-            this.notice.create('error', data.returnCode, data.message);
-          }
         }
       });
   }

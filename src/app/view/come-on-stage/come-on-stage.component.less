@@ -53,6 +53,50 @@
     }
 
     .steps {
+      #step1 {
+        .fee {
+          margin: 40px 0;
+          > span {
+            display: inline-block;
+            margin-right: 10px;
+          }
+        }
+
+        .step-content {
+          nz-radio-group {
+            label[nz-radio-button] {
+              border-radius: 0;
+              margin-right: 10px;
+              width: 160px;
+              text-align: center;
+              max-width: 45%;
+            }
+          }
+
+          nz-divider {
+            color: @hk-plum-red-3;
+          }
+          nz-divider::before,
+          nz-divider::after {
+            border-width: 2px;
+            border-color: @hk-plum-red-3;
+          }
+          nz-divider + .sale-content {
+            border: 1px #aaaaaa dotted;
+            padding: 30px 100px;
+            border-top: none;
+            margin-top: -26px;
+            text-align: center;
+          }
+        }
+      }
+
+      #step2 {
+        nz-form-item nz-form-label {
+          width: 74px;
+        }
+      }
+
       .step {
         .title {
           color: @hk-green-1;
@@ -70,6 +114,10 @@
           margin-left: 50px;
           nz-radio-group {
             display: block;
+            margin: 10px 0;
+          }
+          nz-input-group {
+            margin: 10px 0;
           }
         }
       }
@@ -90,5 +138,21 @@
     box-sizing: border-box;
     width: 70.83333333%;
     float: right;
+  }
+}
+
+@media (max-width: 576px) {
+  nz-form-item {
+    margin-bottom: 0;
+  }
+  nz-form-control {
+    margin-bottom: 24px;
+  }
+  .cert-tip {
+    display: inline-block;
+    margin-top: -24px;
+  }
+  .sale-content {
+    padding: 30px 10% !important;
   }
 }

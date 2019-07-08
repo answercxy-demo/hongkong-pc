@@ -19,13 +19,18 @@ export class PackageListComponent implements OnInit {
    */
   dataInit() {
     this.apiService
-      .post('umall/business/consumer/packageInfo/page', {
-        pageSize: 20,
-        pageNumber: 1,
-        orgId: '977090533766828033',
-        userId: '1010053936724500480',
-        appId: 10000188
-      })
+      .post(
+        'umall/business/consumer/packageInfo/page',
+        {
+          pageSize: 20,
+          pageNumber: 1,
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188
+        },
+        true,
+        '業務包列表'
+      )
       .subscribe(data => {
         if (data.returnCode === '1000') {
           this.activityList = data.records || [];

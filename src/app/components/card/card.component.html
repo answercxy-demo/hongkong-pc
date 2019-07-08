@@ -7,11 +7,7 @@
     <div class="content">
       <div nz-row nzGutter="24">
         <div nz-col nzMd="9" nzSm="9" nzXs="24">
-          <img
-            class="cover"
-            src="{{ activityInfo.businessImg }}"
-            onerror="this.src='/assets/image/no_poster.png'"
-          />
+          <img class="cover" src="{{ activityInfo.businessImg }}" onerror="this.src='/assets/image/no_poster.png'" />
         </div>
         <div nz-col nzMd="15" nzSm="15" nzXs="24">
           <div>服務計劃</div>
@@ -37,21 +33,18 @@
 
       <nz-divider></nz-divider>
 
-      <nz-radio-group
-        [(ngModel)]="businessContractType"
-        [nzButtonStyle]="'solid'"
-      >
-        <label
-          nz-radio-button
-          *ngFor="let item of activityInfo.contractList; let i = index"
-          [nzValue]="i"
-        >
+      <nz-radio-group [(ngModel)]="businessContractType" [nzButtonStyle]="'solid'">
+        <label nz-radio-button *ngFor="let item of activityInfo.contractList; let i = index" [nzValue]="i">
           <i nz-icon nzType="check-circle" nzTheme="fill"></i>
-          {{ item.months }}個月
+          {{ item.months || '--' }}個月
         </label>
       </nz-radio-group>
 
       <div nz-row class="list">
+        <div>
+          <i nz-icon nzType="right" nzTheme="outline"></i>
+          [規格説明] {{activityInfo.businessSpecDesc || '--'}}
+        </div>
         <div>
           <i nz-icon nzType="right" nzTheme="outline"></i>
           [行政費] ${{
@@ -62,17 +55,12 @@
         </div>
         <div>
           <i nz-icon nzType="right" nzTheme="outline"></i>
-          [通話分鐘] {{ activityInfo.callMinutes }}分鐘
+          [通話分鐘] {{ activityInfo.callMinutes || '--' }}分鐘
         </div>
       </div>
     </div>
     <div class="footer">
-      <button
-        nz-button
-        nzType="primary"
-        nzSize="large"
-        (click)="next(activityInfo)"
-      >
+      <button nz-button nzType="primary" nzSize="large" (click)="next(activityInfo)">
         {{ footerBtn.name }}
       </button>
     </div>
@@ -81,24 +69,17 @@
   <!-- 業務包卡片 -->
   <nz-card nzHoverable *ngSwitchCase="PACKAGE_TYPE">
     <div nz-row nzGutter="24">
-      <div
-        class="cover-box"
-        nz-col
-        nzMd="12"
-        nzSm="12"
-        nzXs="24"
-        [ngStyle]="{
+      <div class="cover-box" nz-col nzMd="12" nzSm="12" nzXs="24" [ngStyle]="{
           background:
             'url(' + activityInfo.packageImg + ') no-repeat center center'
-        }"
-      >
+        }">
         <!-- <img class="cover" src="{{ activityInfo.packageImg }}" /> -->
       </div>
       <div nz-col nzMd="12" nzSm="12" nzXs="24">
         <h2>{{ activityInfo.packageName }}</h2>
         <nz-divider></nz-divider>
         <h3>{{ activityInfo.shareTitle }}</h3>
-        <h4 style="color:#ddd;">{{ activityInfo.packageDesc }}</h4>
+        <!-- <h4 style="color:#ddd;">{{ activityInfo.shareDesc }}</h4> -->
         <button nz-button class="more" (click)="next(activityInfo)">
           了解更多
         </button>

@@ -16,7 +16,7 @@
     <!-- 标题 -->
     <div class="title">
       <h2>{{ title.name }}</h2>
-      <h2 style="color:#E41877">{{ title.desc }}</h2>
+      <h2 class="color-plum-red-1">{{ title.desc }}</h2>
     </div>
 
     <nz-divider></nz-divider>
@@ -26,103 +26,215 @@
       <div class="info" nz-row>
         <!-- 优惠 -->
         <div class="desc" nz-col nzMd="7" nzSm="24" nzXs="24">
-          <img
-            class="cover"
-            src="https://devcloud.vpclub.cn/group1/M00/01/C5/rBAFJFxziZ-AP2SvAAD-gvAv3N4503.jpg"
-          /><br />
+          <img class="cover" src="{{activityInfo.businessImg}}"
+            onerror="this.src='/assets/image/no_poster.png'" /><br />
           <nz-page-header nzTitle="服務計劃詳情"></nz-page-header>
           <ul>
             <li *ngFor="let item of activityDetail.items">
-              <label
-                ><b>{{ item.name }}</b></label
-              >
+              <label><b>{{ item.name }}</b></label>
               <span>{{ item.value }}</span>
             </li>
           </ul>
         </div>
 
         <!-- 表单填写步骤 -->
-        <form
-          class="steps"
-          nz-col
-          nzMd="17"
-          nzSm="24"
-          nzXs="24"
-          nz-form
-          [formGroup]="validateForm"
-          (ngSubmit)="submitForm()"
-        >
-          <!-- <div class="steps" nz-col nzMd="17" nzSm="24" nzXs="24"> -->
+        <form class="steps" nz-col nzMd="17" nzSm="24" nzXs="24" nz-form [formGroup]="validateForm"
+          (ngSubmit)="submitForm()">
+
           <!-- step1 -->
-          <div class="step">
+          <div id="step1" class="step">
             <div class="title">
-              <b>{{ step_1.order }}</b>
-              {{ step_1.name }}
+              <b>{{ step1.order }}</b>
+              {{ step1.name }}
             </div>
             <div class="step-content">
-              <input formControlName="firstName" />
+              <nz-radio-group [(ngModel)]="step1.businessContractType" formControlName="months" nzSize="large">
+                <label nz-radio-button *ngFor="let item of activityInfo.contractList; let i = index"
+                  [nzValue]="i">{{item.months}}個月</label>
+              </nz-radio-group>
+              <div class='fee font-size-2' *ngIf="activityInfo.contractList.length">
+                優惠月費：
+                <span class="font-size-3 color-plum-red-1">
+                  ${{activityInfo.contractList[step1.businessContractType].discountMonthFee/100 || activityInfo.contractList[step1.businessContractType].monthFee/100 || '--'}}
+                </span>
+                行政費：${{activityInfo.contractList[step1.businessContractType].adminFee/100 || '--'}}
+              </div>
+
+              <nz-divider [nzText]="saleTitle"></nz-divider>
+              <ng-template #saleTitle>
+                <i nz-icon nzType="gift" nzTheme="outline"></i>網購優惠
+              </ng-template>
+
+              <div class="sale-content"
+                *ngIf="activityInfo.contractList.length && step1.sale[activityInfo.contractList[step1.businessContractType].months]">
+                <ul class="no-style-ul">
+                  <li
+                    *ngFor="let item of step1.sale[activityInfo.contractList[step1.businessContractType].months].dataLv2List">
+                    {{item.name}}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
           <nz-divider></nz-divider>
 
           <!-- step2 -->
-          <div class="step">
+          <div id="step2" class="step">
             <div class="title">
-              <b>{{ step_2.order }}</b>
-              {{ step_2.name }}
+              <b>{{ step2.order }}</b>
+              {{ step2.name }}
             </div>
             <div class="step-content">
-              <nz-radio-group
-                [(ngModel)]="step_2.modeValue"
-                [nzButtonStyle]="'solid'"
-                formControlName="xx"
-              >
+              <nz-radio-group [(ngModel)]="step2.modeValue" [nzButtonStyle]="'solid'" formControlName="xx">
                 <label nz-radio-button nzValue="A">新號碼上臺</label>
                 <label nz-radio-button nzValue="B">携號上臺</label>
               </nz-radio-group>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>手機號碼</nz-form-label>
+                <nz-form-control nzXs="12" nzErrorTip="手機號碼格式不正確!">
+                  <input *ngIf="step2.modeValue==='A'" nz-input formControlName="phone" minlength="8" maxlength="8"
+                    number disabled />
+                  <input *ngIf="step2.modeValue==='B'" nz-input formControlName="phone" minlength="8" maxlength="8"
+                    number />
+                  <button *ngIf="step2.modeValue==='A'" nz-button>選擇號碼</button>
+                </nz-form-control>
+              </nz-form-item>
+
               <nz-divider></nz-divider>
-              <nz-radio-group
-                [(ngModel)]="step_2.cardValue"
-                nzName="radiogroup"
-                formControlName="dd"
-              >
+
+              <nz-radio-group [(ngModel)]="step2.cardValue" nzName="radiogroup" formControlName="dd">
                 <label nz-radio nzValue="A">實體SIM卡</label>
                 <label nz-radio nzValue="B">esim*</label>
               </nz-radio-group>
+              <span class="tip color-blue-1">請注意：在香港只有指定裝置/智能手機支援 eSIM 功能，申請前請確認使用的iPhone/iPad 支援eSIM功能。</span>
             </div>
           </div>
 
           <nz-divider></nz-divider>
 
           <!-- step3 -->
-          <div class="step">
+          <div id="step3" class="step">
             <div class="title">
-              <b>{{ step_3.order }}</b>
-              {{ step_3.name }}
+              <b>{{ step3.order }}</b>
+              {{ step3.name }}
+            </div>
+            <div class="step-content">
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>英文名字</nz-form-label>
+                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>英文姓氏</nz-form-label>
+                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>性別</nz-form-label>
+                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>出生日期</nz-form-label>
+                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證號碼</nz-form-label>
+                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>聯絡號碼</nz-form-label>
+                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>電郵</nz-form-label>
+                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證件</nz-form-label>
+                <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+                <span class="tip color-blue-1 cert-tip">請注意：在香港只有指定裝置/智能手機支援 eSIM 功能，申請前請確認使用的iPhone/iPad
+                  支援eSIM功能。</span>
+              </nz-form-item>
+              <!-- <br /> -->
+
+              <nz-divider></nz-divider>
+
+              <span class=" tip color-blue-1">上台登記住址（SIM卡將會按照以下住址派送，請確保填寫無誤）</span>
+              <nz-form-item class>
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                  <input type="text" nz-input placeholder="input search text" />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                  <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>地區/區域</nz-form-label>
+                <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>街道名稱</nz-form-label>
+                <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>詳細地址</nz-form-label>
+                <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
+                  <input nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
+
             </div>
           </div>
 
           <nz-divider></nz-divider>
 
           <!-- step4 -->
-          <div class="step">
+          <div id="step4" class="step">
             <div class="title">
-              <b>{{ step_4.order }}</b>
-              {{ step_4.name }}
+              <b>{{ step4.order }}</b>
+              {{ step4.name }}
+            </div>
+            <div class="step-content">
+              <nz-form-item>
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效日期</nz-form-label>
+                <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
+                  <input placeholder="揀選你想服務計劃生效嘅日子" nz-input formControlName="phone" minlength="8" maxlength="8" />
+                </nz-form-control>
+              </nz-form-item>
             </div>
           </div>
-          <!-- </div> -->
         </form>
       </div>
       <nz-divider></nz-divider>
 
       <!-- 返回及下一步 -->
       <div class="btns" nz-row nzType="flex" nzJustify="space-between">
-        <a routerLink="/home" nz-col
-          ><i nz-icon nzType="left" nzTheme="outline"></i>返回</a
-        >
-        <button nz-col nz-button nzType="primary" (click)="next()">
+        <a (click)="back()" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
+        <button nz-col nz-button nzType="primary" [disabled]="!validateForm.valid" (click)="next()">
           下一步
         </button>
       </div>

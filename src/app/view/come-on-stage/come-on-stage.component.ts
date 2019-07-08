@@ -19,6 +19,8 @@ import {
 export class ComeOnStageComponent implements OnInit {
   id = this.route.snapshot.queryParamMap.get('id');
 
+  activityInfo = { contractList: [] };
+
   title = {
     name: '服務計劃',
     desc: '計劃名稱'
@@ -27,30 +29,32 @@ export class ComeOnStageComponent implements OnInit {
   activityDetail = {
     name: '服務計劃詳情',
     items: [
-      { name: '數據用量', value: '無限大' },
-      { name: '本地通話分鐘', value: '無限大' },
-      { name: '額外數據用量', value: '無限大' }
+      { name: '規格説明', value: '--' },
+      { name: '本地通話分鐘', value: '--' }
     ]
   };
 
-  step_1 = {
+  step1 = {
     order: 1,
-    name: '合約期'
+    name: '合約期',
+    businessContractType: 0,
+    sale: {}
   };
 
-  step_2 = {
+  step2 = {
     order: 2,
     name: '請選擇上臺方式',
+    phoneValue: '',
     modeValue: 'A',
     cardValue: 'A'
   };
 
-  step_3 = {
+  step3 = {
     order: 3,
     name: '個人資料'
   };
 
-  step_4 = {
+  step4 = {
     order: 4,
     name: '生效日期'
   };
@@ -70,16 +74,73 @@ export class ComeOnStageComponent implements OnInit {
     }
   }
 
-  dataInit() {
-    if (!!this.id) {
-      this.apiService
-        .post('umall/business/consumer/business/query', {
+  /**
+   * 獲取業務子集詳情信息
+   * @memberof ComeOnStageComponent
+   */
+  getBusinessInfo() {
+    this.apiService
+      .post(
+        'umall/business/consumer/businessInfo/query',
+        {
           id: this.id,
           orgId: '977090533766828033',
           userId: '1010053936724500480',
           appId: 10000188
-        })
-        .subscribe(data => {});
+        },
+        true,
+        '業務詳情'
+      )
+      .subscribe(data => {
+        if (data.returnCode === '1000') {
+          this.activityInfo = data.dataInfo;
+
+          this.activityDetail.items[0].value =
+            data.dataInfo.businessSpecDesc || '--';
+          this.activityDetail.items[1].value = `${data.dataInfo.callMinutes ||
+            '--'}分鐘`;
+        }
+      });
+  }
+
+  /**
+   * 獲取業務子集詳情信息
+   * @memberof ComeOnStageComponent
+   */
+  getSaleAndVasInfo() {
+    this.apiService
+      .post(
+        'umall/business/consumer/businessInfo/getDiscountsAndVas',
+        {
+          id: this.id,
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188
+        },
+        true,
+        '獲取業務優惠及VAS信息'
+      )
+      .subscribe(data => {
+        if (data.returnCode === '1000') {
+          if (data.dataInfo.discDataLv1List.length) {
+            data.dataInfo.discDataLv1List.forEach(item => {
+              if (!!item.months) {
+                this.step1.sale[item.months] = item;
+              }
+            });
+          }
+        }
+      });
+  }
+
+  /**
+   * 頁面數據初始化
+   * @memberof ComeOnStageComponent
+   */
+  dataInit() {
+    if (!!this.id) {
+      this.getBusinessInfo();
+      this.getSaleAndVasInfo();
     } else {
       this.notice.create(
         'warning',
@@ -98,8 +159,13 @@ export class ComeOnStageComponent implements OnInit {
     this.confirm.show = true;
   }
 
+  back() {
+    window.history.back();
+  }
+
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private util: UtilService,
     private notice: NzNotificationService,
     private apiService: ApiService,
@@ -111,25 +177,32 @@ export class ComeOnStageComponent implements OnInit {
     this.dataInit();
     this.validateForm = this.fb.group(
       {
-        firstName: [
+        months: [
           null,
           [
-            Validators.required,
-            Validators.pattern(this.customValidator.hongkongPhone())
+            Validators.required
+            // Validators.pattern(this.customValidator.verCode())
           ]
         ],
         xx: [
           null,
           [
-            Validators.required,
-            Validators.pattern(this.customValidator.verCode())
+            Validators.required
+            // Validators.pattern(this.customValidator.verCode())
           ]
         ],
         dd: [
           null,
           [
-            Validators.required,
-            Validators.pattern(this.customValidator.verCode())
+            Validators.required
+            // Validators.pattern(this.customValidator.verCode())
+          ]
+        ],
+        phone: [
+          null,
+          [
+            Validators.required
+            // Validators.pattern(this.customValidator.verCode())
           ]
         ]
       }

@@ -61,7 +61,8 @@ export class ApiService {
       if (descShow) {
         // TODO: better job of transforming error for user consumption
         this.message.error(
-          `${operation} failed: ${error.error.status} ${error.error.message}`
+          `${operation} failed: ${error.error.status || '網絡錯誤'} ${error
+            .error.message || ''}`
         );
       }
 

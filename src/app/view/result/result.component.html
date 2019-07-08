@@ -1,6 +1,6 @@
 <div class="content-box">
   <div class="info-box">
-    <img src="/assets/image/buy_success.png" />
+    <img src="assets/image/buy_success.png" />
 
     <!-- 提示 -->
     <div class="tip">
@@ -26,11 +26,7 @@
   </button>
 </div>
 
-<nz-modal
-  [(nzVisible)]="uploadModal.isVisible"
-  nzTitle="The first Modal"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
->
+<nz-modal [(nzVisible)]="uploadModal.isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
   <app-upload-cert></app-upload-cert>
 </nz-modal>

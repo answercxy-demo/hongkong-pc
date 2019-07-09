@@ -36,16 +36,15 @@ export class UtilService {
         break;
     }
 
-    // id节点不存在错误抛出
-    if (!document.getElementById(targetId)) {
-      console.warn(`不存在id为${targetId}的节点`);
-      return void 0;
-    }
-
     this.state.anchor.value = '#' + targetId;
 
     // TODO: 这里可能是不准确的一个隐患【待优化】,需要研究angular对于单向绑定的实现机制或者重写锚点实现
     setTimeout(() => {
+      // id节点不存在错误抛出
+      if (!document.getElementById(targetId)) {
+        console.warn(`不存在id为${targetId}的节点`);
+        return void 0;
+      }
       anchorLinkElement.click();
     });
   }

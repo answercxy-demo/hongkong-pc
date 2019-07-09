@@ -9,17 +9,10 @@
 </div>
 
 <div class="content-box">
-  <nz-page-header nzTitle="服務計劃"></nz-page-header>
+  <h1 class="font-size-3 color-green-1">服務計劃</h1>
   <div nz-row nzType="flex" nzJustify="space-between">
-    <app-card
-      *ngFor="let item of activityList; let i = index"
-      nz-col
-      nzMd="12"
-      nzSm="24"
-      nzXs="24"
-      [activityInfo]="item"
-      [type]="cardType"
-    ></app-card>
+    <app-card *ngFor="let item of activityList; let i = index" nz-col nzMd="12" nzSm="24" nzXs="24"
+      [activityInfo]="item" [type]="cardType"></app-card>
     <!-- <div nz-col nzSpan="11">col-4</div> -->
   </div>
 </div>

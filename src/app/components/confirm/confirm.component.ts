@@ -19,9 +19,22 @@ export class ConfirmComponent implements OnInit {
 
   /**
    * 返回表單頁進行更改
+   * @param {*} anchor
    * @memberof ConfirmComponent
    */
-  edit() {}
+  edit(anchor) {
+    this.confirm.show = false;
+    switch (anchor) {
+      case 3:
+        this.util.anchorTo('step3');
+        break;
+      case 4:
+        this.util.anchorTo('step4');
+        break;
+      default:
+        break;
+    }
+  }
 
   /**
    * 返回重新填寫表單

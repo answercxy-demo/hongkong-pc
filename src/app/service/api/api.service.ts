@@ -14,10 +14,21 @@ export class ApiService {
   // private origin = 'http://devcloud.vpclub.cn';
 
   /**
+   * 獲取origin
+   * @returns
+   * @memberof ApiService
+   */
+  getOrigin() {
+    return this.origin;
+  }
+
+  /**
    * 請求封裝
-   * @param api
-   * @param options
-   * @param mask [是否顯示加載中開關]
+   * @param api [string]
+   * @param options [object]
+   * @param mask [boolean] 是否顯示加載中開關
+   * @param desc [string] 接口描述
+   * @param descShow [boolean] 是否啓用錯誤反饋
    */
   post(
     api: string = '',
@@ -61,8 +72,8 @@ export class ApiService {
       if (descShow) {
         // TODO: better job of transforming error for user consumption
         this.message.error(
-          `${operation} failed: ${error.error.status || '網絡錯誤'} ${error
-            .error.message || ''}`
+          `${operation} 失敗: ${error.error.status || '網絡錯誤'} ${error.error
+            .message || ''}`
         );
       }
 

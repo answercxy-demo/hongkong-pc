@@ -29,7 +29,7 @@ export class PackageListComponent implements OnInit {
           appId: 10000188
         },
         true,
-        '業務包列表'
+        '業務包列表獲取'
       )
       .subscribe(data => {
         if (data.returnCode === '1000') {

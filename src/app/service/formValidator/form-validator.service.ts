@@ -36,5 +36,31 @@ export class FormValidatorService {
     return /[0-9a-zA-Z]{4}/;
   }
 
+  /**
+   * 英文
+   * @returns {RegExp}
+   * @memberof FormValidatorService
+   */
+  en(): RegExp {
+    return /[a-zA-Z]/;
+  }
+
+  number(): RegExp {
+    return /[0-9]/;
+  }
+
+  /**
+   * 香港身份證前半段
+   * @returns {RegExp}
+   * @memberof FormValidatorService
+   */
+  idCardHead(): RegExp {
+    return /^[A-Za-z]{1}\\d{6}$/;
+  }
+
+  idCardEnd(): RegExp {
+    return /^[0-9aA]$/;
+  }
+
   constructor() {}
 }

@@ -18,7 +18,7 @@ import { CardComponent } from './components/card/card.component';
 import { ComeOnStageComponent } from './view/come-on-stage/come-on-stage.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
-import { PhoneQueryComponent } from './view/phone-query/phone-query.component';
+import { PhoneQueryComponent } from './components/phone-query/phone-query.component';
 import { MessageComponent } from './components/message/message.component';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
 import { OrderQueryComponent } from './view/order-query/order-query.component';
@@ -59,6 +59,7 @@ registerLocaleData(zh);
     { provide: NZ_I18N, useValue: zh_TW },
     { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
+  entryComponents: [PhoneQueryComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

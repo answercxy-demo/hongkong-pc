@@ -26,7 +26,7 @@
 
   <!-- 個人資料 -->
   <div class="descriptions-box">
-    <a><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
+    <a (click)="edit(3)"><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
     <nz-descriptions nzTitle="个人资料" nzBordered>
       <nz-descriptions-item nzTitle="性別">男</nz-descriptions-item>
       <nz-descriptions-item nzTitle="姓氏">zhang</nz-descriptions-item>
@@ -41,7 +41,7 @@
 
   <!-- 合約生效日期 -->
   <div class="descriptions-box">
-    <a><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
+    <a (click)="edit(4)"><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
     <nz-descriptions nzTitle="合約生效日期" nzBordered [nzColumn]="{ md: 2, sm: 2, xs: 1 }">
       <nz-descriptions-item nzTitle="預計生效日期">2019-09-03</nz-descriptions-item>
       <nz-descriptions-item nzTitle="需于此日期前提交文件">2019-09-13</nz-descriptions-item>

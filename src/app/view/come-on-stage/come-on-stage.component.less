@@ -97,6 +97,22 @@
         }
       }
 
+      #step3 {
+        nz-radio-group,
+        nz-input-group {
+          margin: 0;
+        }
+        .top-tip {
+          display: inline-block;
+          margin-bottom: 6px;
+        }
+        .card-group {
+          display: table;
+          width: auto !important;
+          margin-top: 4px;
+        }
+      }
+
       .step {
         .title {
           color: @hk-green-1;
@@ -127,6 +143,10 @@
   }
 }
 
+.ant-modal-footer {
+  text-align: center;
+}
+
 @media (min-width: 768px) {
   .form-box .info .desc {
     position: sticky;
@@ -142,11 +162,17 @@
 }
 
 @media (max-width: 576px) {
+  .card-group {
+    margin-bottom: 24px !important;
+  }
   nz-form-item {
     margin-bottom: 0;
   }
   nz-form-control {
     margin-bottom: 24px;
+  }
+  nz-input-group[nzSearch] {
+    margin-bottom: 24px !important;
   }
   .cert-tip {
     display: inline-block;

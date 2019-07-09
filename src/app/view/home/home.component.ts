@@ -12,6 +12,8 @@ export class HomeComponent implements OnInit {
   // 業務子集，bussinessInfo
   cardType = 'business';
 
+  title = '';
+
   activityList: any[] = [];
 
   /**
@@ -35,6 +37,7 @@ export class HomeComponent implements OnInit {
       )
       .subscribe(data => {
         if (data.returnCode === '1000') {
+          this.title = data.dataInfo.packageName;
           this.activityList = data.dataInfo.businessList || [];
 
           if (!this.activityList.length) {

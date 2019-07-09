@@ -42,11 +42,11 @@ export class FormValidatorService {
    * @memberof FormValidatorService
    */
   en(): RegExp {
-    return /[a-zA-Z]/;
+    return /^[a-zA-Z][a-zA-Z]*$/;
   }
 
   number(): RegExp {
-    return /[0-9]/;
+    return /^[0-9][0-9]*$/;
   }
 
   /**
@@ -55,7 +55,7 @@ export class FormValidatorService {
    * @memberof FormValidatorService
    */
   idCardHead(): RegExp {
-    return /^[A-Za-z]{1}\\d{6}$/;
+    return /^[A-Za-z]{1}[0-9]{6}$/;
   }
 
   idCardEnd(): RegExp {

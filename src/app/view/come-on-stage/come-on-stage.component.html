@@ -92,7 +92,7 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>手機號碼</nz-form-label>
                 <nz-form-control nzXs="12" nzErrorTip="手機號碼格式不正確!">
-                  <input *ngIf="step2.modeValue===1" nz-input formControlName="phone" minlength="8" maxlength="8" number
+                  <input *ngIf="step2.modeValue===1" nz-input formControlName="choosePhone" minlength="8" maxlength="8" number
                     disabled />
                   <input *ngIf="step2.modeValue===2" nz-input formControlName="choosePhone" minlength="8" maxlength="8"
                     number />
@@ -102,7 +102,7 @@
 
               <nz-divider></nz-divider>
 
-              <nz-radio-group [(ngModel)]="step2.cardValue" nzName="radiogroup" formControlName="dd">
+              <nz-radio-group [(ngModel)]="step2.cardValue" nzName="radiogroup" formControlName="card">
                 <label nz-radio nzValue="A">實體SIM卡</label>
                 <label nz-radio nzValue="B">esim*</label>
               </nz-radio-group>
@@ -122,12 +122,12 @@
               <!-- 英文名字，英文姓氏 -->
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>英文名字</nz-form-label>
-                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                <nz-form-control nzXs="8" nzErrorTip="英文名字格式不正確!">
                   <input nz-input formControlName="firstName" minlength="2" maxlength="50" />
                 </nz-form-control>
 
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>英文姓氏</nz-form-label>
-                <nz-form-control nzXs="8" nzErrorTip="手機號碼格式不正確!">
+                <nz-form-control nzXs="8" nzErrorTip="英文姓氏格式不正確!">
                   <input nz-input formControlName="lastName" minlength="2" maxlength="50" />
                 </nz-form-control>
               </nz-form-item>
@@ -152,19 +152,14 @@
               <!-- 身份證號碼 -->
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證號碼</nz-form-label>
-                <nz-input-group class="card-group">
-                  <nz-form-control style="display: table-cell;width:auto !important" nzErrorTip="身份證號碼格式不正確!">
-                    <input nz-input minlength="7" maxlength="7" formControlName="idCardHead" style="width: 100px" />
-                  </nz-form-control>
-                  <input type="text" disabled nz-input placeholder="(" value="("
-                    style="width: 30px; border-left: 0px;border-right: 0; pointer-events: none; background-color: rgb(255, 255, 255);" />
-                  <nz-form-control style="display: table-cell;width:auto !important" nzErrorTip="身份證號碼格式不正確!">
-                    <input type="text" minlength="1" maxlength="1" nz-input style="width:40px; text-align: center;"
-                      formControlName="idCardEnd" />
-                  </nz-form-control>
-                  <input type="text" disabled nz-input placeholder=")" value=")"
-                    style="position:absolute;left:170px;top:0;width: 30px; border-left: 0px; pointer-events: none; background-color: rgb(255, 255, 255);" />
-                </nz-input-group>
+                <nz-form-control nzXs="4" nzErrorTip="身份證號碼格式不正確!">
+                    <input nz-input minlength="7" maxlength="7" formControlName="idCardHead"  />
+                </nz-form-control>
+                <nz-form-control nzXs="1" style="text-align: center;">(</nz-form-control>
+                <nz-form-control nzXs="2" nzErrorTip="身份證號碼格式不正確!">
+                  <input type="text" minlength="1" maxlength="1" nz-input  formControlName="idCardEnd" style="text-align: center;" />
+                </nz-form-control>
+                <nz-form-control nzXs="1" style="text-align: center;">)</nz-form-control>
               </nz-form-item>
 
               <!-- 聯絡電話，電郵 -->
@@ -183,7 +178,7 @@
               <!-- 身份證件副本上載 -->
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證件</nz-form-label>
-                <nz-form-control nzXs="20" nzErrorTip="請上載身份證件副本!">
+                <nz-form-control class="cert-form-control" nzXs="20" nzErrorTip="請上載身份證件副本!">
                   <input nz-input formControlName="file" type="hidden" [(ngModel)]='step3.certFileUrlList' />
                   <nz-upload nzFileType="image/png,image/jpeg,image/gif" [nzSize]="1024*5" nzName="fileData"
                     (nzChange)="certFileChange($event)" [nzAction]="step3.uploadAction">

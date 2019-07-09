@@ -286,8 +286,7 @@ export class ComeOnStageComponent implements OnInit {
         birth: [null, [Validators.required]],
         idCardHead: [
           null,
-          [Validators.required],
-          pattern(validator.idCardHead())
+          [Validators.required, pattern(validator.idCardHead())]
         ],
         idCardEnd: [
           null,
@@ -297,33 +296,15 @@ export class ComeOnStageComponent implements OnInit {
           null,
           [Validators.required, pattern(validator.hongkongPhone())]
         ],
-        email: [],
-        file: [],
-        area: [],
-        street: [],
-        address: [],
-        date: [],
-        months: [
-          null,
-          [
-            Validators.required
-            // Validators.pattern(this.customValidator.verCode())
-          ]
-        ],
-        registerType: [
-          null,
-          [
-            Validators.required
-            // Validators.pattern(this.customValidator.verCode())
-          ]
-        ],
-        dd: [
-          null,
-          [
-            Validators.required
-            // Validators.pattern(this.customValidator.verCode())
-          ]
-        ]
+        email: [null, [Validators.required]],
+        file: [null, [Validators.required]],
+        area: [null, [Validators.required]],
+        street: [null, [Validators.required]],
+        address: [null, [Validators.required]],
+        date: [null, [Validators.required]],
+        months: [null, []],
+        registerType: [null, [Validators.required]],
+        card: [null, [Validators.required]]
       }
       // { updateOn: 'blur' }
     );
@@ -336,11 +317,15 @@ export class ComeOnStageComponent implements OnInit {
   certFileChange(info) {
     const fileUrlArr = [];
     for (const item of info.fileList) {
-      if (item.status === 'done' && item.response.returnCode === '1000') {
+      if (
+        item.status === 'done' &&
+        item.response &&
+        item.response.returnCode.toString() === '1000'
+      ) {
         fileUrlArr.push(item.response.dataInfo.url);
       }
     }
-
+    console.log(fileUrlArr);
     this.step3.certFileUrlList = fileUrlArr;
   }
 
@@ -349,6 +334,8 @@ export class ComeOnStageComponent implements OnInit {
    * @memberof ComeOnStageComponent
    */
   next() {
+    console.log(this.validateForm);
+    return;
     for (const i of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();

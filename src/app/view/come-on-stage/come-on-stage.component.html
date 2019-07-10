@@ -10,7 +10,7 @@
 </nz-breadcrumb>
 
 <!-- 包括优惠活动表单及详情  -->
-<div *ngIf="!confirm.show">
+<div [hidden]="confirm.show">
   <!-- 优惠活动 -->
   <div class="content-box">
     <!-- 标题 -->
@@ -58,13 +58,15 @@
                 行政費：${{activityInfo.contractList[step1.businessContractType].adminFee/100 || '--'}}
               </div>
 
-              <nz-divider [nzText]="saleTitle"></nz-divider>
+              <nz-divider
+                *ngIf="activityInfo.contractList.length && step1.sale[activityInfo.contractList[step1.businessContractType].months] && step1.sale[activityInfo.contractList[step1.businessContractType].months].dataLv2List.length"
+                [nzText]="saleTitle"></nz-divider>
               <ng-template #saleTitle>
                 <i nz-icon nzType="gift" nzTheme="outline"></i>網購優惠
               </ng-template>
 
               <div class="sale-content"
-                *ngIf="activityInfo.contractList.length && step1.sale[activityInfo.contractList[step1.businessContractType].months]">
+                *ngIf="activityInfo.contractList.length && step1.sale[activityInfo.contractList[step1.businessContractType].months] && step1.sale[activityInfo.contractList[step1.businessContractType].months].dataLv2List.length">
                 <ul class="no-style-ul">
                   <li
                     *ngFor="let item of step1.sale[activityInfo.contractList[step1.businessContractType].months].dataLv2List">
@@ -84,7 +86,8 @@
               {{ step2.name }}
             </div>
             <div class="step-content">
-              <nz-radio-group [(ngModel)]="step2.modeValue" [nzButtonStyle]="'solid'" formControlName="registerType">
+              <nz-radio-group [(ngModel)]="step2.modeValue" [nzButtonStyle]="'solid'" formControlName="registerType"
+                (ngModelChange)="registerTypeChange()">
                 <label nz-radio-button [nzValue]="1">新號碼上臺</label>
                 <label nz-radio-button [nzValue]="2">携號上臺</label>
               </nz-radio-group>
@@ -92,10 +95,10 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>手機號碼</nz-form-label>
                 <nz-form-control nzXs="12" nzErrorTip="手機號碼格式不正確!">
-                  <input *ngIf="step2.modeValue===1" nz-input formControlName="choosePhone" minlength="8" maxlength="8" number
-                    disabled />
-                  <input *ngIf="step2.modeValue===2" nz-input formControlName="choosePhone" minlength="8" maxlength="8"
-                    number />
+                  <input *ngIf="step2.modeValue===1" [(ngModel)]="step2.phoneValue" nz-input
+                    formControlName="choosePhone" minlength="8" maxlength="8" number disabled />
+                  <input *ngIf="step2.modeValue===2" [(ngModel)]="step2.phoneValue" nz-input
+                    formControlName="choosePhone" minlength="8" maxlength="8" number />
                   <button *ngIf="step2.modeValue===1" nz-button (click)="openPhoneModal()">選擇號碼</button>
                 </nz-form-control>
               </nz-form-item>
@@ -137,27 +140,28 @@
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>性別</nz-form-label>
                 <nz-form-control nzXs="8" nzErrorTip="請選擇性別!">
                   <nz-radio-group [(ngModel)]="step3.sex" formControlName="sex">
-                    <label nz-radio nzValue="1">男</label>
-                    <label nz-radio nzValue="2">女</label>
+                    <label nz-radio [nzValue]="1">男</label>
+                    <label nz-radio [nzValue]="2">女</label>
                   </nz-radio-group>
                 </nz-form-control>
 
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>出生日期</nz-form-label>
                 <nz-form-control nzXs="8" nzErrorTip="日期格式不正確!">
-                  <nz-date-picker [nzDisabledDate]="step3.disabledBirthDate" [ngModel]="step3.currentDate"
-                    formControlName="birth"></nz-date-picker>
+                  <nz-date-picker [nzShowToday]="false" [nzDisabledDate]="step3.disabledBirthDate"
+                    [ngModel]="step3.currentDate" formControlName="birth"></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
 
               <!-- 身份證號碼 -->
-              <nz-form-item>
+              <nz-form-item class="cert-item">
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證號碼</nz-form-label>
                 <nz-form-control nzXs="4" nzErrorTip="身份證號碼格式不正確!">
-                    <input nz-input minlength="7" maxlength="7" formControlName="idCardHead"  />
+                  <input nz-input minlength="7" maxlength="7" formControlName="idCardHead" />
                 </nz-form-control>
                 <nz-form-control nzXs="1" style="text-align: center;">(</nz-form-control>
                 <nz-form-control nzXs="2" nzErrorTip="身份證號碼格式不正確!">
-                  <input type="text" minlength="1" maxlength="1" nz-input  formControlName="idCardEnd" style="text-align: center;" />
+                  <input type="text" minlength="1" maxlength="1" nz-input formControlName="idCardEnd"
+                    style="text-align: center;" />
                 </nz-form-control>
                 <nz-form-control nzXs="1" style="text-align: center;">)</nz-form-control>
               </nz-form-item>
@@ -195,19 +199,32 @@
               <span class=" tip color-blue-1 top-tip">上台登記住址（SIM卡將會按照以下住址派送，請確保填寫無誤）</span>
               <nz-form-item>
                 <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                  <input type="text" nz-input placeholder="請輸入地址信息搜索（兩個字以上）" />
+                  <input id="searchText" type="text" nz-input placeholder="請輸入地址信息搜索（兩個字以上）"
+                    (keydown)="enterSearch($event)" />
                 </nz-input-group>
+                <nz-list *ngIf="step3.searchShow" [nzLoading]="step3.searchLoading" [nzDataSource]="step3.searchData"
+                  nzBordered [nzRenderItem]="defaultItem">
+                  <a class="close" (click)="step3.searchShow=false;"><i nz-icon nzType="close-circle"
+                      nzTheme="outline"></i>關閉</a>
+                  <ng-template #defaultItem let-item>
+                    <nz-list-item (click)="chooseSearchItem(item)">
+                      <span class="ant-typography"><mark>[地區]</mark></span>
+                      {{ item }}
+                    </nz-list-item>
+                  </ng-template>
+                </nz-list>
                 <ng-template #suffixIconButton>
-                  <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                  <button nz-button nzType="primary" nzSearch (click)="search()"><i nz-icon
+                      nzType="search"></i></button>
                 </ng-template>
               </nz-form-item>
 
               <!-- 地區/區域 -->
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>地區/區域</nz-form-label>
-                <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
-                  <nz-cascader formControlName="area" [(ngModel)]="step3.addressValue"
-                    [nzOptions]="step3.addressOptions" nzPlaceholder="請選擇地區"> </nz-cascader>
+                <nz-form-control nzXs="20" nzErrorTip="請選擇地區/區域!">
+                  <nz-cascader formControlName="areaAndDistrict" [(ngModel)]="step3.areaAndDistrictValue"
+                    [nzOptions]="step3.areaAndDistrictOptions" nzPlaceholder="請選擇地區"> </nz-cascader>
                 </nz-form-control>
               </nz-form-item>
 
@@ -215,7 +232,8 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>街道名稱</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="請輸入大廈名稱/街道名稱【不要超過50字符】!">
-                  <input nz-input formControlName="street" minlength="2" maxlength="50" />
+                  <input nz-input formControlName="street" minlength="2" maxlength="50"
+                    [(ngModel)]="step3.streetValue" />
                 </nz-form-control>
               </nz-form-item>
 
@@ -223,8 +241,8 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>詳細地址</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="請輸入詳細地址【不要超過200字符】!">
-                  <textarea nz-input minlength="2" maxlength="200" formControlName="address" placeholder="請輸入您的詳細地址"
-                    nzAutosize></textarea>
+                  <textarea [(ngModel)]="step3.addressValue" nz-input minlength="2" maxlength="200"
+                    formControlName="address" placeholder="請輸入您的詳細地址" nzAutosize></textarea>
                 </nz-form-control>
               </nz-form-item>
 
@@ -242,9 +260,9 @@
             <div class="step-content">
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效日期</nz-form-label>
-                <nz-form-control nzXs="20" nzErrorTip="手機號碼格式不正確!">
-                  <nz-date-picker [nzDisabledDate]="step4.disabledDate" [ngModel]="step4.currentDate"
-                    formControlName="date"></nz-date-picker>
+                <nz-form-control nzXs="20" nzErrorTip="請選擇生效日期!">
+                  <nz-date-picker [nzShowToday]="false" [nzDisabledDate]="step4.disabledDate" formControlName="date">
+                  </nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
             </div>

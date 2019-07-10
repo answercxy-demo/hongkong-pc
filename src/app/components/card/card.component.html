@@ -1,6 +1,6 @@
 <div [ngSwitch]="type">
   <!-- 業務子集卡片 -->
-  <nz-card nzHoverable *ngSwitchCase="BUSINESS_TYPE">
+  <nz-card class="font-size-base" nzHoverable *ngSwitchCase="BUSINESS_TYPE">
     <div class="tag" *ngIf="!!activityInfo.businessSpec">
       {{ activityInfo.businessSpec }}
     </div>
@@ -12,10 +12,24 @@
         <div nz-col nzMd="15" nzSm="15" nzXs="24">
           <div class="font-size-1 color-plum-red-2">服務計劃</div>
           <div class="font-size-1">{{ activityInfo.businessName }}</div>
-          <div class="dotted-box">
+          <!-- && !!activityInfo.saleList[0].dataLv2List && !!activityInfo.saleList[0].dataLv2List.length -->
+          <div class="dotted-box" *ngIf="!!activityInfo.saleList && !!activityInfo.saleList.length"
+            [ngStyle]="{'height': dottedBox.height}">
             <span class="title">
               <i nz-icon nzType="gift" nzTheme="outline"></i>網購優惠
             </span>
+            <ul class="sale-list no-style-ul">
+              <li *ngFor="let item of activityInfo.saleList[businessContractType].dataLv2List; let i=index">
+                <i nz-icon class="color-green-1" nzType="right" nzTheme="outline"
+                  style="margin-right: 5px;"></i>{{item.name}}
+              </li>
+            </ul>
+            <a *ngIf="dottedBox.isLarge" class="color-plum-red-1"
+              (click)="dottedBox.height='150px';dottedBox.isLarge=false"><i nz-icon nzType="caret-up"
+                nzTheme="outline"></i></a>
+            <a *ngIf="!dottedBox.isLarge" class="color-plum-red-1"
+              (click)="dottedBox.height='200px';dottedBox.isLarge=true"><i nz-icon nzType="caret-down"
+                nzTheme="outline"></i></a>
           </div>
         </div>
       </div>

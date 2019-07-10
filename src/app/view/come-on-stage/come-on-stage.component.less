@@ -93,7 +93,7 @@
 
       #step2 {
         nz-form-item nz-form-label {
-          width: 74px;
+          // width: 74px;
         }
       }
 
@@ -108,6 +108,26 @@
         }
         .cert-form-control {
           padding-bottom: 5px;
+        }
+        nz-list {
+          max-height: 300px;
+          overflow: auto;
+          padding-top: 30px;
+
+          .close {
+            position: absolute;
+            line-height: 30px;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
+        nz-list-item {
+          cursor: pointer;
+          transition: color 0.3s;
+        }
+        nz-list-item:hover {
+          color: @hk-green-1;
         }
       }
 
@@ -160,6 +180,18 @@
 }
 
 @media (max-width: 576px) {
+  #step3 nz-list {
+    margin-top: -24px;
+  }
+  .cert-item nz-form-control {
+    width: 5%;
+  }
+  .cert-item nz-form-control:nth-child(2n) {
+    width: 70%;
+  }
+  .cert-item nz-form-control:nth-child(4) {
+    width: 20%;
+  }
   .card-group {
     margin-bottom: 24px !important;
   }

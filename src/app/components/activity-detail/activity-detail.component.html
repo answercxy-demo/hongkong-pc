@@ -1,13 +1,12 @@
 <div class="detail-box" style="background: #f3f3f3 url(assets/image/tab-arrow-bg.png) no-repeat center top;
 ">
-  <div class="content-box" nz-row>
+  <div class="content-box" nz-row *ngIf="!!activityDetail.length">
     <div class="btns" nz-col nzMd="6" nzSm="24" nzXs="24">
       <nz-radio-group [(ngModel)]="radioValue">
-        <label nz-radio-button nzValue="A">月費詳情</label>
-        <br />
-        <label nz-radio-button nzValue="B">網購須知</label>
+        <label nz-radio-button *ngFor="let item of activityDetail;let i = index" [nzValue]="i">{{item.name}}</label>
       </nz-radio-group>
     </div>
-    <div class="detail" nz-col nzMd="18" nzSm="24" nzXs="24"></div>
+    <div class="detail" nz-col nzMd="18" nzSm="24" nzXs="24" [innerHTML]="activityDetail[radioValue].value">
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
 import { ApiService } from '../../service/api/api.service';
 
@@ -10,10 +10,13 @@ import { ApiService } from '../../service/api/api.service';
 export class PhoneQueryComponent implements OnInit {
   @Input() title: string;
   @Input() linkTitle: string;
+  @Input() selectPhone;
 
   phoneList = [];
 
-  size = 1;
+  pageNumber = 1;
+
+  phone = '';
 
   /**
    * 獲取電話號碼列表
@@ -24,8 +27,8 @@ export class PhoneQueryComponent implements OnInit {
       .post(
         'umall/business/consumer/phoneNo/getList',
         {
-          pageSize: 25,
-          pageNumber: 1,
+          pageSize: 20,
+          pageNumber: this.pageNumber,
           type: 1,
           orgId: '977090533766828033',
           userId: '1010053936724500480',
@@ -37,8 +40,44 @@ export class PhoneQueryComponent implements OnInit {
       .subscribe(data => {
         if (data.returnCode === '1000') {
           this.phoneList = data.records;
+          this.selectedClear();
+          this.pageNumber++;
+        } else if (data.returnCode === '1002') {
+          this.pageNumber = 1;
         }
       });
+  }
+
+  /**
+   * 清空選中號碼或初始化selected屬性
+   * @memberof PhoneQueryComponent
+   */
+  selectedClear() {
+    this.phoneList.forEach(item => {
+      item.selected = false;
+    });
+    this.phone = '';
+  }
+
+  /**
+   * 選中某號碼
+   * @param {*} e
+   * @param {*} item
+   * @memberof PhoneQueryComponent
+   */
+  selectedFunc(e, item) {
+    this.selectedClear();
+    item.selected = true;
+    this.phone = item.phoneNo;
+  }
+
+  /**
+   * 將選中號碼回顯至上臺頁
+   * @memberof PhoneQueryComponent
+   */
+  next() {
+    this.selectPhone(this.phone);
+    this.modal.close();
   }
 
   constructor(private modal: NzModalRef, private apiService: ApiService) {}

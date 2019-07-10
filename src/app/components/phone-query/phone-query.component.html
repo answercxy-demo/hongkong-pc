@@ -2,7 +2,15 @@
   <div class="tag bg-plum-red-1"></div>
   <blockquote>{{ title }}</blockquote>
   <div class='content' nzRow>
-    <div nz-col nzSpan="6">col-12</div>
+    <div nz-col nzSpan="6" *ngFor="let item of phoneList">
+      <div class="phone-box {{item.selected ? 'selected' : ''}}" title="{{item.phoneNo}}"
+        (click)="selectedFunc($event,item)">
+        {{item.phoneNo}}
+      </div>
+    </div>
   </div>
-  <a (click)="getPhoneNumbers(size)">{{linkTitle}}</a>
+  <div class="a-box">
+    <a (click)="getPhoneNumbers()">{{linkTitle}}</a>
+  </div>
+  <button nz-button nzType="primary" [disabled]="!!phone?null:true" (click)="next()">選擇此號碼</button>
 </div>

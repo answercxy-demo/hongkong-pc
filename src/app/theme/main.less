@@ -19,6 +19,14 @@ nz-radio-group[nzSize='xLarge'] .ant-radio-inner::after {
   top: 7px;
 }
 
+.ant-input {
+  height: 37px;
+}
+
+textarea.ant-input {
+  min-height: 37px;
+}
+
 // .ant-input,
 // .ant-btn {
 //   height: 38px;
@@ -74,6 +82,24 @@ nz-radio-group[nzSize='xLarge'] .ant-radio-inner::after {
 ul.no-style-ul {
   list-style: none;
   padding-left: 0;
+}
+
+.affix-box {
+  right: 100px;
+  bottom: 120px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .affix-box {
+    right: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .affix-box {
+    right: 20px;
+  }
 }
 
 // --------------------------------------------------------------------------------------------------------------
@@ -137,6 +163,10 @@ ul.no-style-ul {
 
 .bd-blue-1 {
   border-color: @hk-blue-1;
+}
+
+.font-size-base {
+  font-size: @hk-font-size-base;
 }
 
 .font-size-1 {

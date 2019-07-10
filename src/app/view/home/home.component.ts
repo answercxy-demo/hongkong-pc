@@ -17,10 +17,45 @@ export class HomeComponent implements OnInit {
   activityList: any[] = [];
 
   /**
-   * 初始化列表數據
+   * 獲取業務子集優惠及VAS信息
+   * @param {string} idString
+   * @param {number} index
    * @memberof HomeComponent
    */
-  dataInit() {
+  getSaleAndVasInfo(idString: string, index: number) {
+    this.apiService
+      .post(
+        'umall/business/consumer/businessInfo/getDiscountsAndVas',
+        {
+          id: idString,
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188
+        },
+        true,
+        '獲取業務優惠及VAS信息'
+      )
+      .subscribe(data => {
+        if (data.returnCode === '1000') {
+          if (data.dataInfo.discDataLv1List.length) {
+            data.dataInfo.discDataLv1List.forEach(item => {
+              if (!!item.months) {
+                if (!this.activityList[index].saleList) {
+                  this.activityList[index].saleList = [];
+                }
+                this.activityList[index].saleList.push(item);
+              }
+            });
+          }
+        }
+      });
+  }
+
+  /**
+   * 獲取業務列表
+   * @memberof HomeComponent
+   */
+  getbusinessList() {
     this.apiService
       .post(
         'umall/business/consumer/packageInfo/query',
@@ -48,12 +83,21 @@ export class HomeComponent implements OnInit {
             );
           }
 
-          // 默認選中第一條contract
-          this.activityList.forEach(item => {
+          // 默認選中第一條contract,並查詢優惠
+          this.activityList.forEach((item, index) => {
             item.selectedContract = item.contractList[0];
+            this.getSaleAndVasInfo(item.id, index);
           });
         }
       });
+  }
+
+  /**
+   * 初始化列表數據
+   * @memberof HomeComponent
+   */
+  dataInit() {
+    this.getbusinessList();
   }
 
   constructor(

@@ -16,6 +16,11 @@ export class CardComponent implements OnInit {
   // business
   businessContractType = 0;
 
+  dottedBox = {
+    isLarge: false,
+    height: '150px'
+  };
+
   content = {};
 
   footerBtn = {
@@ -42,5 +47,7 @@ export class CardComponent implements OnInit {
 
   constructor(private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.activityInfo);
+  }
 }

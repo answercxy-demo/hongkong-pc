@@ -58,6 +58,11 @@ export class FormValidatorService {
     return /^[A-Za-z]{1}[0-9]{6}$/;
   }
 
+  /**
+   * 香港身份證後半段
+   * @returns {RegExp}
+   * @memberof FormValidatorService
+   */
   idCardEnd(): RegExp {
     return /^[0-9aA]$/;
   }

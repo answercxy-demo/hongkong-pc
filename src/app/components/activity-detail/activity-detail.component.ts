@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ActivityDetailComponent implements OnInit {
   @Input() activityDetail;
 
-  radioValue = 'A';
+  radioValue = 0;
 
   constructor() {}
 

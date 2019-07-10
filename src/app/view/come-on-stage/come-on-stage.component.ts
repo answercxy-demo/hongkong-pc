@@ -21,7 +21,7 @@ import { PhoneQueryComponent } from 'src/app/components/phone-query/phone-query.
 export class ComeOnStageComponent implements OnInit {
   id = this.route.snapshot.queryParamMap.get('id');
 
-  activityInfo = { contractList: [] };
+  activityInfo = { contractList: [], businessImg: '' };
 
   title = {
     name: '服務計劃',
@@ -54,7 +54,10 @@ export class ComeOnStageComponent implements OnInit {
   step3 = {
     order: 3,
     name: '個人資料',
-    sex: '1',
+    sex: 1,
+    searchData: [],
+    searchShow: false,
+    searchLoading: true,
     disabledBirthDate: (current: Date): boolean => {
       const nowDate = new Date();
       const birthYear = nowDate.getFullYear() - 18;
@@ -67,7 +70,7 @@ export class ComeOnStageComponent implements OnInit {
     },
     currentDate: new Date(2000, 0, 1),
     certFileUrlList: [],
-    addressOptions: [
+    areaAndDistrictOptions: [
       {
         value: '香港',
         label: '香港',
@@ -84,7 +87,9 @@ export class ComeOnStageComponent implements OnInit {
         children: []
       }
     ],
-    addressValue: ['香港', '銅鑼灣'],
+    areaAndDistrictValue: ['香港', '銅鑼灣'],
+    addressValue: '',
+    streetValue: '',
     uploadAction: `${this.apiService.getOrigin()}/moses/upload/file/upload`
   };
 
@@ -93,17 +98,34 @@ export class ComeOnStageComponent implements OnInit {
     name: '生效日期',
     //   New sales: 周四至周五是 T+4     周日至周三是 T+2          周六是T+3
     // M N P:       周四至周五是T+5      周日至周三是T+3              周六是T+4
-    disabledDate: current => {
+    disabledDate: (current: Date): boolean => {
+      const nowDate = new Date();
+      const nowDateNum = Number(nowDate);
+      const ONE_DAY_NUM = 86400000;
+      let afterDayNum = 2;
+
+      if (nowDate.getDay() === 6) {
+        afterDayNum++;
+      } else if (nowDate.getDay() === 4 || nowDate.getDay() === 5) {
+        afterDayNum += 2;
+      }
+
       switch (this.step2.modeValue) {
+        // 新號上臺
         case 1:
           break;
+        // 携號上臺
         case 2:
+          afterDayNum++;
           break;
+        // 預付賺後付
         case 3:
           break;
         default:
           break;
       }
+
+      return current < new Date(nowDateNum + afterDayNum * ONE_DAY_NUM);
     }
   };
 
@@ -113,7 +135,7 @@ export class ComeOnStageComponent implements OnInit {
     show: false
   };
 
-  detail = {};
+  detail = [];
 
   /**
    * 獲取業務子集詳情信息
@@ -140,6 +162,20 @@ export class ComeOnStageComponent implements OnInit {
             data.dataInfo.businessSpecDesc || '--';
           this.activityDetail.items[1].value = `${data.dataInfo.callMinutes ||
             '--'}分鐘`;
+
+          if (!!data.dataInfo.businessInfo) {
+            this.detail.push({
+              name: '月費詳情',
+              value: data.dataInfo.businessInfo
+            });
+          }
+
+          if (!!data.dataInfo.businessDesc) {
+            this.detail.push({
+              name: '條款及明細',
+              value: data.dataInfo.businessDesc
+            });
+          }
         }
       });
   }
@@ -196,21 +232,21 @@ export class ComeOnStageComponent implements OnInit {
           for (const item of data.records) {
             switch (item.areaId) {
               case '1':
-                this.step3.addressOptions[0].children.push({
+                this.step3.areaAndDistrictOptions[0].children.push({
                   label: item.districtTcResult,
                   value: item.districtTcResult,
                   isLeaf: true
                 });
                 break;
               case '2':
-                this.step3.addressOptions[1].children.push({
+                this.step3.areaAndDistrictOptions[1].children.push({
                   label: item.districtTcResult,
                   value: item.districtTcResult,
                   isLeaf: true
                 });
                 break;
               case '3':
-                this.step3.addressOptions[2].children.push({
+                this.step3.areaAndDistrictOptions[2].children.push({
                   label: item.districtTcResult,
                   value: item.districtTcResult,
                   isLeaf: true
@@ -243,6 +279,76 @@ export class ComeOnStageComponent implements OnInit {
   }
 
   /**
+   * 搜索相關地區信息信息
+   * @memberof ComeOnStageComponent
+   */
+  search() {
+    const ele: HTMLInputElement = document.querySelector('input#searchText');
+    const value = ele.value;
+
+    this.step3.searchLoading = true;
+    this.step3.searchData = [];
+    this.step3.searchShow = true;
+    this.apiService
+      .post(
+        'umall/business/consumer/maparea/search',
+        {
+          wd: value,
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188
+        },
+        false,
+        '搜索地址信息'
+      )
+      .subscribe(data => {
+        this.step3.searchLoading = false;
+
+        if (data.returnCode === '1000') {
+          for (const item of data.records) {
+            this.step3.searchData.push(
+              `${item.areaTcResult}-${item.districtTcResult}-${
+                item.streetTcResult
+              }-${item.bldgTcResult}`
+            );
+          }
+          console.log(this.step3.searchData);
+        }
+      });
+  }
+
+  /**
+   * 搜索框綁定enter
+   * @param {*} e
+   * @memberof ComeOnStageComponent
+   */
+  enterSearch(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.search();
+    }
+  }
+
+  /**
+   * 選中搜索内容
+   * @param {*} item
+   * @memberof ComeOnStageComponent
+   */
+  chooseSearchItem(item) {
+    const addressArr = item.split('-');
+    const area = addressArr[0];
+    const district = addressArr[1];
+    const street = addressArr[2];
+    const address = addressArr[3];
+
+    this.step3.searchShow = false;
+
+    this.step3.areaAndDistrictValue = [area, district];
+    this.step3.streetValue = street;
+    this.step3.addressValue = address;
+  }
+
+  /**
    * 打開選擇電話彈窗
    * @memberof ComeOnStageComponent
    */
@@ -252,19 +358,22 @@ export class ComeOnStageComponent implements OnInit {
       nzContent: PhoneQueryComponent,
       nzComponentParams: {
         title: '我們提供以下號碼以供閣下選擇：',
-        linkTitle: '換另一組新號碼'
-      },
-      nzFooter: [
-        {
-          disabled: true,
-          label: '確認',
-          type: 'primary',
-          onClick: componentInstance => {
-            // componentInstance.title! = 'title in inner component is changed';
-          }
+        linkTitle: '換另一組新號碼',
+        selectPhone: value => {
+          this.step2.phoneValue = value;
         }
-      ]
+      },
+      nzFooter: null
     });
+  }
+
+  /**
+   * 選擇上臺方式時清空手機號碼選項
+   * @memberof ComeOnStageComponent
+   */
+  registerTypeChange() {
+    this.step2.phoneValue = '';
+    this.validateForm.value.choosePhone = '';
   }
 
   /**
@@ -298,7 +407,7 @@ export class ComeOnStageComponent implements OnInit {
         ],
         email: [null, [Validators.required]],
         file: [null, [Validators.required]],
-        area: [null, [Validators.required]],
+        areaAndDistrict: [null, [Validators.required]],
         street: [null, [Validators.required]],
         address: [null, [Validators.required]],
         date: [null, [Validators.required]],
@@ -325,7 +434,6 @@ export class ComeOnStageComponent implements OnInit {
         fileUrlArr.push(item.response.dataInfo.url);
       }
     }
-    console.log(fileUrlArr);
     this.step3.certFileUrlList = fileUrlArr;
   }
 
@@ -334,14 +442,11 @@ export class ComeOnStageComponent implements OnInit {
    * @memberof ComeOnStageComponent
    */
   next() {
-    console.log(this.validateForm);
-    return;
     for (const i of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    console.log(this.validateForm.value);
     this.util.goTop();
     this.confirm.show = true;
   }

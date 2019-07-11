@@ -46,7 +46,7 @@
               {{ step1.name }}
             </div>
             <div class="step-content">
-              <nz-radio-group [(ngModel)]="step1.businessContractType" formControlName="months" nzSize="large">
+              <nz-radio-group [(ngModel)]="step1.businessContractType" formControlName="contractPeriod" nzSize="large">
                 <label nz-radio-button *ngFor="let item of activityInfo.contractList; let i = index"
                   [nzValue]="i">{{item.months}}個月</label>
               </nz-radio-group>
@@ -155,12 +155,12 @@
               <!-- 身份證號碼 -->
               <nz-form-item class="cert-item">
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證號碼</nz-form-label>
-                <nz-form-control nzXs="4" nzErrorTip="身份證號碼格式不正確!">
-                  <input nz-input minlength="7" maxlength="7" formControlName="idCardHead" />
+                <nz-form-control nzXs="4" nzErrorTip="身份證號碼格式不正確!" [nzValidateStatus]="step3.idCardStatus">
+                  <input nz-input minlength="7" maxlength="7" formControlName="idCardHead" (blur)="confirmCard()"/>
                 </nz-form-control>
                 <nz-form-control nzXs="1" style="text-align: center;">(</nz-form-control>
                 <nz-form-control nzXs="2" nzErrorTip="身份證號碼格式不正確!">
-                  <input type="text" minlength="1" maxlength="1" nz-input formControlName="idCardEnd"
+                  <input type="text" minlength="1" maxlength="1" nz-input formControlName="idCardEnd" (blur)="confirmCard()"
                     style="text-align: center;" />
                 </nz-form-control>
                 <nz-form-control nzXs="1" style="text-align: center;">)</nz-form-control>
@@ -183,7 +183,7 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證件</nz-form-label>
                 <nz-form-control class="cert-form-control" nzXs="20" nzErrorTip="請上載身份證件副本!">
-                  <input nz-input formControlName="file" type="hidden" [(ngModel)]='step3.certFileUrlList' />
+                  <input nz-input formControlName="certificateAttach" type="hidden" [(ngModel)]='step3.certFileUrlList' />
                   <nz-upload nzName="fileData" (nzChange)="certFileChange($event)" [nzAction]="step3.uploadAction"
                     [nzBeforeUpload]="step3.beforeUpload">
                     <button nz-button nzType="primary"><i nz-icon nzType="upload"></i><span>上載</span></button>
@@ -271,7 +271,7 @@
               <nz-form-item *ngIf="step2.modeValue === 2">
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效時間</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="請選擇生效時間!">
-                  <nz-time-picker nzFormat="HH:mm" formControlName="effectTime"></nz-time-picker>
+                  <nz-time-picker [required]="step2.modeValue===1?null:true" nzFormat="HH:mm" formControlName="effectTime"></nz-time-picker>
                 </nz-form-control>
               </nz-form-item>
             </div>

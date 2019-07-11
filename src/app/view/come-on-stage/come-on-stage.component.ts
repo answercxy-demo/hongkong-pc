@@ -56,6 +56,7 @@ export class ComeOnStageComponent implements OnInit {
     order: 3,
     name: '個人資料',
     sex: 1,
+    idCardStatus: '',
     searchData: [],
     searchShow: false,
     searchLoading: true,
@@ -332,11 +333,56 @@ export class ComeOnStageComponent implements OnInit {
       .subscribe(data => {});
   }
 
+  /**
+   * 携號/新號校驗
+   * @memberof ComeOnStageComponent
+   */
   confirmPhone() {
-    // this.
+    const form = this.validateForm;
+    const idCardHeadStatus = form.get('idCardHead').status;
+    const idCardEndStatus = form.get('idCardEnd').status;
   }
 
-  confirmCard() {}
+  /**
+   * 身份證校驗
+   * @memberof ComeOnStageComponent
+   */
+  confirmCard() {
+    const form = this.validateForm;
+    // const idCardHeadStatus = form.get('idCardHead').status === 'VALID';
+    // const idCardEndStatus = form.get('idCardEnd').status === 'VALID';
+    const idCardHeadStatus = this.customValidator
+      .idCardHead()
+      .test(form.get('idCardHead').value);
+    const idCardEndStatus = this.customValidator
+      .idCardEnd()
+      .test(form.get('idCardEnd').value);
+
+    if (idCardHeadStatus && idCardEndStatus) {
+      const head = form.get('idCardHead').value;
+      const end = form.get('idCardEnd').value;
+
+      this.apiService
+        .post(
+          'umall/business/consumer/vaild/isHkidValid',
+          {
+            hkid: `${head}(${end})`,
+            orgId: '977090533766828033',
+            userId: '1010053936724500480',
+            appId: 10000188
+          },
+          false,
+          '身份証號碼驗證請求'
+        )
+        .subscribe(data => {
+          if (data.returnCode === '1000') {
+            this.step3.idCardStatus = 'success';
+          } else {
+            this.step3.idCardStatus = 'error';
+          }
+        });
+    }
+  }
 
   /**
    * 搜索相關地區信息信息
@@ -452,7 +498,7 @@ export class ComeOnStageComponent implements OnInit {
    */
   registerTypeChange() {
     this.step2.phoneValue = '';
-    this.validateForm.value.choosePhone = '';
+    this.validateForm.value.phoneNo = '';
   }
 
   /**
@@ -485,13 +531,13 @@ export class ComeOnStageComponent implements OnInit {
           [Validators.required, pattern(validator.hongkongPhone())]
         ],
         email: [null, [Validators.required]],
-        file: [null, [Validators.required]],
+        certificateAttach: [null, [Validators.required]],
         areaAndDistrict: [null, [Validators.required]],
         street: [null, [Validators.required]],
         address: [null, [Validators.required]],
         effectDate: [null, [Validators.required]],
-        effectTime: [null, [Validators.required]],
-        months: [null, []],
+        effectTime: [null, []],
+        contractPeriod: [null, []],
         registerType: [null, [Validators.required]],
         card: [null, [Validators.required]]
       }

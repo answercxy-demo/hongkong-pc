@@ -1,6 +1,8 @@
 <div>
   <div class="tag bg-plum-red-1"></div>
   <blockquote>{{ title }}</blockquote>
+  <nz-spin nzSimple [nzSpinning]="isSpinning">
+  </nz-spin>
   <div class='content' nzRow>
     <div nz-col nzSpan="6" *ngFor="let item of phoneList">
       <div class="phone-box {{item.selected ? 'selected' : ''}}" title="{{item.phoneNo}}"

@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd';
 import { PhoneQueryComponent } from 'src/app/components/phone-query/phone-query.component';
+import { Observer, Observable, timer } from 'rxjs';
 
 @Component({
   selector: 'app-come-on-stage',
@@ -58,6 +59,7 @@ export class ComeOnStageComponent implements OnInit {
     searchData: [],
     searchShow: false,
     searchLoading: true,
+    searchFlag: 0,
     disabledBirthDate: (current: Date): boolean => {
       const nowDate = new Date();
       const birthYear = nowDate.getFullYear() - 18;
@@ -67,6 +69,43 @@ export class ComeOnStageComponent implements OnInit {
           ? nowDate.getDate() - 1
           : nowDate.getDate();
       return current > new Date(birthYear, birthMonth, birthDate);
+    },
+    /**
+     * 上傳前校驗
+     * @param {File} file
+     * @returns
+     * @memberof ComeOnStageComponent
+     */
+    beforeUpload: (file: File) => {
+      return new Observable((observer: Observer<boolean>) => {
+        const isImg =
+          file.type === 'image/jpeg' ||
+          file.type === 'image/jpg' ||
+          file.type === 'image/gif' ||
+          file.type === 'image/png';
+        if (!isImg) {
+          this.notice.create(
+            'error',
+            '圖片格式錯誤',
+            '僅支持上載jpg，jpeg及gif格式圖片'
+          );
+          observer.complete();
+          return;
+        }
+        const isLt5M = file.size / 1024 / 1024 < 5;
+        if (!isLt5M) {
+          this.notice.create(
+            'error',
+            '圖片大小錯誤',
+            '僅支持上載不超過5mb的圖片'
+          );
+          observer.complete();
+          return;
+        }
+
+        observer.next(isImg && isLt5M);
+        observer.complete();
+      });
     },
     currentDate: new Date(2000, 0, 1),
     certFileUrlList: [],
@@ -90,7 +129,7 @@ export class ComeOnStageComponent implements OnInit {
     areaAndDistrictValue: ['香港', '銅鑼灣'],
     addressValue: '',
     streetValue: '',
-    uploadAction: `${this.apiService.getOrigin()}/moses/upload/file/upload`
+    uploadAction: `${this.apiService.getOrigin()}/umall/business/consumer/picture/uploadPict` // /moses/upload/file/upload
   };
 
   step4 = {
@@ -279,6 +318,27 @@ export class ComeOnStageComponent implements OnInit {
   }
 
   /**
+   * 提交表單信息
+   * @memberof ComeOnStageComponent
+   */
+  submitForm(options) {
+    this.util.simpleMergeOptions(options, {
+      orgId: '977090533766828033',
+      userId: '1010053936724500480',
+      appId: 10000188
+    });
+    this.apiService
+      .post('umall/business/consumer/submitOrder', options, true, '提交表單')
+      .subscribe(data => {});
+  }
+
+  confirmPhone() {
+    // this.
+  }
+
+  confirmCard() {}
+
+  /**
    * 搜索相關地區信息信息
    * @memberof ComeOnStageComponent
    */
@@ -318,11 +378,30 @@ export class ComeOnStageComponent implements OnInit {
   }
 
   /**
-   * 搜索框綁定enter
-   * @param {*} e
+   * 搜索框邊輸入邊搜索
    * @memberof ComeOnStageComponent
    */
-  enterSearch(e) {
+  inputSearch() {
+    const searchFlag = this.step3.searchFlag;
+
+    if (searchFlag) {
+      clearTimeout(searchFlag);
+    }
+
+    this.step3.searchFlag = Number(
+      setTimeout(() => {
+        this.search();
+      }, 1000)
+    );
+  }
+
+  /**
+   * 搜索綁定enter
+   * @param {KeyboardEvent} e
+   * @memberof ComeOnStageComponent
+   */
+  enterSearch(e: KeyboardEvent) {
+    console.log(e);
     if (e.keyCode === 13) {
       e.preventDefault();
       this.search();
@@ -385,7 +464,7 @@ export class ComeOnStageComponent implements OnInit {
     const validator = this.customValidator;
     this.validateForm = this.fb.group(
       {
-        choosePhone: [
+        phoneNo: [
           null,
           [Validators.required, pattern(validator.hongkongPhone())]
         ],
@@ -410,7 +489,8 @@ export class ComeOnStageComponent implements OnInit {
         areaAndDistrict: [null, [Validators.required]],
         street: [null, [Validators.required]],
         address: [null, [Validators.required]],
-        date: [null, [Validators.required]],
+        effectDate: [null, [Validators.required]],
+        effectTime: [null, [Validators.required]],
         months: [null, []],
         registerType: [null, [Validators.required]],
         card: [null, [Validators.required]]
@@ -432,6 +512,14 @@ export class ComeOnStageComponent implements OnInit {
         item.response.returnCode.toString() === '1000'
       ) {
         fileUrlArr.push(item.response.dataInfo.url);
+      } else {
+        if (item.response && item.response.returnCode.toString() !== '1000') {
+          item.status = 'error';
+          if (!item.isTiped) {
+            item.isTiped = true;
+            this.notice.create('error', '上載失敗', item.response.message);
+          }
+        }
       }
     }
     this.step3.certFileUrlList = fileUrlArr;
@@ -447,6 +535,7 @@ export class ComeOnStageComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
+    // 校驗手機號碼
     this.util.goTop();
     this.confirm.show = true;
   }

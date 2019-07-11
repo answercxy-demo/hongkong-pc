@@ -24,7 +24,7 @@ export class FormValidatorService {
    * @memberof FormValidatorService
    */
   hongkongPhone(): RegExp {
-    return /^([6|9])\d{7}$/;
+    return /^\d{8}$/;
   }
 
   /**

@@ -95,10 +95,10 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>手機號碼</nz-form-label>
                 <nz-form-control nzXs="12" nzErrorTip="手機號碼格式不正確!">
-                  <input *ngIf="step2.modeValue===1" [(ngModel)]="step2.phoneValue" nz-input
-                    formControlName="choosePhone" minlength="8" maxlength="8" number disabled />
-                  <input *ngIf="step2.modeValue===2" [(ngModel)]="step2.phoneValue" nz-input
-                    formControlName="choosePhone" minlength="8" maxlength="8" number />
+                  <input *ngIf="step2.modeValue===1" [(ngModel)]="step2.phoneValue" nz-input formControlName="phoneNo"
+                    minlength="8" maxlength="8" number disabled />
+                  <input *ngIf="step2.modeValue===2" [(ngModel)]="step2.phoneValue" nz-input formControlName="phoneNo"
+                    minlength="8" maxlength="8" number />
                   <button *ngIf="step2.modeValue===1" nz-button (click)="openPhoneModal()">選擇號碼</button>
                 </nz-form-control>
               </nz-form-item>
@@ -184,8 +184,8 @@
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證件</nz-form-label>
                 <nz-form-control class="cert-form-control" nzXs="20" nzErrorTip="請上載身份證件副本!">
                   <input nz-input formControlName="file" type="hidden" [(ngModel)]='step3.certFileUrlList' />
-                  <nz-upload nzFileType="image/png,image/jpeg,image/gif" [nzSize]="1024*5" nzName="fileData"
-                    (nzChange)="certFileChange($event)" [nzAction]="step3.uploadAction">
+                  <nz-upload nzName="fileData" (nzChange)="certFileChange($event)" [nzAction]="step3.uploadAction"
+                    [nzBeforeUpload]="step3.beforeUpload">
                     <button nz-button nzType="primary"><i nz-icon nzType="upload"></i><span>上載</span></button>
                   </nz-upload>
                 </nz-form-control>
@@ -198,10 +198,13 @@
               <!-- 搜索框 -->
               <span class=" tip color-blue-1 top-tip">上台登記住址（SIM卡將會按照以下住址派送，請確保填寫無誤）</span>
               <nz-form-item>
-                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                  <input id="searchText" type="text" nz-input placeholder="請輸入地址信息搜索（兩個字以上）"
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                  <input id="searchText" type="text" nz-input placeholder="請輸入地址信息搜索（兩個字以上）" (input)="inputSearch()"
                     (keydown)="enterSearch($event)" />
                 </nz-input-group>
+                <ng-template #suffixIconSearch>
+                  <i nz-icon nzType="search"></i>
+                </ng-template>
                 <nz-list *ngIf="step3.searchShow" [nzLoading]="step3.searchLoading" [nzDataSource]="step3.searchData"
                   nzBordered [nzRenderItem]="defaultItem">
                   <a class="close" (click)="step3.searchShow=false;"><i nz-icon nzType="close-circle"
@@ -213,10 +216,6 @@
                     </nz-list-item>
                   </ng-template>
                 </nz-list>
-                <ng-template #suffixIconButton>
-                  <button nz-button nzType="primary" nzSearch (click)="search()"><i nz-icon
-                      nzType="search"></i></button>
-                </ng-template>
               </nz-form-item>
 
               <!-- 地區/區域 -->
@@ -258,11 +257,21 @@
               {{ step4.name }}
             </div>
             <div class="step-content">
+              <!-- 生效日期 -->
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效日期</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="請選擇生效日期!">
-                  <nz-date-picker [nzShowToday]="false" [nzDisabledDate]="step4.disabledDate" formControlName="date">
+                  <nz-date-picker [nzShowToday]="false" [nzDisabledDate]="step4.disabledDate"
+                    formControlName="effectDate">
                   </nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+
+              <!-- 生效時間 -->
+              <nz-form-item *ngIf="step2.modeValue === 2">
+                <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效時間</nz-form-label>
+                <nz-form-control nzXs="20" nzErrorTip="請選擇生效時間!">
+                  <nz-time-picker nzFormat="HH:mm" formControlName="effectTime"></nz-time-picker>
                 </nz-form-control>
               </nz-form-item>
             </div>

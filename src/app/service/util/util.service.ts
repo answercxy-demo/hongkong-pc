@@ -69,5 +69,19 @@ export class UtilService {
     document.querySelector('body').scrollTop = 0;
   }
 
+  /**
+   * 簡單的json合并
+   * @param target
+   * @param source
+   * @returns {*}
+   * @memberof UtilService
+   */
+  simpleMergeOptions(target, source) {
+    for (const key of Object.keys(source)) {
+      target[key] = source[key];
+    }
+    return target;
+  }
+
   constructor(private state: StateService) {}
 }

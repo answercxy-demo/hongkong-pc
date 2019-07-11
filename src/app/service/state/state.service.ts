@@ -19,5 +19,12 @@ export class StateService {
     describe: '是否加載中標識'
   };
 
+  orderId: StateBase = {
+    id: 'orderId',
+    value: '',
+    name: 'orderId',
+    describe: '進入服務所必須獲取的業務訂單id'
+  };
+
   constructor() {}
 }

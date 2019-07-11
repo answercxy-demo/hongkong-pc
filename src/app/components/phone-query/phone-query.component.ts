@@ -18,6 +18,8 @@ export class PhoneQueryComponent implements OnInit {
 
   phone = '';
 
+  isSpinning = true;
+
   /**
    * 獲取電話號碼列表
    * @memberof PhoneQueryComponent
@@ -38,6 +40,7 @@ export class PhoneQueryComponent implements OnInit {
         '獲取電話號碼'
       )
       .subscribe(data => {
+        this.isSpinning = false;
         if (data.returnCode === '1000') {
           this.phoneList = data.records;
           this.selectedClear();

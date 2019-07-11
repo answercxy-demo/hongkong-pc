@@ -23,19 +23,21 @@ export class ApiService {
   }
 
   /**
-   * 請求封裝
-   * @param api [string]
-   * @param options [object]
-   * @param mask [boolean] 是否顯示加載中開關
-   * @param desc [string] 接口描述
-   * @param descShow [boolean] 是否啓用錯誤反饋
+   * post請求封裝
+   * @param {string} [api=''] 請求地址（無origin）
+   * @param {*} [options={}] 請求體
+   * @param {boolean} [mask=true] 接口請求時是否顯示加載中
+   * @param {string} [desc='接口請求'] 接口描述
+   * @param {boolean} [descShow=true] 是否啓用錯誤反饋
+   * @returns {Observable<any>}
+   * @memberof ApiService
    */
   post(
     api: string = '',
     options = {},
-    mask = true,
-    desc = '接口請求',
-    descShow = true
+    mask: boolean = true,
+    desc: string = '接口請求',
+    descShow: boolean = true
   ): Observable<any> {
     if (!!mask) {
       this.util.spinning(true);
@@ -44,8 +46,12 @@ export class ApiService {
       tap(_ => {
         // do something for current status
         this.util.spinning(false);
-        if (_.returnCode !== '1000' && !!_.message) {
-          this.notice.create('error', _.returnCode, _.message);
+        if (!!_.returnCode) {
+          if (_.returnCode.toString() !== '1000' && !!_.message) {
+            this.notice.create('error', _.returnCode, _.message);
+          }
+        } else {
+          this.notice.create('error', desc + '返回異常', _.message);
         }
       }),
       catchError(this.handleError<any>(desc, descShow, {}))

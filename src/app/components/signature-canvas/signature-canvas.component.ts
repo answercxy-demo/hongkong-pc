@@ -105,6 +105,42 @@ export class SignatureCanvasComponent implements OnInit {
     canvas.height = canvas.offsetHeight;
   }
 
+  /**
+   * 生成圖片
+   * @returns
+   * @memberof SignatureCanvasComponent
+   */
+  getPng() {
+    const canvas: HTMLCanvasElement = document.querySelector(
+      'canvas#signatureCanvas'
+    );
+    return this.dataURItoBlob(canvas.toDataURL('image/png'));
+  }
+
+  /**
+   * 將base64轉化爲blob對象
+   * @param {*} base64Data
+   * @returns {Blob}
+   * @memberof SignatureCanvasComponent
+   */
+  dataURItoBlob(base64Data): Blob {
+    let byteString: string;
+    if (base64Data.split(',')[0].indexOf('base64') >= 0) {
+      byteString = atob(base64Data.split(',')[1]);
+    } else {
+      byteString = unescape(base64Data.split(',')[1]);
+    }
+    const mimeString = base64Data
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0];
+    const ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], { type: mimeString });
+  }
+
   constructor() {}
 
   ngOnInit() {

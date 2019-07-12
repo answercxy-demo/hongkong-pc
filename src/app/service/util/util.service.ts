@@ -83,5 +83,27 @@ export class UtilService {
     return target;
   }
 
+  /**
+   * 監聽瀏覽器返回前進按鈕
+   * @param {*} func
+   * @memberof UtilService
+   */
+  browserBackListener(func) {
+    if (window.history && window.history.pushState) {
+      window.addEventListener('popstate', func);
+    }
+  }
+
+  /**
+   * 刪除監聽瀏覽器返回前進按鈕的事件
+   * @param {*} func
+   * @memberof UtilService
+   */
+  deleteBrowserBackListener(func) {
+    if (window.history && window.history.pushState) {
+      window.removeEventListener('popstate', func);
+    }
+  }
+
   constructor(private state: StateService) {}
 }

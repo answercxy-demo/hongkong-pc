@@ -83,11 +83,11 @@
   <div class="contract-box">
     <nz-page-header nzTitle="簽署確認申請資料及服務合約" nzSubtitle="請簽名確認上述資料正確"></nz-page-header>
     <div class="info-box">
-      <app-signature-canvas></app-signature-canvas>
-      <button nz-button nzType="primary">應用</button>
+      <app-signature-canvas #signature></app-signature-canvas>
+      <button nz-button nzType="primary" (click)="uploadSignature()">應用</button>
     </div>
     <br />
-    <a>按此檢視服務合約</a>
+    <a (click)="getContract()">按此檢視服務合約</a>
   </div>
 
   <nz-divider></nz-divider>

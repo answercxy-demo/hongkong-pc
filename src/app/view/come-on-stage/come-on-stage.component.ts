@@ -1,28 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UtilService } from '../../service/util/util.service';
-import { ApiService } from '../../service/api/api.service';
-import { NzNotificationService } from 'ng-zorro-antd';
-import { FormValidatorService } from '../../service/formValidator/form-validator.service';
 import {
   FormGroup,
   Validators,
   FormBuilder,
   FormControl
 } from '@angular/forms';
-import { NzModalService } from 'ng-zorro-antd';
-import { PhoneQueryComponent } from 'src/app/components/phone-query/phone-query.component';
 import { Observer, Observable, timer } from 'rxjs';
+import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
+import { UtilService } from '../../service/util/util.service';
+import { ApiService } from '../../service/api/api.service';
+import { FormValidatorService } from '../../service/formValidator/form-validator.service';
+import { PhoneQueryComponent } from 'src/app/components/phone-query/phone-query.component';
+import { StateService } from '../../service/state/state.service';
 
 @Component({
   selector: 'app-come-on-stage',
   templateUrl: './come-on-stage.component.html',
   styleUrls: ['./come-on-stage.component.less']
 })
-export class ComeOnStageComponent implements OnInit {
+export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
   id = this.route.snapshot.queryParamMap.get('id');
 
-  activityInfo = { contractList: [], businessImg: '' };
+  activityInfo = { contractList: [], businessImg: '', businessCode: '' };
 
   title = {
     name: '服務計劃',
@@ -49,7 +49,8 @@ export class ComeOnStageComponent implements OnInit {
     name: '請選擇上臺方式',
     phoneValue: '',
     modeValue: 1,
-    cardValue: 'A'
+    cardValue: 'A',
+    phoneNoStatus: ''
   };
 
   step3 = {
@@ -84,6 +85,16 @@ export class ComeOnStageComponent implements OnInit {
           file.type === 'image/jpg' ||
           file.type === 'image/gif' ||
           file.type === 'image/png';
+        const isLt5M = file.size / 1024 / 1024 < 5;
+        const isOne =
+          this.step3.certFileUrlList.length === 1 &&
+          typeof this.step3.certFileUrlList[0] === 'undefined';
+
+        if (!isOne) {
+          this.notice.create('error', '圖片數量錯誤', '僅支持單圖片上傳');
+          observer.complete();
+          return;
+        }
         if (!isImg) {
           this.notice.create(
             'error',
@@ -93,7 +104,6 @@ export class ComeOnStageComponent implements OnInit {
           observer.complete();
           return;
         }
-        const isLt5M = file.size / 1024 / 1024 < 5;
         if (!isLt5M) {
           this.notice.create(
             'error',
@@ -338,9 +348,52 @@ export class ComeOnStageComponent implements OnInit {
    * @memberof ComeOnStageComponent
    */
   confirmPhone() {
-    const form = this.validateForm;
-    const idCardHeadStatus = form.get('idCardHead').status;
-    const idCardEndStatus = form.get('idCardEnd').status;
+    setTimeout(() => {
+      const form = this.validateForm;
+      const modeType = this.step2.modeValue;
+      const phoneNoValid = form.get('phoneNo').status === 'VALID';
+      const effectDateValid = form.get('effectDate').status === 'VALID';
+      const effectTimeValid =
+        modeType === 1 ? true : form.get('effectTime').status === 'VALID';
+      let url = 'umall/business/consumer/vaild/isNewSalesInfoValid';
+
+      if (phoneNoValid && effectDateValid && effectTimeValid) {
+        const effectTime = form.get('effectTime').value;
+        const phoneNo = form.get('phoneNo').value;
+        const dateNo = Number(form.get('effectDate').value);
+        const timeNo =
+          effectTime instanceof Date
+            ? effectTime.getHours().toString() + effectTime.getMinutes()
+            : null;
+        const options = {
+          phoneNo,
+          effectDate: dateNo,
+          effectTime: timeNo,
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188
+        };
+
+        if (this.step2.modeValue === 2) {
+          url = 'umall/business/consumer/vaild/isMnpInfoValid';
+        }
+
+        this.apiService
+          .post(url, options, false, '上臺號碼驗證請求')
+          .subscribe(data => {
+            if (data.returnCode === '1000') {
+              this.step2.phoneNoStatus = 'success';
+            } else {
+              const ele: HTMLInputElement = document.querySelector(
+                'input[formcontrolname="phoneNo"]'
+              );
+
+              this.step2.phoneNoStatus = 'error';
+              ele.focus();
+            }
+          });
+      }
+    });
   }
 
   /**
@@ -349,16 +402,10 @@ export class ComeOnStageComponent implements OnInit {
    */
   confirmCard() {
     const form = this.validateForm;
-    // const idCardHeadStatus = form.get('idCardHead').status === 'VALID';
-    // const idCardEndStatus = form.get('idCardEnd').status === 'VALID';
-    const idCardHeadStatus = this.customValidator
-      .idCardHead()
-      .test(form.get('idCardHead').value);
-    const idCardEndStatus = this.customValidator
-      .idCardEnd()
-      .test(form.get('idCardEnd').value);
+    const idCardHeadValid = form.get('idCardHead').status === 'VALID';
+    const idCardEndValid = form.get('idCardEnd').status === 'VALID';
 
-    if (idCardHeadStatus && idCardEndStatus) {
+    if (idCardHeadValid && idCardEndValid) {
       const head = form.get('idCardHead').value;
       const end = form.get('idCardEnd').value;
 
@@ -378,7 +425,12 @@ export class ComeOnStageComponent implements OnInit {
           if (data.returnCode === '1000') {
             this.step3.idCardStatus = 'success';
           } else {
+            const ele = document.querySelector(
+              'nz-date-picker[formcontrolname="birth"]'
+            );
+
             this.step3.idCardStatus = 'error';
+            this.util.anchorTo(ele);
           }
         });
     }
@@ -467,7 +519,6 @@ export class ComeOnStageComponent implements OnInit {
     const address = addressArr[3];
 
     this.step3.searchShow = false;
-
     this.step3.areaAndDistrictValue = [area, district];
     this.step3.streetValue = street;
     this.step3.addressValue = address;
@@ -572,6 +623,51 @@ export class ComeOnStageComponent implements OnInit {
   }
 
   /**
+   * 提交表單信息參數構造
+   * @returns
+   * @memberof ComeOnStageComponent
+   */
+  getParams() {
+    const formValue = this.validateForm.value;
+    const effectTime = this.validateForm.get('effectTime').value;
+    const addressInfoVo = {
+      area: formValue.areaAndDistrict[0],
+      district: formValue.areaAndDistrict[1],
+      streetName: formValue.street,
+      detailedAddress: formValue.address
+    };
+    return {
+      id: this.state.orderId.value,
+      orgId: '977090533766828033',
+      userId: '1010053936724500480',
+      appId: 10000188,
+      registerType: formValue.registerType,
+      phoneNo: formValue.phoneNo,
+      effectDate: Number(formValue.effectDate),
+      effectTime:
+        effectTime instanceof Date
+          ? effectTime.getHours().toString() + effectTime.getMinutes()
+          : null,
+      businessPlanId: this.id,
+      businessPlanCode: this.activityInfo.businessCode,
+      contractPeriod: this.activityInfo.contractList[formValue.contractPeriod]
+        .months,
+      certificateAttach: formValue.certificateAttach,
+      contactAddressInfoVo: addressInfoVo,
+      customerInfo: {
+        lastName: formValue.lastName,
+        firstName: formValue.firstName,
+        gender: formValue.sex,
+        birthday: Number(formValue.birth),
+        certificateCode: `${formValue.idCardHead}(${formValue.idCardEnd})`,
+        contactNumber: formValue.phone,
+        email: formValue.email,
+        addressInfoVo
+      }
+    };
+  }
+
+  /**
    * 确认表单填写无误
    * @memberof ComeOnStageComponent
    */
@@ -581,9 +677,24 @@ export class ComeOnStageComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    // 校驗手機號碼
-    this.util.goTop();
-    this.confirm.show = true;
+    const options = this.getParams();
+    if (this.validateForm.valid) {
+      this.apiService
+        .post(
+          'umall/business/consumer/pcOrderInfo/submitOrder',
+          options,
+          true,
+          '上臺請求'
+        )
+        .subscribe(data => {
+          if (data.returnCode === '1000') {
+            this.util.goTop();
+            this.confirm.show = true;
+          }
+        });
+    } else {
+      this.notice.create('warning', '安全警告', '請勿惡意解開表單安全限制');
+    }
   }
 
   /**
@@ -594,6 +705,20 @@ export class ComeOnStageComponent implements OnInit {
     window.history.back();
   }
 
+  /**
+   * 觸發瀏覽器返回上一頁時如果正在展示驗證頁面則因該返回顯示表單而非直接返回列表頁
+   * @memberof ComeOnStageComponent
+   */
+  // TODO: 目前只能共同監聽到瀏覽器的返回和前進，不能單獨監聽到返回【待後期尋找更好的解決方案】
+  // this指向問題
+  redirectBack(event) {
+    //   if (this.confirm.show) {
+    //     alert(this.confirm.show);
+    //     event.preventDefault();
+    //     this.confirm.show = false;
+    //   }
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -602,11 +727,24 @@ export class ComeOnStageComponent implements OnInit {
     private apiService: ApiService,
     private fb: FormBuilder,
     private customValidator: FormValidatorService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private state: StateService
   ) {}
 
   ngOnInit() {
     this.dataInit();
     this.validateFormInit();
+
+    this.util.browserBackListener(this.redirectBack);
+
+    setInterval(() => {
+      console.log(this.validateForm);
+    }, 10000);
   }
+
+  ngOnDestroy() {
+    this.util.deleteBrowserBackListener(this.redirectBack);
+  }
+
+  ngDoCheck() {}
 }

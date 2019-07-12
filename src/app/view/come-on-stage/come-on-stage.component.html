@@ -94,11 +94,11 @@
 
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>手機號碼</nz-form-label>
-                <nz-form-control nzXs="12" nzErrorTip="手機號碼格式不正確!">
+                <nz-form-control nzXs="12" nzErrorTip="手機號碼格式不正確!" [nzValidateStatus]="step2.phoneNoStatus">
                   <input *ngIf="step2.modeValue===1" [(ngModel)]="step2.phoneValue" nz-input formControlName="phoneNo"
-                    minlength="8" maxlength="8" number disabled />
+                    minlength="8" maxlength="8" number disabled (ngModelChange)="confirmPhone()" />
                   <input *ngIf="step2.modeValue===2" [(ngModel)]="step2.phoneValue" nz-input formControlName="phoneNo"
-                    minlength="8" maxlength="8" number />
+                    minlength="8" maxlength="8" number (change)="confirmPhone()" />
                   <button *ngIf="step2.modeValue===1" nz-button (click)="openPhoneModal()">選擇號碼</button>
                 </nz-form-control>
               </nz-form-item>
@@ -156,12 +156,12 @@
               <nz-form-item class="cert-item">
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證號碼</nz-form-label>
                 <nz-form-control nzXs="4" nzErrorTip="身份證號碼格式不正確!" [nzValidateStatus]="step3.idCardStatus">
-                  <input nz-input minlength="7" maxlength="7" formControlName="idCardHead" (blur)="confirmCard()"/>
+                  <input nz-input minlength="7" maxlength="7" formControlName="idCardHead" (blur)="confirmCard()" />
                 </nz-form-control>
                 <nz-form-control nzXs="1" style="text-align: center;">(</nz-form-control>
                 <nz-form-control nzXs="2" nzErrorTip="身份證號碼格式不正確!">
-                  <input type="text" minlength="1" maxlength="1" nz-input formControlName="idCardEnd" (blur)="confirmCard()"
-                    style="text-align: center;" />
+                  <input type="text" minlength="1" maxlength="1" nz-input formControlName="idCardEnd"
+                    (blur)="confirmCard()" style="text-align: center;" />
                 </nz-form-control>
                 <nz-form-control nzXs="1" style="text-align: center;">)</nz-form-control>
               </nz-form-item>
@@ -183,7 +183,8 @@
               <nz-form-item>
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>身份證件</nz-form-label>
                 <nz-form-control class="cert-form-control" nzXs="20" nzErrorTip="請上載身份證件副本!">
-                  <input nz-input formControlName="certificateAttach" type="hidden" [(ngModel)]='step3.certFileUrlList' />
+                  <input nz-input formControlName="certificateAttach" type="hidden"
+                    [(ngModel)]='step3.certFileUrlList[0]' />
                   <nz-upload nzName="fileData" (nzChange)="certFileChange($event)" [nzAction]="step3.uploadAction"
                     [nzBeforeUpload]="step3.beforeUpload">
                     <button nz-button nzType="primary"><i nz-icon nzType="upload"></i><span>上載</span></button>
@@ -198,7 +199,7 @@
               <!-- 搜索框 -->
               <span class=" tip color-blue-1 top-tip">上台登記住址（SIM卡將會按照以下住址派送，請確保填寫無誤）</span>
               <nz-form-item>
-                <nz-input-group [nzSuffix]="suffixIconSearch">
+                <nz-input-group class="search-box" [nzSuffix]="suffixIconSearch">
                   <input id="searchText" type="text" nz-input placeholder="請輸入地址信息搜索（兩個字以上）" (input)="inputSearch()"
                     (keydown)="enterSearch($event)" />
                 </nz-input-group>
@@ -262,7 +263,7 @@
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效日期</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="請選擇生效日期!">
                   <nz-date-picker [nzShowToday]="false" [nzDisabledDate]="step4.disabledDate"
-                    formControlName="effectDate">
+                    formControlName="effectDate" (ngModelChange)="confirmPhone()">
                   </nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
@@ -271,7 +272,8 @@
               <nz-form-item *ngIf="step2.modeValue === 2">
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效時間</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="請選擇生效時間!">
-                  <nz-time-picker [required]="step2.modeValue===1?null:true" nzFormat="HH:mm" formControlName="effectTime"></nz-time-picker>
+                  <nz-time-picker [required]="step2.modeValue===1?null:true" nzFormat="HH:mm"
+                    formControlName="effectTime" (ngModelChange)="confirmPhone()"></nz-time-picker>
                 </nz-form-control>
               </nz-form-item>
             </div>
@@ -284,7 +286,9 @@
       <!-- 下半部分【返回及下一步】 -->
       <div class="btns" nz-row nzType="flex" nzJustify="space-between">
         <a (click)="back()" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
-        <button nz-col nz-button nzType="primary" [disabled]="!validateForm.valid" (click)="next()">
+        <button nz-col nz-button nzType="primary"
+          [disabled]="!validateForm.valid || step3.idCardStatus==='error' || step2.phoneNoStatus==='error'"
+          (click)="next()">
           下一步
         </button>
       </div>

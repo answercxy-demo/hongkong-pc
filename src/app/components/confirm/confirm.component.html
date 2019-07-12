@@ -1,25 +1,46 @@
 <div class="content-box">
   <!-- 套餐相關信息 -->
   <div class="info-box" nz-row nzType="flex" nzJustify="space-between">
-    <div class="border-box" nz-col nzMd="12" nzSm="24" nzXs="24" style="border-bottom: solid 1px #ddd">
-      <img class="cover" src="https://devcloud.vpclub.cn/group1/M00/01/C5/rBAFJFxziZ-AP2SvAAD-gvAv3N4503.jpg" />
+    <div
+      class="border-box"
+      nz-col
+      nzMd="12"
+      nzSm="24"
+      nzXs="24"
+      style="border-bottom: solid 1px #ddd"
+    >
+      <img
+        class="cover"
+        src="{{ activityInfo.businessImg }}"
+        onerror="this.src='assets/image/no_poster.png'"
+      />
       <div>
-        <p>1</p>
-        <p>2</p>
-        <p>3</p>
+        <p>{{ activityInfo.businessName }}</p>
+        <p *ngFor="let item of saleInfo" class="color-plum-red-2">
+          {{ item.name }}
+        </p>
       </div>
     </div>
-    <div nz-col nzMd="7" nzSm="24" nzXs="24">col-12</div>
+    <div nz-col nzMd="7" nzSm="24" nzXs="24">
+      <p>優惠月費</p>
+      <p class="color-plum-red-2"></p>
+      <p>行政費</p>
+      <p class="color-plum-red-2"></p>
+      <p>優惠金額</p>
+      <p class="color-plum-red-2"></p>
+    </div>
     <div nz-col nzMd="5" nzSm="24" nzXs="24" style="background: #F3F3F3">
-      col-12
+      <p>小計</p>
+      <p class="color-plum-red-2"></p>
     </div>
   </div>
 
   <!-- 物品信息 -->
   <div class="descriptions-box">
     <nz-descriptions nzTitle="物品信息" nzBordered>
-      <nz-descriptions-item nzTitle="閣下選擇的新流動電話號碼">97163057</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="實體">SIM卡</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="閣下選擇的新流動電話號碼"
+        >97163057</nz-descriptions-item
+      >
       <nz-descriptions-item nzTitle="需付款項">$108</nz-descriptions-item>
     </nz-descriptions>
   </div>
@@ -32,7 +53,9 @@
       <nz-descriptions-item nzTitle="姓氏">zhang</nz-descriptions-item>
       <nz-descriptions-item nzTitle="名字">san</nz-descriptions-item>
       <nz-descriptions-item nzTitle="出生日期">1992-07-03</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="香港身份證號碼">M123456(0)</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="香港身份證號碼"
+        >M123456(0)</nz-descriptions-item
+      >
       <nz-descriptions-item nzTitle="聯絡電話">69201234</nz-descriptions-item>
       <nz-descriptions-item nzTitle="電郵">cc@xx.com</nz-descriptions-item>
       <nz-descriptions-item nzTitle="地址">漢正街</nz-descriptions-item>
@@ -42,18 +65,23 @@
   <!-- 合約生效日期 -->
   <div class="descriptions-box">
     <a (click)="edit(4)"><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
-    <nz-descriptions nzTitle="合約生效日期" nzBordered [nzColumn]="{ md: 2, sm: 2, xs: 1 }">
-      <nz-descriptions-item nzTitle="預計生效日期">2019-09-03</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="需于此日期前提交文件">2019-09-13</nz-descriptions-item>
+    <nz-descriptions
+      nzTitle="合約生效日期"
+      nzBordered
+      [nzColumn]="{ md: 2, sm: 2, xs: 1 }"
+    >
+      <nz-descriptions-item nzTitle="預計生效日期"
+        >2019-09-03</nz-descriptions-item
+      >
     </nz-descriptions>
   </div>
 
   <!-- 月費 -->
   <div class="descriptions-box">
-    <nz-descriptions nzTitle="月費" nzBordered [nzColumn]="1">
-      <nz-descriptions-item [nzTitle]="monthlyFee">2019-09-03</nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="totalMount">2019-09-13</nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="realTotalMount">2019-09-13</nz-descriptions-item>
+    <nz-descriptions nzTitle="付款" nzBordered [nzColumn]="1">
+      <nz-descriptions-item [nzTitle]="'需付款項'"
+        >2019-09-03</nz-descriptions-item
+      >
     </nz-descriptions>
   </div>
 
@@ -76,15 +104,22 @@
         </nz-radio-group>
       </nz-descriptions-item>
     </nz-descriptions>
-    <label nz-checkbox [(ngModel)]="agreement.checked">我已閱讀並同意條款及細則、（如適用）「越薦越友」推薦計劃條款及細則及私隱政策聲明。</label>
+    <label nz-checkbox [(ngModel)]="agreement.checked"
+      >我已閱讀並同意條款及細則、（如適用）「越薦越友」推薦計劃條款及細則及私隱政策聲明。</label
+    >
   </div>
 
   <!-- 簽署協議 -->
   <div class="contract-box">
-    <nz-page-header nzTitle="簽署確認申請資料及服務合約" nzSubtitle="請簽名確認上述資料正確"></nz-page-header>
+    <nz-page-header
+      nzTitle="簽署確認申請資料及服務合約"
+      nzSubtitle="請簽名確認上述資料正確"
+    ></nz-page-header>
     <div class="info-box">
       <app-signature-canvas #signature></app-signature-canvas>
-      <button nz-button nzType="primary" (click)="uploadSignature()">應用</button>
+      <button nz-button nzType="primary" (click)="uploadSignature()">
+        應用
+      </button>
     </div>
     <br />
     <a (click)="getContract()">按此檢視服務合約</a>
@@ -94,38 +129,14 @@
 
   <!-- 返回及下一步 -->
   <div nz-row nzType="flex" nzJustify="space-between">
-    <a (click)="back()" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
+    <a (click)="back()" nz-col
+      ><i nz-icon nzType="left" nzTheme="outline"></i>返回</a
+    >
     <button nz-col nz-button nzType="primary" (click)="next()">
       前往付款
     </button>
   </div>
 </div>
-
-<!-- 所需月費label模板 -->
-<ng-template #monthlyFee>
-  <td class="ant-descriptions-item-label ng-star-inserted">
-    <h2>所需月費</h2>
-    <p>貼心智能手機計劃（合約期內每月回贈HK$30及免HK$18行政費）</p>
-  </td>
-</ng-template>
-
-<!-- 總額label模板 -->
-<ng-template #totalMount>
-  <td class="ant-descriptions-item-label ng-star-inserted">
-    <h2>總額</h2>
-    <p>
-      特別優惠月費HK$88乃根據原價月費HK$118貼心智能手機計劃，於每月扣除HK$30回贈計算得出。此月費回贈期數完結後，如客戶繼續使用此服務，本公司將按照當時同等服務計劃之月費及行政費收費。
-    </p>
-  </td>
-</ng-template>
-
-<!-- 需繳費的總額label模板 -->
-<ng-template #realTotalMount>
-  <td class="ant-descriptions-item-label ng-star-inserted">
-    <h2>須繳付的總額</h2>
-    <p>要取得你的上台優惠，請即預繳服務計劃的首個月月費：</p>
-  </td>
-</ng-template>
 
 <!-- 支付寶付款 -->
 <ng-template #alipay>

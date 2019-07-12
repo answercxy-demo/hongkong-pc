@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  DoCheck,
+  TemplateRef
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   FormGroup,
@@ -50,7 +56,12 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
     phoneValue: '',
     modeValue: 1,
     cardValue: 'A',
-    phoneNoStatus: ''
+    phoneNoStatus: '',
+    esim: {
+      code: 'esim',
+      name: '',
+      content: ''
+    }
   };
 
   step3 = {
@@ -184,6 +195,8 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
   confirm = {
     show: false
   };
+
+  formInfo = null;
 
   detail = [];
 
@@ -319,6 +332,8 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
       this.getBusinessInfo();
       this.getSaleAndVasInfo();
       this.getAddressInfo();
+      this.getEsimInfo();
+      this.validateFormInit();
     } else {
       this.notice.create(
         'warning',
@@ -329,18 +344,42 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   /**
-   * 提交表單信息
+   * 獲取提示信息
    * @memberof ComeOnStageComponent
    */
-  submitForm(options) {
-    this.util.simpleMergeOptions(options, {
-      orgId: '977090533766828033',
-      userId: '1010053936724500480',
-      appId: 10000188
-    });
+  getEsimInfo() {
     this.apiService
-      .post('umall/business/consumer/submitOrder', options, true, '提交表單')
-      .subscribe(data => {});
+      .post(
+        'umall/business/consumer/hint/newQueryByCode',
+        {
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188,
+          code: 'esim',
+          isOpen: 1
+        },
+        false,
+        '獲取esim相關提示信息'
+      )
+      .subscribe(data => {
+        if (data.returnCode === '1000') {
+          this.step2.esim.name = data.dataInfo[0].name;
+          this.step2.esim.content = data.dataInfo[0].content;
+        }
+      });
+  }
+
+  /**
+   * 打開esim彈窗信息
+   * @memberof ComeOnStageComponent
+   */
+  openEsimInfo(tplContent: TemplateRef<{}>) {
+    this.modalService.create({
+      nzTitle: this.step2.esim.name,
+      nzContent: tplContent,
+      nzClosable: true,
+      nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000))
+    });
   }
 
   /**
@@ -684,10 +723,11 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
           'umall/business/consumer/pcOrderInfo/submitOrder',
           options,
           true,
-          '上臺請求'
+          '提交表單'
         )
         .subscribe(data => {
           if (data.returnCode === '1000') {
+            this.formInfo = data.dataInfo;
             this.util.goTop();
             this.confirm.show = true;
           }
@@ -733,7 +773,6 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
 
   ngOnInit() {
     this.dataInit();
-    this.validateFormInit();
 
     this.util.browserBackListener(this.redirectBack);
 

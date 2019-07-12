@@ -21,6 +21,7 @@
     float: left;
     text-align: left;
     margin-left: 20px;
+    margin-top: 20px;
   }
 }
 
@@ -84,5 +85,9 @@ nz-page-header.ant-page-header {
 @media (min-width: 576px) {
   .cover {
     width: 150px !important;
+  }
+  .info-box > div .cover + div {
+    max-width: calc(100% - 170px);
+    margin-top: 0;
   }
 }

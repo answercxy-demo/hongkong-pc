@@ -3,6 +3,7 @@ import { UtilService } from '../../service/util/util.service';
 import { StateService } from '../../service/state/state.service';
 import { ApiService } from '../../service/api/api.service';
 import { SignatureCanvasComponent } from '../signature-canvas/signature-canvas.component';
+import { UniversalRequestService } from '../../service/request/universal/universal-request.service';
 
 @Component({
   selector: 'app-confirm',
@@ -11,6 +12,9 @@ import { SignatureCanvasComponent } from '../signature-canvas/signature-canvas.c
 })
 export class ConfirmComponent implements OnInit {
   @Input() confirm;
+  @Input() activityInfo;
+  @Input() formInfo;
+  @Input() saleInfo;
   @ViewChild('signature', { static: true }) signature: SignatureCanvasComponent;
 
   agreement = {
@@ -20,6 +24,17 @@ export class ConfirmComponent implements OnInit {
   payType = {
     value: 'D'
   };
+
+  /**
+   * 獲取支付列表
+   * @memberof ConfirmComponent
+   */
+  getPayList() {
+    this.universal.getPayList().subscribe(data => {
+      if (data.returnCode === '1000') {
+      }
+    });
+  }
 
   /**
    * 返回表單頁進行更改
@@ -112,8 +127,14 @@ export class ConfirmComponent implements OnInit {
   constructor(
     private util: UtilService,
     private api: ApiService,
-    private state: StateService
+    private state: StateService,
+    private universal: UniversalRequestService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getPayList();
+    setInterval(() => {
+      console.log(this.confirm, this.saleInfo, this.activityInfo);
+    }, 10000);
+  }
 }

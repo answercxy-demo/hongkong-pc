@@ -3,6 +3,7 @@ import { FormValidatorService } from '../../service/formValidator/form-validator
 import { NzMessageService } from 'ng-zorro-antd';
 
 import { ApiService } from '../../service/api/api.service';
+import { UniversalRequestService } from '../../service/request/universal/universal-request.service';
 
 import {
   FormGroup,
@@ -32,10 +33,19 @@ export class OrderQueryComponent implements OnInit {
     private fb: FormBuilder,
     private customValidator: FormValidatorService,
     private message: NzMessageService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private universal: UniversalRequestService
   ) {}
 
+  getCodeImg() {
+    this.universal.getCodeImg().subscribe(data => {
+      if (data.returnCode === '1000') {
+      }
+    });
+  }
+
   ngOnInit(): void {
+    this.getCodeImg();
     this.validateForm = this.fb.group(
       {
         phone: [

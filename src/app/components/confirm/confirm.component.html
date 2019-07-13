@@ -23,25 +23,34 @@
     </div>
     <div nz-col nzMd="7" nzSm="24" nzXs="24">
       <p>優惠月費</p>
-      <p class="color-plum-red-2"></p>
+      <p class="color-plum-red-2">
+        ${{ formInfo.paymentDetail.monthFee / 100 }}
+      </p>
       <p>行政費</p>
-      <p class="color-plum-red-2"></p>
+      <p class="color-plum-red-2">
+        ${{ formInfo.paymentDetail.adminFee / 100 }}
+      </p>
       <p>優惠金額</p>
-      <p class="color-plum-red-2"></p>
+      <p class="color-plum-red-2">${{ formInfo.paymentAmount / 100 }}</p>
     </div>
     <div nz-col nzMd="5" nzSm="24" nzXs="24" style="background: #F3F3F3">
       <p>小計</p>
-      <p class="color-plum-red-2"></p>
+      <p class="color-plum-red-2">${{ formInfo.paymentAmount / 100 }}</p>
     </div>
   </div>
 
   <!-- 物品信息 -->
   <div class="descriptions-box">
     <nz-descriptions nzTitle="物品信息" nzBordered>
-      <nz-descriptions-item nzTitle="閣下選擇的新流動電話號碼"
-        >97163057</nz-descriptions-item
+      <nz-descriptions-item nzTitle="閣下選擇的新流動電話號碼">{{
+        formInfo.phoneNo
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="實體">--</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="需付款項"
+        ><span class="color-plum-red-2"
+          >${{ formInfo.paymentAmount / 100 }}</span
+        ></nz-descriptions-item
       >
-      <nz-descriptions-item nzTitle="需付款項">$108</nz-descriptions-item>
     </nz-descriptions>
   </div>
 
@@ -49,16 +58,33 @@
   <div class="descriptions-box">
     <a (click)="edit(3)"><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
     <nz-descriptions nzTitle="个人资料" nzBordered>
-      <nz-descriptions-item nzTitle="性別">男</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="姓氏">zhang</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="名字">san</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="出生日期">1992-07-03</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="香港身份證號碼"
-        >M123456(0)</nz-descriptions-item
-      >
-      <nz-descriptions-item nzTitle="聯絡電話">69201234</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="電郵">cc@xx.com</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="地址">漢正街</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="性別">{{
+        formInfo.customerInfo.gender.toString() === '1' ? '男' : '女'
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="姓氏">{{
+        formInfo.customerInfo.lastName
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="名字">{{
+        formInfo.customerInfo.firstName
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="出生日期">{{
+        formInfo.customerInfo.birthdayStr
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="香港身份證號碼">{{
+        formInfo.customerInfo.certificateCode
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="聯絡電話">{{
+        formInfo.customerInfo.contactNumber
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="電郵">{{
+        formInfo.customerInfo.email
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="地址">{{
+        formInfo.contactAddressInfoVo.area +
+          formInfo.contactAddressInfoVo.district +
+          formInfo.contactAddressInfoVo.streetName +
+          formInfo.contactAddressInfoVo.detailedAddress
+      }}</nz-descriptions-item>
     </nz-descriptions>
   </div>
 
@@ -70,9 +96,9 @@
       nzBordered
       [nzColumn]="{ md: 2, sm: 2, xs: 1 }"
     >
-      <nz-descriptions-item nzTitle="預計生效日期"
-        >2019-09-03</nz-descriptions-item
-      >
+      <nz-descriptions-item nzTitle="預計生效日期">{{
+        formInfo.effectDateStr
+      }}</nz-descriptions-item>
     </nz-descriptions>
   </div>
 
@@ -80,30 +106,39 @@
   <div class="descriptions-box">
     <nz-descriptions nzTitle="付款" nzBordered [nzColumn]="1">
       <nz-descriptions-item [nzTitle]="'需付款項'"
-        >2019-09-03</nz-descriptions-item
+        ><span class="color-plum-red-2"
+          >${{ formInfo.paymentAmount / 100 }}</span
+        ></nz-descriptions-item
       >
     </nz-descriptions>
   </div>
 
   <!-- 付款方法 -->
-  <div class="descriptions-box">
-    <nz-descriptions nzTitle="付款方法" nzBordered [nzColumn]="1">
-      <nz-descriptions-item [nzTitle]="alipay">
-        <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
-          <label nz-radio nzValue="a"></label>
-        </nz-radio-group>
-      </nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="weixinpay">
-        <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
-          <label nz-radio nzValue="c"></label>
-        </nz-radio-group>
-      </nz-descriptions-item>
-      <nz-descriptions-item [nzTitle]="creditCardnpay">
-        <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
-          <label nz-radio nzValue="D"></label>
-        </nz-radio-group>
-      </nz-descriptions-item>
-    </nz-descriptions>
+  <div class="descriptions-box" *ngIf="payType.items.length">
+    <div class="ant-descriptions-title ng-star-inserted">付款方法</div>
+    <div class="ant-descriptions-view">
+      <table>
+        <tbody>
+          <tr
+            class="ant-descriptions-row ng-star-inserted"
+            *ngFor="let item of payType.items"
+          >
+            <td class="ant-descriptions-item-label ng-star-inserted">
+              <img src="{{ item.icon }}" />
+              <span>{{ item.name }}</span>
+            </td>
+            <td
+              class="ant-descriptions-item-content ng-star-inserted"
+              colspan="1"
+            >
+              <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
+                <label nz-radio nzValue="{{ item.value }}"></label>
+              </nz-radio-group>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <label nz-checkbox [(ngModel)]="agreement.checked"
       >我已閱讀並同意條款及細則、（如適用）「越薦越友」推薦計劃條款及細則及私隱政策聲明。</label
     >
@@ -122,7 +157,7 @@
       </button>
     </div>
     <br />
-    <a (click)="getContract()">按此檢視服務合約</a>
+    <a (click)="getContract(tplContent)">按此檢視服務合約</a>
   </div>
 
   <nz-divider></nz-divider>
@@ -138,26 +173,7 @@
   </div>
 </div>
 
-<!-- 支付寶付款 -->
-<ng-template #alipay>
-  <td class="ant-descriptions-item-label ng-star-inserted">
-    <img src="assets/image/alipay.png" />
-    <span>支付寶付款</span>
-  </td>
-</ng-template>
-
-<!-- 微信付款 -->
-<ng-template #weixinpay>
-  <td class="ant-descriptions-item-label ng-star-inserted">
-    <img src="assets/image/weixinpay.png" />
-    <span>微信付款</span>
-  </td>
-</ng-template>
-
-<!-- 信用卡付款 -->
-<ng-template #creditCardnpay>
-  <td class="ant-descriptions-item-label ng-star-inserted">
-    <img src="assets/image/credit_card.png" />
-    <span>信用卡付款</span>
-  </td>
+<!-- 合約彈出窗口模板 -->
+<ng-template #tplContent>
+  <div [innerHtml]="contractContent"></div>
 </ng-template>

@@ -718,6 +718,11 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
 
     const options = this.getParams();
     if (this.validateForm.valid) {
+      const tip = this.notice.create(
+        'info',
+        '提示',
+        '表單處理内容較多，處理時間可能需要5~20秒，請您耐心等待'
+      );
       this.apiService
         .post(
           'umall/business/consumer/pcOrderInfo/submitOrder',
@@ -730,6 +735,13 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
             this.formInfo = data.dataInfo;
             this.util.goTop();
             this.confirm.show = true;
+
+            this.formInfo.customerInfo.birthdayStr = this.util.numberToDate(
+              Number(this.formInfo.customerInfo.birthday)
+            );
+            this.formInfo.effectDateStr = this.util.numberToDate(
+              Number(this.formInfo.effectDate)
+            );
           }
         });
     } else {

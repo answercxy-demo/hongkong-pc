@@ -105,5 +105,29 @@ export class UtilService {
     }
   }
 
+  /**
+   * 將轉json對象爲url請求字符串
+   * @param {*} json
+   * @returns {string}
+   * @memberof UtilService
+   */
+  setUrlStr(json): string {
+    let str = '?';
+
+    for (let key in json) {
+      str += `${key}=${json[key]}&`;
+    }
+
+    return str.substr(0, str.length - 1);
+  }
+
+  numberToDate(num: number) {
+    const date = new Date(num);
+    const y = date.getFullYear();
+    const m = date.getMonth() + 1;
+    const d = date.getDate();
+    return `${y}-${m}-${d}`;
+  }
+
   constructor(private state: StateService) {}
 }

@@ -26,17 +26,14 @@ export class UniversalRequestService {
 
   /**
    * 獲取支付列表
+   * @param {*} options
    * @returns {Observable<any>}
    * @memberof UniversalRequestService
    */
-  getPayList(): Observable<any> {
+  getPayList(options): Observable<any> {
     return this.api.post(
-      'moses/payment/manager/admin/payTypeInfo/page',
-      {
-        orgId: '977090533766828033',
-        userId: '1010053936724500480',
-        appId: 10000188
-      },
+      'umall/order/adapter/payTypeList',
+      options,
       true,
       '獲取支付列表'
     );

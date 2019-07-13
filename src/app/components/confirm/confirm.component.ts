@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  TemplateRef
+} from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd';
 import { UtilService } from '../../service/util/util.service';
 import { StateService } from '../../service/state/state.service';
 import { ApiService } from '../../service/api/api.service';
@@ -22,18 +29,39 @@ export class ConfirmComponent implements OnInit {
   };
 
   payType = {
-    value: 'D'
+    value: 'D',
+    items: []
   };
+
+  signatureUrl = '';
+
+  contractContent = '';
 
   /**
    * 獲取支付列表
    * @memberof ConfirmComponent
    */
   getPayList() {
-    this.universal.getPayList().subscribe(data => {
-      if (data.returnCode === '1000') {
-      }
-    });
+    this.universal
+      .getPayList({
+        orgId: '977090533766828033',
+        userId: '1010053936724500480',
+        appId: 10000188,
+        purchaseType: 1,
+        registerType: this.formInfo.registerType,
+        scene: 1
+      })
+      .subscribe(data => {
+        if (data.returnCode === '1000') {
+          data.dataInfo.payTypes.forEach(item => {
+            if (item.identifying.toString() === '1') {
+              item.value = item.type;
+              this.payType.items.push(item);
+            }
+          });
+          this.payType.value = this.payType.items[0].type;
+        }
+      });
   }
 
   /**
@@ -68,6 +96,7 @@ export class ConfirmComponent implements OnInit {
       .post('moses/upload/file/upload', options, true, '上傳簽名')
       .subscribe(data => {
         if (data.returnCode.toString() === '1000') {
+          this.signatureUrl = data.dataInfo.url;
           this.submitSignature(data.dataInfo.url);
         }
       });
@@ -96,17 +125,26 @@ export class ConfirmComponent implements OnInit {
    * 獲取合約
    * @memberof ConfirmComponent
    */
-  getContract() {
+  getContract(tplContent: TemplateRef<{}>) {
     this.api
-      .post(
-        'umall/business/consumer/paperless/getContract',
+      .get(
+        'umall/attachment/consumer/contract/electronicContract',
         {
-          orderId: this.state.orderId.value
+          registerId: this.state.orderId.value,
+          signImgPath: this.signatureUrl
         },
         true,
         '獲取合約'
       )
-      .subscribe(data => {});
+      .subscribe(data => {
+        this.contractContent = data.dataInfo;
+        this.modalService.create({
+          nzTitle: '合約信息',
+          nzContent: tplContent,
+          nzClosable: true,
+          nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000))
+        });
+      });
   }
 
   /**
@@ -128,7 +166,8 @@ export class ConfirmComponent implements OnInit {
     private util: UtilService,
     private api: ApiService,
     private state: StateService,
-    private universal: UniversalRequestService
+    private universal: UniversalRequestService,
+    private modalService: NzModalService
   ) {}
 
   ngOnInit() {

@@ -5,7 +5,7 @@ import {
   ViewChild,
   TemplateRef
 } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { UtilService } from '../../service/util/util.service';
 import { StateService } from '../../service/state/state.service';
 import { ApiService } from '../../service/api/api.service';
@@ -23,6 +23,10 @@ export class ConfirmComponent implements OnInit {
   @Input() formInfo;
   @Input() saleInfo;
   @ViewChild('signature', { static: true }) signature: SignatureCanvasComponent;
+
+  seeContract = false;
+
+  signatured = false;
 
   agreement = {
     checked: true
@@ -88,18 +92,21 @@ export class ConfirmComponent implements OnInit {
    * @memberof ConfirmComponent
    */
   uploadSignature() {
-    const png = this.signature.getPng();
-    const options = new FormData();
-    options.append('fileData', png, 'file_' + Number(new Date()) + '.png');
+    if (this.seeContract) {
+      const png = this.signature.getPng();
+      const options = new FormData();
+      options.append('fileData', png, 'file_' + Number(new Date()) + '.png');
 
-    this.api
-      .post('moses/upload/file/upload', options, true, '上傳簽名')
-      .subscribe(data => {
-        if (data.returnCode.toString() === '1000') {
-          this.signatureUrl = data.dataInfo.url;
-          this.submitSignature(data.dataInfo.url);
-        }
-      });
+      this.api
+        .post('moses/upload/file/upload', options, true, '上傳簽名')
+        .subscribe(data => {
+          if (data.returnCode.toString() === '1000') {
+            this.signatureUrl = data.dataInfo.url;
+            this.submitSignature(data.dataInfo.url);
+            this.notice.create('success', '成功', '恭喜您應用簽名成功');
+          }
+        });
+    }
   }
 
   /**
@@ -110,15 +117,22 @@ export class ConfirmComponent implements OnInit {
   submitSignature(url: string) {
     this.api
       .post(
-        'umall/business/consumer/handle/sumbitSignaturePic',
+        'umall/business/consumer/contract/submitContract',
         {
-          id: this.state.orderId.value,
-          signaturePicPath: url
+          registerId: this.state.orderId.value,
+          signImgPath: url,
+          htmlPath: '1',
+          lang: 'C',
+          orgId: '977090533766828033',
+          userId: '1010053936724500480',
+          appId: 10000188
         },
         true,
         '提交簽名'
       )
-      .subscribe(data => {});
+      .subscribe(data => {
+        this.signatured = true;
+      });
   }
 
   /**
@@ -137,6 +151,7 @@ export class ConfirmComponent implements OnInit {
         '獲取合約'
       )
       .subscribe(data => {
+        this.seeContract = true;
         this.contractContent = data.dataInfo;
         this.modalService.create({
           nzTitle: '合約信息',
@@ -167,7 +182,8 @@ export class ConfirmComponent implements OnInit {
     private api: ApiService,
     private state: StateService,
     private universal: UniversalRequestService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private notice: NzNotificationService
   ) {}
 
   ngOnInit() {

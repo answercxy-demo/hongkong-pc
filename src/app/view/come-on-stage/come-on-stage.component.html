@@ -1,13 +1,13 @@
 <app-carousel></app-carousel>
 <!-- 麵包屑 -->
-<nz-breadcrumb nzSeparator=">">
+<!-- <nz-breadcrumb nzSeparator=">">
   <nz-breadcrumb-item>
     <a [routerLink]="['/packageList']">服務計劃列表</a>
   </nz-breadcrumb-item>
   <nz-breadcrumb-item>
     {{ title.desc }}
   </nz-breadcrumb-item>
-</nz-breadcrumb>
+</nz-breadcrumb> -->
 
 <!-- 包括优惠活动表单及详情  -->
 <div [hidden]="confirm.show">
@@ -109,7 +109,8 @@
                 <label nz-radio nzValue="A">實體SIM卡</label>
                 <label nz-radio nzValue="esim">esim*</label>
               </nz-radio-group>
-              <a (click)="openEsimInfo(tplContent)" *ngIf="step2.cardValue===step2.esim.code" class="tip color-blue-1">{{step2.esim.name}}</a>
+              <a (click)="openEsimInfo(tplContent)" *ngIf="step2.cardValue===step2.esim.code"
+                class="tip color-blue-1">{{step2.esim.name}}</a>
             </div>
           </div>
 
@@ -272,8 +273,8 @@
               <nz-form-item *ngIf="step2.modeValue === 2">
                 <nz-form-label nzXs="4" nzNoColon="true" nzRequired>生效時間</nz-form-label>
                 <nz-form-control nzXs="20" nzErrorTip="請選擇生效時間!">
-                  <nz-time-picker [required]="step2.modeValue===1?null:true" nzFormat="HH:mm"
-                    formControlName="effectTime" (ngModelChange)="confirmPhone()"></nz-time-picker>
+                  <nz-time-picker [(ngModel)]="step4.timeValue" [required]="step2.modeValue===1?null:true"
+                    nzFormat="HH:mm" formControlName="effectTime" (ngModelChange)="confirmPhone()"></nz-time-picker>
                 </nz-form-control>
               </nz-form-item>
             </div>
@@ -300,7 +301,10 @@
 </div>
 
 <!-- 表单信息确认 -->
-<app-confirm *ngIf="activityInfo.contractList.length && step1.sale[activityInfo.contractList[step1.businessContractType].months] && step1.sale[activityInfo.contractList[step1.businessContractType].months].dataLv2List.length && confirm.show" [confirm]="confirm" [activityInfo]="activityInfo" [formInfo]="formInfo" [saleInfo]="step1.sale[activityInfo.contractList[step1.businessContractType].months].dataLv2List"></app-confirm>
+<app-confirm
+  *ngIf="activityInfo.contractList.length && step1.sale[activityInfo.contractList[step1.businessContractType].months] && confirm.show"
+  [confirm]="confirm" [activityInfo]="activityInfo" [formInfo]="formInfo"
+  [saleInfo]="step1.sale[activityInfo.contractList[step1.businessContractType].months].dataLv2List"></app-confirm>
 
 <!-- esim彈出窗口模板 -->
 <ng-template #tplContent>

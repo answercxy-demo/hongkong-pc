@@ -1,19 +1,8 @@
 <div class="content-box">
   <!-- 套餐相關信息 -->
   <div class="info-box" nz-row nzType="flex" nzJustify="space-between">
-    <div
-      class="border-box"
-      nz-col
-      nzMd="12"
-      nzSm="24"
-      nzXs="24"
-      style="border-bottom: solid 1px #ddd"
-    >
-      <img
-        class="cover"
-        src="{{ activityInfo.businessImg }}"
-        onerror="this.src='assets/image/no_poster.png'"
-      />
+    <div class="border-box" nz-col nzMd="12" nzSm="24" nzXs="24" style="border-bottom: solid 1px #ddd">
+      <img class="cover" src="{{ activityInfo.businessImg }}" onerror="this.src='assets/image/no_poster.png'" />
       <div>
         <p>{{ activityInfo.businessName }}</p>
         <p *ngFor="let item of saleInfo" class="color-plum-red-2">
@@ -46,11 +35,8 @@
         formInfo.phoneNo
       }}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="實體">--</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="需付款項"
-        ><span class="color-plum-red-2"
-          >${{ formInfo.paymentAmount / 100 }}</span
-        ></nz-descriptions-item
-      >
+      <nz-descriptions-item nzTitle="需付款項"><span class="color-plum-red-2">${{ formInfo.paymentAmount / 100 }}</span>
+      </nz-descriptions-item>
     </nz-descriptions>
   </div>
 
@@ -91,11 +77,7 @@
   <!-- 合約生效日期 -->
   <div class="descriptions-box">
     <a (click)="edit(4)"><i nz-icon nzType="edit" nzTheme="outline"></i>更改</a>
-    <nz-descriptions
-      nzTitle="合約生效日期"
-      nzBordered
-      [nzColumn]="{ md: 2, sm: 2, xs: 1 }"
-    >
+    <nz-descriptions nzTitle="合約生效日期" nzBordered [nzColumn]="{ md: 2, sm: 2, xs: 1 }">
       <nz-descriptions-item nzTitle="預計生效日期">{{
         formInfo.effectDateStr
       }}</nz-descriptions-item>
@@ -105,11 +87,8 @@
   <!-- 月費 -->
   <div class="descriptions-box">
     <nz-descriptions nzTitle="付款" nzBordered [nzColumn]="1">
-      <nz-descriptions-item [nzTitle]="'需付款項'"
-        ><span class="color-plum-red-2"
-          >${{ formInfo.paymentAmount / 100 }}</span
-        ></nz-descriptions-item
-      >
+      <nz-descriptions-item [nzTitle]="'需付款項'"><span class="color-plum-red-2">${{ formInfo.paymentAmount / 100 }}</span>
+      </nz-descriptions-item>
     </nz-descriptions>
   </div>
 
@@ -119,18 +98,12 @@
     <div class="ant-descriptions-view">
       <table>
         <tbody>
-          <tr
-            class="ant-descriptions-row ng-star-inserted"
-            *ngFor="let item of payType.items"
-          >
+          <tr class="ant-descriptions-row ng-star-inserted" *ngFor="let item of payType.items">
             <td class="ant-descriptions-item-label ng-star-inserted">
               <img src="{{ item.icon }}" />
               <span>{{ item.name }}</span>
             </td>
-            <td
-              class="ant-descriptions-item-content ng-star-inserted"
-              colspan="1"
-            >
+            <td class="ant-descriptions-item-content ng-star-inserted" colspan="1">
               <nz-radio-group [(ngModel)]="payType.value" nzSize="xLarge">
                 <label nz-radio nzValue="{{ item.value }}"></label>
               </nz-radio-group>
@@ -139,20 +112,15 @@
         </tbody>
       </table>
     </div>
-    <label nz-checkbox [(ngModel)]="agreement.checked"
-      >我已閱讀並同意條款及細則、（如適用）「越薦越友」推薦計劃條款及細則及私隱政策聲明。</label
-    >
+    <label nz-checkbox [(ngModel)]="agreement.checked">我已閱讀並同意條款及細則、（如適用）「越薦越友」推薦計劃條款及細則及私隱政策聲明。</label>
   </div>
 
   <!-- 簽署協議 -->
   <div class="contract-box">
-    <nz-page-header
-      nzTitle="簽署確認申請資料及服務合約"
-      nzSubtitle="請簽名確認上述資料正確"
-    ></nz-page-header>
+    <nz-page-header nzTitle="簽署確認申請資料及服務合約" nzSubtitle="請簽名確認上述資料正確"></nz-page-header>
     <div class="info-box">
       <app-signature-canvas #signature></app-signature-canvas>
-      <button nz-button nzType="primary" (click)="uploadSignature()">
+      <button nz-popover [nzContent]="contentTemplate" nz-button nzType="primary" (click)="uploadSignature()">
         應用
       </button>
     </div>
@@ -164,10 +132,8 @@
 
   <!-- 返回及下一步 -->
   <div nz-row nzType="flex" nzJustify="space-between">
-    <a (click)="back()" nz-col
-      ><i nz-icon nzType="left" nzTheme="outline"></i>返回</a
-    >
-    <button nz-col nz-button nzType="primary" (click)="next()">
+    <a (click)="back()" nz-col><i nz-icon nzType="left" nzTheme="outline"></i>返回</a>
+    <button nz-col nz-button nzType="primary" (click)="next()" [disabled]="!signatured">
       前往付款
     </button>
   </div>
@@ -176,4 +142,9 @@
 <!-- 合約彈出窗口模板 -->
 <ng-template #tplContent>
   <div [innerHtml]="contractContent"></div>
+</ng-template>
+
+<!-- 合約彈出窗口模板 -->
+<ng-template #contentTemplate>
+  <div>請先檢視合約</div>
 </ng-template>

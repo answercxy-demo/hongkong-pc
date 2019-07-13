@@ -25,20 +25,6 @@ export class UniversalRequestService {
   }
 
   /**
-   * 獲取驗證碼圖片
-   * @returns {Observable<any>}
-   * @memberof UniversalRequestService
-   */
-  getCodeImg(): Observable<any> {
-    return this.api.post(
-      'umall/business/consumer/vaild/generateQRCode',
-      {},
-      false,
-      '獲取驗證碼圖片'
-    );
-  }
-
-  /**
    * 獲取支付列表
    * @param {*} options
    * @returns {Observable<any>}

@@ -157,6 +157,7 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
   step4 = {
     order: 4,
     name: '生效日期',
+    timeValue: new Date(),
     //   New sales: 周四至周五是 T+4     周日至周三是 T+2          周六是T+3
     // M N P:       周四至周五是T+5      周日至周三是T+3              周六是T+4
     disabledDate: (current: Date): boolean => {
@@ -589,6 +590,9 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
   registerTypeChange() {
     this.step2.phoneValue = '';
     this.validateForm.value.phoneNo = '';
+    if (this.step2.modeValue === 2) {
+      this.step4.timeValue = new Date();
+    }
   }
 
   /**
@@ -741,6 +745,20 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
             );
             this.formInfo.effectDateStr = this.util.numberToDate(
               Number(this.formInfo.effectDate)
+            );
+
+            console.log(this.activityInfo.contractList.length);
+            console.log(
+              this.step1.sale[
+                this.activityInfo.contractList[this.step1.businessContractType]
+                  .months
+              ]
+            );
+            console.log(
+              this.step1.sale[
+                this.activityInfo.contractList[this.step1.businessContractType]
+                  .months
+              ].dataLv2List.length
             );
           }
         });

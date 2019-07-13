@@ -37,15 +37,7 @@ export class OrderQueryComponent implements OnInit {
     private universal: UniversalRequestService
   ) {}
 
-  getCodeImg() {
-    this.universal.getCodeImg().subscribe(data => {
-      if (data.returnCode === '1000') {
-      }
-    });
-  }
-
   ngOnInit(): void {
-    this.getCodeImg();
     this.validateForm = this.fb.group(
       {
         phone: [

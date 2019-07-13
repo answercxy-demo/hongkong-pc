@@ -33,7 +33,13 @@ export class PackageListComponent implements OnInit {
       )
       .subscribe(data => {
         if (data.returnCode === '1000') {
-          this.activityList = data.records || [];
+          const activityList = data.records || [];
+
+          activityList.forEach(item => {
+            if (item.packageType === '158') {
+              this.activityList.push(item);
+            }
+          });
 
           if (!this.activityList.length) {
             this.notice.create(

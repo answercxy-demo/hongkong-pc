@@ -99,17 +99,18 @@
                     minlength="8" maxlength="8" number disabled (ngModelChange)="confirmPhone()" />
                   <input *ngIf="step2.modeValue===2" [(ngModel)]="step2.phoneValue" nz-input formControlName="phoneNo"
                     minlength="8" maxlength="8" number (change)="confirmPhone()" />
+                  <div *ngIf="step2.modeValue===2" class="tip color-blue-1">携號上臺只能辦理後付，預付需前往門市辦理</div>
                   <button *ngIf="step2.modeValue===1" nz-button (click)="openPhoneModal()">選擇號碼</button>
                 </nz-form-control>
               </nz-form-item>
 
               <nz-divider></nz-divider>
 
-              <nz-radio-group [(ngModel)]="step2.cardValue" nzName="radiogroup" formControlName="card">
-                <label nz-radio nzValue="A">實體SIM卡</label>
-                <label nz-radio nzValue="esim">esim*</label>
+              <nz-radio-group [(ngModel)]="step2.cardValue" nzName="radiogroup" formControlName="transactType">
+                <label nz-radio [nzValue]="2">實體SIM卡</label>
+                <label nz-radio [nzValue]="5">esim*</label>
               </nz-radio-group>
-              <a (click)="openEsimInfo(tplContent)" *ngIf="step2.cardValue===step2.esim.code"
+              <a (click)="openEsimInfo(tplContent)" *ngIf="step2.cardValue===step2.esim.value"
                 class="tip color-blue-1">{{step2.esim.name}}</a>
             </div>
           </div>

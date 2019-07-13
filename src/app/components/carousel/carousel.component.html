@@ -1,8 +1,14 @@
-<nz-carousel nzEffect="scrollx">
+<nz-carousel
+  *ngIf="!!banners.length"
+  nzEffect="scrollx"
+  [nzDots]="banners.length > 1"
+>
   <div
     nz-carousel-content
-    *ngFor="let index of [1, 2]"
-    style="background:yellowgreen; height: 100%;"
+    *ngFor="let banner of banners"
+    [ngStyle]="{
+      background: 'url(' + banner.advertImage + ') no-repeat center center'
+    }"
   >
     <h3>{{ index }}</h3>
   </div>

@@ -7,10 +7,16 @@ import { ApiService } from '../../service/api/api.service';
   styleUrls: ['./carousel.component.less']
 })
 export class CarouselComponent implements OnInit {
+  banners = [];
+
+  /**
+   * 獲取banner圖片
+   * @memberof CarouselComponent
+   */
   getBanners() {
     this.api
       .post(
-        'moses/advert/consumer/advertInfo/advertPage',
+        'cmbs/advert/consumer/advertInfo/advertPage',
         {
           orgId: '977090533766828033',
           shopId: '1006756252527853569',
@@ -23,7 +29,11 @@ export class CarouselComponent implements OnInit {
         false,
         '獲取廣告圖片'
       )
-      .subscribe(data => {});
+      .subscribe(data => {
+        if (data.returnCode === '1000') {
+          this.banners = data.records;
+        }
+      });
   }
 
   constructor(private api: ApiService) {}

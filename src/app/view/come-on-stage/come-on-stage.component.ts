@@ -55,12 +55,13 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
     name: '請選擇上臺方式',
     phoneValue: '',
     modeValue: 1,
-    cardValue: 'A',
+    cardValue: 2,
     phoneNoStatus: '',
     esim: {
       code: 'esim',
       name: '',
-      content: ''
+      content: '',
+      value: 5
     }
   };
 
@@ -633,7 +634,7 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
         effectTime: [null, []],
         contractPeriod: [null, []],
         registerType: [null, [Validators.required]],
-        card: [null, [Validators.required]]
+        transactType: [null, [Validators.required]]
       }
       // { updateOn: 'blur' }
     );
@@ -687,6 +688,7 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
       registerType: formValue.registerType,
       phoneNo: formValue.phoneNo,
       effectDate: Number(formValue.effectDate),
+      transactType: formValue.transactType,
       effectTime:
         effectTime instanceof Date
           ? effectTime.getHours().toString() + effectTime.getMinutes()
@@ -695,6 +697,7 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
       businessPlanCode: this.activityInfo.businessCode,
       contractPeriod: this.activityInfo.contractList[formValue.contractPeriod]
         .months,
+
       certificateAttach: formValue.certificateAttach,
       contactAddressInfoVo: addressInfoVo,
       customerInfo: {

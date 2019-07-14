@@ -19,12 +19,10 @@ import { ComeOnStageComponent } from './view/come-on-stage/come-on-stage.compone
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { PhoneQueryComponent } from './components/phone-query/phone-query.component';
-import { MessageComponent } from './components/message/message.component';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
 import { OrderQueryComponent } from './view/order-query/order-query.component';
 import { SignatureCanvasComponent } from './components/signature-canvas/signature-canvas.component';
 import { ResultComponent } from './view/result/result.component';
-import { UploadCertComponent } from './components/upload-cert/upload-cert.component';
 import { PackageListComponent } from './view/package-list/package-list.component';
 
 registerLocaleData(zh);
@@ -38,12 +36,10 @@ registerLocaleData(zh);
     CarouselComponent,
     ConfirmComponent,
     PhoneQueryComponent,
-    MessageComponent,
     ActivityDetailComponent,
     OrderQueryComponent,
     SignatureCanvasComponent,
     ResultComponent,
-    UploadCertComponent,
     PackageListComponent
   ],
   imports: [

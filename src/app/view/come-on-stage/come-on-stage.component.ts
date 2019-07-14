@@ -16,7 +16,7 @@ import { Observer, Observable, timer } from 'rxjs';
 import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { UtilService } from '../../service/util/util.service';
 import { ApiService } from '../../service/api/api.service';
-import { MainRequestService } from '../../service/request/main/main.service';
+import { MainRequestService } from '../../service/request/main/main-request.service';
 import { UniversalRequestService } from '../../service/request/universal/universal-request.service';
 import { FormValidatorService } from '../../service/formValidator/form-validator.service';
 import { PhoneQueryComponent } from 'src/app/components/phone-query/phone-query.component';

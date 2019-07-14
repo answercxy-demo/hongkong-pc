@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd';
 import { ActivatedRoute } from '@angular/router';
-import { MainRequestService } from '../../service/request/main/main.service';
+import { MainRequestService } from '../../service/request/main/main-request.service';
 
 @Component({
   selector: 'app-home',

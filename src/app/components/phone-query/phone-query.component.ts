@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { MainRequestService } from '../../service/request/main/main.service';
+import { MainRequestService } from '../../service/request/main/main-request.service';
 
 @Component({
   selector: 'app-phone-query',

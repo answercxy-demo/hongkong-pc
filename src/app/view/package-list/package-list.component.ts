@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd';
-import { MainRequestService } from '../../service/request/main/main.service';
+import { MainRequestService } from '../../service/request/main/main-request.service';
 
 @Component({
   selector: 'app-package-list',

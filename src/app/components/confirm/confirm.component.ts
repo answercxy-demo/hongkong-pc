@@ -10,7 +10,7 @@ import { UtilService } from '../../service/util/util.service';
 import { StateService } from '../../service/state/state.service';
 import { SignatureCanvasComponent } from '../signature-canvas/signature-canvas.component';
 import { UniversalRequestService } from '../../service/request/universal/universal-request.service';
-import { MainRequestService } from '../../service/request/main/main.service';
+import { MainRequestService } from '../../service/request/main/main-request.service';
 
 @Component({
   selector: 'app-confirm',

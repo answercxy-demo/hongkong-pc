@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -32,12 +32,16 @@ export class CardComponent implements OnInit {
     switch (this.type) {
       case this.PACKAGE_TYPE:
         this.router.navigate(['home'], {
-          queryParams: { packageId: options.id }
+          queryParams: { packageId: options.id },
+          queryParamsHandling: 'merge',
+          preserveFragment: true
         });
         break;
       case this.BUSINESS_TYPE:
         this.router.navigate(['comeOnStage'], {
-          queryParams: { id: options.id }
+          queryParams: { id: options.id },
+          queryParamsHandling: 'merge',
+          preserveFragment: true
         });
         break;
       default:

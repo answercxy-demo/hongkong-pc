@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -14,8 +15,8 @@ export class ApiService {
   // private origin = 'http://devcloud.vpclub.cn';
 
   private options = {
-    orgId: '977090533766828033',
-    userId: '1010053936724500480',
+    orgId: '', // '977090533766828033'
+    userId: '', // '1010053936724500480'
     appId: 10000188
   };
 
@@ -144,8 +145,29 @@ export class ApiService {
   isAlterEgoTaken: (alterEgo: string) => Observable<boolean>;
   constructor(
     private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router,
     private message: NzMessageService,
     private util: UtilService,
     private notice: NzNotificationService
-  ) {}
+  ) {
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        const queryParamMap = this.route.snapshot.queryParamMap;
+        const orgId = queryParamMap.get('orgId');
+        const userId = queryParamMap.get('userId');
+        if (!!orgId && !!userId) {
+          this.options.orgId = queryParamMap.get('orgId');
+          this.options.userId = queryParamMap.get('userId');
+        } else {
+          this.message.error(
+            '链接中无orgId，userId相关信息，3s后将自动为您跳转至香港移动首页'
+          );
+          setTimeout(() => {
+            window.location.href = 'https://www.hk.chinamobile.com';
+          }, 3000);
+        }
+      }
+    });
+  }
 }

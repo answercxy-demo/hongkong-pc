@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MainRequestService } from '../../service/request/main/main-request.service';
 
 @Component({
@@ -79,7 +79,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private mainApi: MainRequestService,
     private notice: NzNotificationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {

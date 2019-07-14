@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd';
 import { MainRequestService } from '../../service/request/main/main-request.service';
 
@@ -47,7 +48,8 @@ export class PackageListComponent implements OnInit {
 
   constructor(
     private notice: NzNotificationService,
-    private mainApi: MainRequestService
+    private mainApi: MainRequestService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {

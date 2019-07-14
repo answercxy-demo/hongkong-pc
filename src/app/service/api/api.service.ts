@@ -10,8 +10,8 @@ import { NzMessageService, NzNotificationService } from 'ng-zorro-antd';
   providedIn: 'root'
 })
 export class ApiService {
-  // private origin = window.location.origin;
-  private origin = 'http://devcloud.vpclub.cn';
+  private origin = window.location.origin;
+  // private origin = 'http://devcloud.vpclub.cn';
 
   private options = {
     orgId: '977090533766828033',

@@ -26,7 +26,10 @@
   </button>
 </div>
 
-<nz-modal [(nzVisible)]="uploadModal.isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()">
-  <app-upload-cert></app-upload-cert>
+<nz-modal
+  [(nzVisible)]="uploadModal.isVisible"
+  nzTitle="The first Modal"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
 </nz-modal>

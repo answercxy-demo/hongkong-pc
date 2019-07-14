@@ -16,6 +16,8 @@ import { Observer, Observable, timer } from 'rxjs';
 import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { UtilService } from '../../service/util/util.service';
 import { ApiService } from '../../service/api/api.service';
+import { MainRequestService } from '../../service/request/main/main.service';
+import { UniversalRequestService } from '../../service/request/universal/universal-request.service';
 import { FormValidatorService } from '../../service/formValidator/form-validator.service';
 import { PhoneQueryComponent } from 'src/app/components/phone-query/phone-query.component';
 import { StateService } from '../../service/state/state.service';
@@ -207,42 +209,30 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
    * @memberof ComeOnStageComponent
    */
   getBusinessInfo() {
-    this.apiService
-      .post(
-        'umall/business/consumer/businessInfo/query',
-        {
-          id: this.id,
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        },
-        true,
-        '業務詳情'
-      )
-      .subscribe(data => {
-        if (data.returnCode === '1000') {
-          this.activityInfo = data.dataInfo;
-          this.title.desc = data.dataInfo.businessName;
-          this.activityDetail.items[0].value =
-            data.dataInfo.businessSpecDesc || '--';
-          this.activityDetail.items[1].value = `${data.dataInfo.callMinutes ||
-            '--'}分鐘`;
+    this.mainApi.getBusinessDetail({ id: this.id }).subscribe(data => {
+      if (data.returnCode === '1000') {
+        this.activityInfo = data.dataInfo;
+        this.title.desc = data.dataInfo.businessName;
+        this.activityDetail.items[0].value =
+          data.dataInfo.businessSpecDesc || '--';
+        this.activityDetail.items[1].value = `${data.dataInfo.callMinutes ||
+          '--'}分鐘`;
 
-          if (!!data.dataInfo.businessInfo) {
-            this.detail.push({
-              name: '月費詳情',
-              value: data.dataInfo.businessInfo
-            });
-          }
-
-          if (!!data.dataInfo.businessDesc) {
-            this.detail.push({
-              name: '條款及明細',
-              value: data.dataInfo.businessDesc
-            });
-          }
+        if (!!data.dataInfo.businessInfo) {
+          this.detail.push({
+            name: '月費詳情',
+            value: data.dataInfo.businessInfo
+          });
         }
-      });
+
+        if (!!data.dataInfo.businessDesc) {
+          this.detail.push({
+            name: '條款及明細',
+            value: data.dataInfo.businessDesc
+          });
+        }
+      }
+    });
   }
 
   /**
@@ -250,29 +240,17 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
    * @memberof ComeOnStageComponent
    */
   getSaleAndVasInfo() {
-    this.apiService
-      .post(
-        'umall/business/consumer/businessInfo/getDiscountsAndVas',
-        {
-          id: this.id,
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        },
-        true,
-        '獲取業務優惠及VAS信息'
-      )
-      .subscribe(data => {
-        if (data.returnCode === '1000') {
-          if (data.dataInfo.discDataLv1List.length) {
-            data.dataInfo.discDataLv1List.forEach(item => {
-              if (!!item.months) {
-                this.step1.sale[item.months] = item;
-              }
-            });
-          }
+    this.mainApi.getDiscountsAndVas({ id: this.id }).subscribe(data => {
+      if (data.returnCode === '1000') {
+        if (data.dataInfo.discDataLv1List.length) {
+          data.dataInfo.discDataLv1List.forEach(item => {
+            if (!!item.months) {
+              this.step1.sale[item.months] = item;
+            }
+          });
         }
-      });
+      }
+    });
   }
 
   /**
@@ -280,49 +258,38 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
    * @memberof ComeOnStageComponent
    */
   getAddressInfo() {
-    this.apiService
-      .post(
-        'umall/business/consumer/maparea/searchAreaAndDistrict',
-        {
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        },
-        true,
-        '獲取地區/區域信息'
-      )
-      .subscribe(data => {
-        if (data.returnCode === '1000') {
-          // 香港，九龍，新界
-          for (const item of data.records) {
-            switch (item.areaId) {
-              case '1':
-                this.step3.areaAndDistrictOptions[0].children.push({
-                  label: item.districtTcResult,
-                  value: item.districtTcResult,
-                  isLeaf: true
-                });
-                break;
-              case '2':
-                this.step3.areaAndDistrictOptions[1].children.push({
-                  label: item.districtTcResult,
-                  value: item.districtTcResult,
-                  isLeaf: true
-                });
-                break;
-              case '3':
-                this.step3.areaAndDistrictOptions[2].children.push({
-                  label: item.districtTcResult,
-                  value: item.districtTcResult,
-                  isLeaf: true
-                });
-                break;
-              default:
-                break;
-            }
+    this.universalApi.getAddressInfo().subscribe(data => {
+      if (data.returnCode === '1000') {
+        // 香港，九龍，新界
+        for (const item of data.records) {
+          switch (item.areaId) {
+            case '1':
+              this.step3.areaAndDistrictOptions[0].children.push({
+                label: item.districtTcResult,
+                value: item.districtTcResult,
+                isLeaf: true
+              });
+              break;
+            case '2':
+              this.step3.areaAndDistrictOptions[1].children.push({
+                label: item.districtTcResult,
+                value: item.districtTcResult,
+                isLeaf: true
+              });
+              break;
+            case '3':
+              this.step3.areaAndDistrictOptions[2].children.push({
+                label: item.districtTcResult,
+                value: item.districtTcResult,
+                isLeaf: true
+              });
+              break;
+            default:
+              break;
           }
         }
-      });
+      }
+    });
   }
 
   /**
@@ -350,19 +317,8 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
    * @memberof ComeOnStageComponent
    */
   getEsimInfo() {
-    this.apiService
-      .post(
-        'umall/business/consumer/hint/newQueryByCode',
-        {
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188,
-          code: 'esim',
-          isOpen: 1
-        },
-        false,
-        '獲取esim相關提示信息'
-      )
+    this.universalApi
+      .getTipInfo({ code: 'esim', isOpen: 1 })
       .subscribe(data => {
         if (data.returnCode === '1000') {
           this.step2.esim.name = data.dataInfo[0].name;
@@ -406,14 +362,10 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
           effectTime instanceof Date
             ? effectTime.getHours().toString() + effectTime.getMinutes()
             : null;
-        const options = {
-          phoneNo,
-          effectDate: dateNo,
-          effectTime: timeNo,
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        };
+        const options = this.util.simpleMergeOptions(
+          this.apiService.getOptions(),
+          { phoneNo, effectDate: dateNo, effectTime: timeNo }
+        );
 
         if (this.step2.modeValue === 2) {
           url = 'umall/business/consumer/vaild/isMnpInfoValid';
@@ -450,18 +402,8 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
       const head = form.get('idCardHead').value;
       const end = form.get('idCardEnd').value;
 
-      this.apiService
-        .post(
-          'umall/business/consumer/vaild/isHkidValid',
-          {
-            hkid: `${head}(${end})`,
-            orgId: '977090533766828033',
-            userId: '1010053936724500480',
-            appId: 10000188
-          },
-          false,
-          '身份証號碼驗證請求'
-        )
+      this.universalApi
+        .idCardVerification({ hkid: `${head}(${end})` })
         .subscribe(data => {
           if (data.returnCode === '1000') {
             this.step3.idCardStatus = 'success';
@@ -488,32 +430,21 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
     this.step3.searchLoading = true;
     this.step3.searchData = [];
     this.step3.searchShow = true;
-    this.apiService
-      .post(
-        'umall/business/consumer/maparea/search',
-        {
-          wd: value,
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        },
-        false,
-        '搜索地址信息'
-      )
-      .subscribe(data => {
-        this.step3.searchLoading = false;
 
-        if (data.returnCode === '1000') {
-          for (const item of data.records) {
-            this.step3.searchData.push(
-              `${item.areaTcResult}-${item.districtTcResult}-${
-                item.streetTcResult
-              }-${item.bldgTcResult}`
-            );
-          }
-          console.log(this.step3.searchData);
+    this.universalApi.searchAddressInfo({ wd: value }).subscribe(data => {
+      this.step3.searchLoading = false;
+
+      if (data.returnCode === '1000') {
+        for (const item of data.records) {
+          this.step3.searchData.push(
+            `${item.areaTcResult}-${item.districtTcResult}-${
+              item.streetTcResult
+            }-${item.bldgTcResult}`
+          );
         }
-      });
+        console.log(this.step3.searchData);
+      }
+    });
   }
 
   /**
@@ -682,9 +613,6 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
     };
     return {
       id: this.state.orderId.value,
-      orgId: '977090533766828033',
-      userId: '1010053936724500480',
-      appId: 10000188,
       registerType: formValue.registerType,
       phoneNo: formValue.phoneNo,
       effectDate: Number(formValue.effectDate),
@@ -730,41 +658,34 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
         '提示',
         '表單處理内容較多，處理時間可能需要5~20秒，請您耐心等待'
       );
-      this.apiService
-        .post(
-          'umall/business/consumer/pcOrderInfo/submitOrder',
-          options,
-          true,
-          '提交表單'
-        )
-        .subscribe(data => {
-          if (data.returnCode === '1000') {
-            this.formInfo = data.dataInfo;
-            this.util.goTop();
-            this.confirm.show = true;
+      this.mainApi.submitOrder(options).subscribe(data => {
+        if (data.returnCode === '1000') {
+          this.formInfo = data.dataInfo;
+          this.util.goTop();
+          this.confirm.show = true;
 
-            this.formInfo.customerInfo.birthdayStr = this.util.numberToDate(
-              Number(this.formInfo.customerInfo.birthday)
-            );
-            this.formInfo.effectDateStr = this.util.numberToDate(
-              Number(this.formInfo.effectDate)
-            );
+          this.formInfo.customerInfo.birthdayStr = this.util.numberToDate(
+            Number(this.formInfo.customerInfo.birthday)
+          );
+          this.formInfo.effectDateStr = this.util.numberToDate(
+            Number(this.formInfo.effectDate)
+          );
 
-            console.log(this.activityInfo.contractList.length);
-            console.log(
-              this.step1.sale[
-                this.activityInfo.contractList[this.step1.businessContractType]
-                  .months
-              ]
-            );
-            console.log(
-              this.step1.sale[
-                this.activityInfo.contractList[this.step1.businessContractType]
-                  .months
-              ].dataLv2List.length
-            );
-          }
-        });
+          console.log(this.activityInfo.contractList.length);
+          console.log(
+            this.step1.sale[
+              this.activityInfo.contractList[this.step1.businessContractType]
+                .months
+            ]
+          );
+          console.log(
+            this.step1.sale[
+              this.activityInfo.contractList[this.step1.businessContractType]
+                .months
+            ].dataLv2List.length
+          );
+        }
+      });
     } else {
       this.notice.create('warning', '安全警告', '請勿惡意解開表單安全限制');
     }
@@ -798,6 +719,8 @@ export class ComeOnStageComponent implements OnInit, OnDestroy, DoCheck {
     private util: UtilService,
     private notice: NzNotificationService,
     private apiService: ApiService,
+    private mainApi: MainRequestService,
+    private universalApi: UniversalRequestService,
     private fb: FormBuilder,
     private customValidator: FormValidatorService,
     private modalService: NzModalService,

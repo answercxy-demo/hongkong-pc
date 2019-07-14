@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { ApiService } from '../../service/api/api.service';
+import { MainRequestService } from '../../service/request/main/main.service';
 
 @Component({
   selector: 'app-phone-query',
@@ -25,20 +25,8 @@ export class PhoneQueryComponent implements OnInit {
    * @memberof PhoneQueryComponent
    */
   getPhoneNumbers() {
-    this.apiService
-      .post(
-        'umall/business/consumer/phoneNo/getList',
-        {
-          pageSize: 20,
-          pageNumber: this.pageNumber,
-          type: 1,
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        },
-        false,
-        '獲取電話號碼'
-      )
+    this.mainApi
+      .getPhoneList({ pageSize: 20, pageNumber: this.pageNumber, type: 1 })
       .subscribe(data => {
         this.isSpinning = false;
         if (data.returnCode === '1000') {
@@ -83,7 +71,7 @@ export class PhoneQueryComponent implements OnInit {
     this.modal.close();
   }
 
-  constructor(private modal: NzModalRef, private apiService: ApiService) {}
+  constructor(private modal: NzModalRef, private mainApi: MainRequestService) {}
 
   ngOnInit() {
     this.getPhoneNumbers();

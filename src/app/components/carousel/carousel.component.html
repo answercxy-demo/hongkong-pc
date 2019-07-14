@@ -2,6 +2,8 @@
   *ngIf="!!banners.length"
   nzEffect="scrollx"
   [nzDots]="banners.length > 1"
+  [nzAutoPlay]="true"
+  [nzAutoPlaySpeed]="5000"
 >
   <div
     nz-carousel-content

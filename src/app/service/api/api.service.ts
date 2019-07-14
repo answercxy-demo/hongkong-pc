@@ -13,6 +13,12 @@ export class ApiService {
   private origin = window.location.origin;
   // private origin = 'http://devcloud.vpclub.cn';
 
+  private options = {
+    orgId: '977090533766828033',
+    userId: '1010053936724500480',
+    appId: 10000188
+  };
+
   /**
    * 獲取origin
    * @returns
@@ -20,6 +26,15 @@ export class ApiService {
    */
   getOrigin() {
     return this.origin;
+  }
+
+  /**
+   * 获取几乎所有请求的公有参数
+   * @returns
+   * @memberof ApiService
+   */
+  getOptions() {
+    return this.options;
   }
 
   /**

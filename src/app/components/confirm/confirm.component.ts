@@ -8,9 +8,9 @@ import {
 import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { UtilService } from '../../service/util/util.service';
 import { StateService } from '../../service/state/state.service';
-import { ApiService } from '../../service/api/api.service';
 import { SignatureCanvasComponent } from '../signature-canvas/signature-canvas.component';
 import { UniversalRequestService } from '../../service/request/universal/universal-request.service';
+import { MainRequestService } from '../../service/request/main/main.service';
 
 @Component({
   selector: 'app-confirm',
@@ -46,7 +46,7 @@ export class ConfirmComponent implements OnInit {
    * @memberof ConfirmComponent
    */
   getPayList() {
-    this.universal
+    this.universalApi
       .getPayList({
         orgId: '977090533766828033',
         userId: '1010053936724500480',
@@ -97,15 +97,13 @@ export class ConfirmComponent implements OnInit {
       const options = new FormData();
       options.append('fileData', png, 'file_' + Number(new Date()) + '.png');
 
-      this.api
-        .post('moses/upload/file/upload', options, true, '上傳簽名')
-        .subscribe(data => {
-          if (data.returnCode.toString() === '1000') {
-            this.signatureUrl = data.dataInfo.url;
-            this.submitSignature(data.dataInfo.url);
-            this.notice.create('success', '成功', '恭喜您應用簽名成功');
-          }
-        });
+      this.universalApi.uploadPic(options).subscribe(data => {
+        if (data.returnCode.toString() === '1000') {
+          this.signatureUrl = data.dataInfo.url;
+          this.submitSignature(data.dataInfo.url);
+          this.notice.create('success', '成功', '恭喜您應用簽名成功');
+        }
+      });
     }
   }
 
@@ -115,21 +113,13 @@ export class ConfirmComponent implements OnInit {
    * @memberof ConfirmComponent
    */
   submitSignature(url: string) {
-    this.api
-      .post(
-        'umall/business/consumer/contract/submitContract',
-        {
-          registerId: this.state.orderId.value,
-          signImgPath: url,
-          htmlPath: '1',
-          lang: 'C',
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        },
-        true,
-        '提交簽名'
-      )
+    this.mainApi
+      .submitSignature({
+        registerId: this.state.orderId.value,
+        signImgPath: url,
+        htmlPath: '1',
+        lang: 'C'
+      })
       .subscribe(data => {
         this.signatured = true;
       });
@@ -140,16 +130,11 @@ export class ConfirmComponent implements OnInit {
    * @memberof ConfirmComponent
    */
   getContract(tplContent: TemplateRef<{}>) {
-    this.api
-      .get(
-        'umall/attachment/consumer/contract/electronicContract',
-        {
-          registerId: this.state.orderId.value,
-          signImgPath: this.signatureUrl
-        },
-        true,
-        '獲取合約'
-      )
+    this.universalApi
+      .getContract({
+        registerId: this.state.orderId.value,
+        signImgPath: this.signatureUrl
+      })
       .subscribe(data => {
         this.seeContract = true;
         this.contractContent = data.dataInfo;
@@ -179,9 +164,9 @@ export class ConfirmComponent implements OnInit {
 
   constructor(
     private util: UtilService,
-    private api: ApiService,
     private state: StateService,
-    private universal: UniversalRequestService,
+    private universalApi: UniversalRequestService,
+    private mainApi: MainRequestService,
     private modalService: NzModalService,
     private notice: NzNotificationService
   ) {}

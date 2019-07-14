@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../service/api/api.service';
 import { NzNotificationService } from 'ng-zorro-antd';
+import { MainRequestService } from '../../service/request/main/main.service';
 
 @Component({
   selector: 'app-package-list',
@@ -18,19 +18,8 @@ export class PackageListComponent implements OnInit {
    * @memberof HomeComponent
    */
   dataInit() {
-    this.apiService
-      .post(
-        'umall/business/consumer/packageInfo/page',
-        {
-          pageSize: 20,
-          pageNumber: 1,
-          orgId: '977090533766828033',
-          userId: '1010053936724500480',
-          appId: 10000188
-        },
-        true,
-        '業務包列表獲取'
-      )
+    this.mainApi
+      .getPackageList({ pageSize: 20, pageNumber: 1 })
       .subscribe(data => {
         if (data.returnCode === '1000') {
           const activityList = data.records || [];
@@ -57,8 +46,8 @@ export class PackageListComponent implements OnInit {
   }
 
   constructor(
-    private apiService: ApiService,
-    private notice: NzNotificationService
+    private notice: NzNotificationService,
+    private mainApi: MainRequestService
   ) {}
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../service/api/api.service';
+import { UniversalRequestService } from '../../service/request/universal/universal-request.service';
 
 @Component({
   selector: 'app-carousel',
@@ -14,21 +14,12 @@ export class CarouselComponent implements OnInit {
    * @memberof CarouselComponent
    */
   getBanners() {
-    this.api
-      .post(
-        'cmbs/advert/consumer/advertInfo/advertPage',
-        {
-          orgId: '977090533766828033',
-          shopId: '1006756252527853569',
-          userId: '1010053936724500480',
-          appId: 10000188,
-          advertType: 863,
-          pageNumber: 1,
-          pageSize: 4
-        },
-        false,
-        '獲取廣告圖片'
-      )
+    this.universalApi
+      .getBanners({
+        advertType: 863,
+        pageNumber: 1,
+        pageSize: 10
+      })
       .subscribe(data => {
         if (data.returnCode === '1000') {
           this.banners = data.records;
@@ -36,7 +27,7 @@ export class CarouselComponent implements OnInit {
       });
   }
 
-  constructor(private api: ApiService) {}
+  constructor(private universalApi: UniversalRequestService) {}
 
   ngOnInit() {
     this.getBanners();

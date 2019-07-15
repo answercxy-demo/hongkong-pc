@@ -130,21 +130,24 @@ export class ConfirmComponent implements OnInit {
    * @memberof ConfirmComponent
    */
   getContract(tplContent: TemplateRef<{}>) {
-    this.universalApi
-      .getContract({
-        registerId: this.state.orderId.value,
-        signImgPath: this.signatureUrl
-      })
-      .subscribe(data => {
-        this.seeContract = true;
-        this.contractContent = data.dataInfo;
-        this.modalService.create({
-          nzTitle: '合約信息',
-          nzContent: tplContent,
-          nzClosable: true,
-          nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000))
-        });
+    const options = {
+      registerId: this.state.orderId.value,
+      signImgPath: this.signatureUrl
+    };
+
+    if (!this.signatureUrl) {
+      delete options.signImgPath;
+    }
+    this.universalApi.getContract(options).subscribe(data => {
+      this.seeContract = true;
+      this.contractContent = data.dataInfo;
+      this.modalService.create({
+        nzTitle: '合約信息',
+        nzContent: tplContent,
+        nzClosable: true,
+        nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000))
       });
+    });
   }
 
   /**

@@ -15,6 +15,17 @@ export class PackageListComponent implements OnInit {
   activityList: any[] = [];
 
   /**
+   * 查詢訂單
+   * @memberof PackageListComponent
+   */
+  queryOrder() {
+    this.router.navigate(['orderQuery'], {
+      queryParamsHandling: 'merge',
+      preserveFragment: true
+    });
+  }
+
+  /**
    * 初始化列表數據
    * @memberof HomeComponent
    */

@@ -69,6 +69,17 @@ export class HomeComponent implements OnInit {
   }
 
   /**
+   * 查詢訂單
+   * @memberof HomeComponent
+   */
+  queryOrder() {
+    this.router.navigate(['orderQuery'], {
+      queryParamsHandling: 'merge',
+      preserveFragment: true
+    });
+  }
+
+  /**
    * 初始化列表數據
    * @memberof HomeComponent
    */

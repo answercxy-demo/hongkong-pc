@@ -83,13 +83,13 @@
   <!-- 業務包卡片 -->
   <nz-card nzHoverable *ngSwitchCase="PACKAGE_TYPE">
     <div nz-row nzGutter="24">
-      <div class="cover-box" nz-col nzMd="12" nzSm="12" nzXs="24" [ngStyle]="{
+      <div class="cover-box" nz-col nzMd="10" nzSm="10" nzXs="24" [ngStyle]="{
           background:
             'url(' + activityInfo.packageImg + ') no-repeat center center'
         }">
         <!-- <img class="cover" src="{{ activityInfo.packageImg }}" /> -->
       </div>
-      <div nz-col nzMd="12" nzSm="12" nzXs="24">
+      <div nz-col nzMd="14" nzSm="14" nzXs="24">
         <h2>{{ activityInfo.packageName }}</h2>
         <nz-divider></nz-divider>
         <h3>{{ activityInfo.shareTitle }}</h3>

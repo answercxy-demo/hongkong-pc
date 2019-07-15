@@ -142,7 +142,6 @@ export class ApiService {
     };
   }
 
-  isAlterEgoTaken: (alterEgo: string) => Observable<boolean>;
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -160,11 +159,9 @@ export class ApiService {
           this.options.orgId = queryParamMap.get('orgId');
           this.options.userId = queryParamMap.get('userId');
         } else {
-          this.message.error(
-            '链接中无orgId，userId相关信息，3s后将自动为您跳转至香港移动首页'
-          );
+          this.message.error('链接中无orgId，userId等相关信息');
           setTimeout(() => {
-            window.location.href = 'https://www.hk.chinamobile.com';
+            // window.location.href = 'https://www.hk.chinamobile.com';
           }, 3000);
         }
       }
